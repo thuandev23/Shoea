@@ -37,7 +37,7 @@ const DangNhapScreen = ({navigation}) => {
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require('E:/SouceCode/Shoea/assets/logo.jpg')}
+          source={require('../assets/logo.jpg')}
           resizeMode="cover"
           style={{height: 200, width: 200, borderRadius: 100}}
         />
@@ -46,7 +46,7 @@ const DangNhapScreen = ({navigation}) => {
       <Text style={styles.title}>Login to Your Account</Text>
       <View style={styles.inputContainer1}>
         <Image
-          source={require('E:/SouceCode/Shoea/assets/email.png')}
+          source={require('../assets/email.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -61,7 +61,7 @@ const DangNhapScreen = ({navigation}) => {
       </View>
       <View style={styles.inputContainer2}>
         <Image
-          source={require('E:/SouceCode/Shoea/assets/password.png')}
+          source={require('../assets/password.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -80,13 +80,13 @@ const DangNhapScreen = ({navigation}) => {
           {isPasswordVisible ? (
             <Image
               style={{height: 25, width: 25}}
-              source={require('E:/SouceCode/Shoea/assets/view.png')}
+              source={require('../assets/view.png')}
               resizeMode="cover"
             />
           ) : (
             <Image
               style={{height: 25, width: 25}}
-              source={require('E:/SouceCode/Shoea/assets/hide.png')}
+              source={require('../assets/hide.png')}
               resizeMode="cover"
             />
           )}
@@ -114,7 +114,7 @@ const DangNhapScreen = ({navigation}) => {
             onPress={() => Alert.alert('Zô facebook')}>
             <Image
               style={styles.img}
-              source={require('E:/SouceCode/Shoea/assets/fb_logo.png')}
+              source={require('../assets/fb_logo.png')}
               resizeMode="cover"
             />
           </TouchableOpacity>
@@ -123,7 +123,7 @@ const DangNhapScreen = ({navigation}) => {
             onPress={() => Alert.alert('Zô Google')}>
             <Image
               style={styles.img}
-              source={require('E:/SouceCode/Shoea/assets/googlee_logo.png')}
+              source={require('../assets/googlee_logo.png')}
               resizeMode="cover"
             />
           </TouchableOpacity>

@@ -7,7 +7,7 @@ const Loading_headerMain = () => {
     <View>
       <ImageBackground
         style={styles.imgbackground}
-        source={require('E:/SouceCode/Shoea/assets/intro4_img.jpg')}
+        source={require('../assets/intro4_img.jpg')}
         resizeMode="cover">
         <LinearGradient
           colors={['#fff00000', '#000000cf']}
@@ -19,7 +19,7 @@ const Loading_headerMain = () => {
             style={{ fontSize:45, color:'white'}}
             >Wellcome to </Text>
             <Image
-              source={require('E:/SouceCode/Shoea/assets/wave-hand.png')}
+              source={require('../assets/wave-hand.png')}
               style={styles.icon}
             />
             <Text

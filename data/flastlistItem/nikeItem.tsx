@@ -102,7 +102,7 @@ const NikeItem = () => {
               <View style={{flexDirection:'row', position:'absolute', marginTop:185}}>
 
               <Text style={styles.start}>{item.star}
-              <Image source={require('E:/SouceCode/Shoea/assets/hide.png')} resizeMode='cover' style={{height:20,width:20,}}/>
+              <Image source={require('../database/hide.png')} resizeMode='cover' style={{height:20,width:20,}}/>
               </Text>
               <Text style={styles.money}>${item.money}</Text>
               </View>

@@ -15,20 +15,20 @@ const slides = [
   {
     key: 'title1',
     text: 'We provide high quality products just for you',
-    image: require('E:/SouceCode/Shoea/assets/intro1_img.jpg'),
+    image: require('./assets/intro1_img.jpg'),
     backgroundColor: '#3B3C34',
 
   },
   {
     key: 'title2',
     text: 'Your satisfaction is our number one priority',
-    image: require('E:/SouceCode/Shoea/assets/intro2_img.jpg'),
+    image: require('./assets/intro2_img.jpg'),
     backgroundColor: '#3B3C34',
   },
   {
     key: 'title3',
     text: 'Lets fulfill your fashion needs with Shoea right now!',
-    image: require('E:/SouceCode/Shoea/assets/intro3_img.jpg'),
+    image: require('./assets/intro3_img.jpg'),
     backgroundColor: '#3B3C34',
   },
 ];
