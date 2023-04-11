@@ -7,10 +7,10 @@ const Loading_headerMain = () => {
     <View>
       <ImageBackground
         style={styles.imgbackground}
-        source={require('../assets/intro4_img.jpg')}
+        source={require('../assets/intro_6.jpg')}
         resizeMode="cover">
         <LinearGradient
-          colors={['#fff00000', '#000000cf']}
+          colors={['#fff00000', '#234140cf']}
           style={{height: '100%', width: '100%'}}
           start={{x: 0.5, y: 0}}
           end={{x: 1, y: 1}}>
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   imgbackground: {
     height: '100%',
     width: '100%',
+    resizeMode:'cover'
   },
   text: {
     marginTop:'120%',

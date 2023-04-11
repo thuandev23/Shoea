@@ -15,20 +15,20 @@ const slides = [
   {
     key: 'title1',
     text: 'We provide high quality products just for you',
-    image: require('./assets/intro1_img.jpg'),
+    image: require('../assets/intro1_img.jpg'),
     backgroundColor: '#3B3C34',
 
   },
   {
     key: 'title2',
     text: 'Your satisfaction is our number one priority',
-    image: require('./assets/intro2_img.jpg'),
+    image: require('../assets/intro2_img.jpg'),
     backgroundColor: '#3B3C34',
   },
   {
     key: 'title3',
-    text: 'Lets fulfill your fashion needs with Shoea right now!',
-    image: require('./assets/intro3_img.jpg'),
+    text: 'Lets fulfill your fashion needs right now!',
+    image: require('../assets/intro3_img.jpg'),
     backgroundColor: '#3B3C34',
   },
 ];
@@ -52,7 +52,7 @@ export default class IntroScreen extends React.Component {
   onDone = () => {
     this.setState({showRealApp: true}, () =>
       // Hiện màn hình thông báo truốc khi và đăng nhập
-      Alert.alert('Hãy đăng nhập hoặc đăng kí nào bạn của tôi ôi'),
+      Alert.alert('Wellcome to Shoea'),
     );
   };
   render() {

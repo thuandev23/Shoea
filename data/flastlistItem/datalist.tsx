@@ -5,7 +5,7 @@ const dataSlide = [
       percent: '10',
       title: 'Today Special !',
       txt: 'Get discount for every order, only valid, for today',
-      image: 'https://miro.medium.com/v2/resize:fit:4800/0*oGNgCJltN5dn0I7C',
+      image: 'https://wpblog.zyro.com/cdn-cgi/image/w=700,q=85/wp-content/uploads/2020/08/gia%CC%80y-nike-tre%CC%82n-ne%CC%82%CC%80n-ma%CC%80u-do%CC%89.jpg',
     },
     {
       id: 2,

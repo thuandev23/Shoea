@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import signinscreen from './signinscreen';
 import introscreen from './introscreen';
@@ -19,7 +19,10 @@ import WalletScreen from '../Wallets/walletscreen';
 import CartScreen from '../Cart/cartscreen';
 import AllItemScreen from '../data/flastlistItem/allItem';
 import DiscountItem from '../data/flastlistItem/discountItem';
-
+import OrderScreen from '../Main/orderscreen';
+import Fullname from './fullname';
+import Search from '../Loading/search';
+import {NikeItem, AdidasItem,ConverseItem,PumaItem} from '../data/flastlistItem/connect'
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -30,32 +33,51 @@ const MainTabs = () => {
         headerShown: false,
         tabBarActiveTintColor: '#000',
         tabBarInactiveTintColor: '#000',
-        tabBarActiveBackgroundColor: 'gray',
-        tabBarInactiveBackgroundColor: '#2345',
+        tabBarActiveBackgroundColor: '#E9FBF9',
+        tabBarInactiveBackgroundColor: '#2355',
         tabBarLabelStyle: {
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: 'bold',
         },
         tabBarItemStyle: {
           borderRadius: 10,
-          marginLeft: 10,
-          marginRight: 10,
+          marginLeft: 8,
+          marginRight: 8,
         },
         tabBarStyle: [
           {
             display: 'flex',
+            height:55,
+            backgroundColor:'#F7FEF0'
           },
           null,
         ],
       }}>
-      <Tab.Screen name="Main" component={Mainscreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="Wallet" component={WalletScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Settings" component={SettingScreen} />
+       {/* I don't use icon in library so I using image */}
+      <Tab.Screen name="Main" component={Mainscreen}
+       options={{ tabBarIcon:({focused}) => ( <Image source={require('../assets/icon-button-tab/home-icon-buttom-tab.png')} 
+       style={{width:35, height:35,}}/>) }} />
+
+      <Tab.Screen name="Cart" component={CartScreen} 
+      options={{ tabBarIcon:({focused}) => ( <Image source={require('../assets/icon-button-tab/cart-icon-buttom-tab.png')} 
+      style={{width:35, height:35,}}/>) }} />
+
+      <Tab.Screen name="Orders" component={OrderScreen} 
+      options={{ tabBarIcon:({focused}) => ( <Image source={require('../assets/icon-button-tab/order-icon-buttom-tab.png')} 
+      style={{width:35, height:35,}}/>) }} />
+
+      <Tab.Screen name="Wallet" component={WalletScreen} 
+      options={{ tabBarIcon:({focused}) => ( <Image source={require('../assets/icon-button-tab/wallet-icon-buttom-tab.png')} 
+      style={{width:35, height:35,}}/>) }} />
+
+      <Tab.Screen name="Profile" component={ProfileScreen} 
+      options={{ tabBarIcon:({focused}) => ( <Image source={require('../assets/icon-button-tab/profile-icon-buttom-tab.png')} 
+      style={{width:35, height:35,}}/>) }} />
+
     </Tab.Navigator>
   );
 };
+
 const IndexComponent = ({navigation}) => {
   return (
     // <IntroScreen/>
@@ -65,6 +87,9 @@ const IndexComponent = ({navigation}) => {
     // <AllItemScreen/>
     // <DiscountItem/>
     // <Mainscreen/>
+    // <Search/>
+    // <Fullname/>
+
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -78,6 +103,11 @@ const IndexComponent = ({navigation}) => {
           },
           headerBackTitle: 'Back',
         }}>
+           <Stack.Screen
+          name="Intro"
+          component={IntroScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -98,6 +128,11 @@ const IndexComponent = ({navigation}) => {
           component={MainTabs}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="Mainscreen" component={Mainscreen}/>
+        <Stack.Screen name="Nike" component={NikeItem}/>
+        <Stack.Screen name="Puma" component={NikeItem}/>
+        <Stack.Screen name="Adidas" component={NikeItem}/>
+        <Stack.Screen name="Converse" component={NikeItem}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

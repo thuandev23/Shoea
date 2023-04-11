@@ -25,7 +25,21 @@ import dataSlide from '../data/flastlistItem/datalist';
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
 
-const Mainscreen = () => {
+//  Search
+const DATA = [
+  {id: '1', name: 'Apple'},
+  {id: '2', name: 'Banana'},
+  {id: '3', name: 'Cherry'},
+  {id: '4', name: 'Durian'},
+  {id: '5', name: 'Elderberry'},
+  {id: '6', name: 'Fig'},
+  {id: '7', name: 'Grape'},
+  {id: '8', name: 'Honeydew'},
+  {id: '9', name: 'Jackfruit'},
+  {id: '10', name: 'Kiwi'},
+];
+
+const Mainscreen = ({navigation}) => {
   const [selected, setSelected] = useState(0);
   const onScroll = ({nativeEvent}) => {
     const index = Math.round(nativeEvent.contentOffset.x / (w - 20));
@@ -36,6 +50,23 @@ const Mainscreen = () => {
   const handleSeeClick = () => {
     setIsClicked(true);
   };
+
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const handleSearch = text => {
+    setSearchText(text);
+    const results = DATA.filter(item =>
+      item.name.toLowerCase().includes(text.toLowerCase()),
+    );
+    setSearchResults(results);
+  };
+  const renderItem = ({item}) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => console.log('Navigate to', item.name)}>
+      <Text style={{fontSize: 25, color: 'black'}}>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <ScrollView>
@@ -65,6 +96,8 @@ const Mainscreen = () => {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Search */}
         <View style={styles.search}>
           <Image
             style={styles.btnSearch}
@@ -74,12 +107,28 @@ const Mainscreen = () => {
           <TextInput
             style={styles.inputSearch}
             placeholder="Enter a keyworld u want search"
+            onChangeText={handleSearch}
+            value={searchText}
           />
+          {/* Sửa lỗi hiện lên */}
+          {searchText.length > 0 && (
+            <View style={styles.search_flastlish}>
+              <FlatList
+                data={searchResults}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+              />
+            </View>
+          )}
         </View>
         <View style={styles.headerSlider}>
           <Text style={styles.textSlider1}>Special Offers</Text>
-          <TouchableOpacity onPressIn={handleSeeClick} onPress={() => Alert.alert('sê all')}>
-            <Text style={[styles.textSlider2, isClicked && {color: '#0B6E27'}]}>See All</Text>
+          <TouchableOpacity
+            onPressIn={handleSeeClick}
+            onPress={() => Alert.alert('sê all')}>
+            <Text style={[styles.textSlider2, isClicked && {color: '#0B6E27'}]}>
+              See All
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -103,71 +152,87 @@ const Mainscreen = () => {
           Types of shoes
         </Text> */}
         <View style={styles.typeShoe}>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Nike")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/nike.png')}
+              source={require('../assets/img-type-shoe/nike.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>Nike</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              Nike
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Puma")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/puma.png')}
+              source={require('../assets/img-type-shoe/puma.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>Puma</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              Puma
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Adidas")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/adidas.png')}
+              source={require('../assets/img-type-shoe/adidas.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>Adidas</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              Adidas
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/asics.png')}
+              source={require('../assets/img-type-shoe/asics.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>Asics</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              Asics
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.typeShoe}>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/reebok.png')}
+              source={require('../assets/img-type-shoe/reebok.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>Reebok</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              Reebok
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/nb.png')}
+              source={require('../assets/img-type-shoe/nb.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>New Ba...</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              New Ba...
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Converse")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/converse.png')}
+              source={require('../assets/img-type-shoe/converse.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>Converse</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              Converse
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
             <Image
               style={styles.imgTypes}
-              source={require('../assets/more.png')}
+              source={require('../assets/img-type-shoe/more.png')}
               resizeMode="cover"
             />
-            <Text style={{textAlign: 'center', fontSize:15,color:'#0B6E27'}}>More</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, color: '#000'}}>
+              More
+            </Text>
           </TouchableOpacity>
         </View>
         <Text style={{fontSize: 23, margin: 10, color: 'black'}}>
@@ -178,11 +243,13 @@ const Mainscreen = () => {
             {tabs.map((e, i) => (
               <Pressable onPress={() => setSelected(i)}>
                 <Text
-                  style={[styles.tabsText, selected == i && {color: 'white', backgroundColor:'black'}]}>
+                  style={[
+                    styles.tabsText,
+                    selected == i && {color: 'white', backgroundColor: 'black'},
+                  ]}>
                   {e}
                 </Text>
                 {/* {selected == i && <View style={styles.lines} />} */}
-
               </Pressable>
             ))}
           </View>
@@ -214,7 +281,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent:'center',
     alignItems: 'center',
-    backgroundColor:'#F2FCF1'
+    backgroundColor: '#F2FCF1',
   },
   header: {
     marginTop: 5,
@@ -255,6 +322,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 15,
   },
+  itemContainer: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
   btnSearch: {
     // margin:15,
     height: 20,
@@ -268,7 +340,15 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     fontSize: 18,
   },
-
+  search_flastlish: {
+    position: 'absolute',
+    flex: 1,
+    zIndex: 999,
+    backgroundColor: 'green',
+    width: '100%',
+    top: 50,
+    borderRadius: 10,
+  },
   slider: {
     height: 180,
     width: '93%',
@@ -301,9 +381,9 @@ const styles = StyleSheet.create({
     margin: -10,
   },
   imgTypes: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
     backgroundColor: 'white',
   },
   viewPopular: {
@@ -316,11 +396,11 @@ const styles = StyleSheet.create({
 
   tabsText: {
     fontSize: 22,
-    borderColor:'black',
-    borderWidth:1,
-    borderRadius:20,
-    padding:5,
-    textAlign:'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 5,
+    textAlign: 'center',
   },
   lines: {
     // width: 50,
