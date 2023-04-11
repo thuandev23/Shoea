@@ -129,10 +129,11 @@ const IndexComponent = ({navigation}) => {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Mainscreen" component={Mainscreen}/>
-        <Stack.Screen name="Nike" component={NikeItem}/>
-        <Stack.Screen name="Puma" component={NikeItem}/>
-        <Stack.Screen name="Adidas" component={NikeItem}/>
-        <Stack.Screen name="Converse" component={NikeItem}/>
+        <Stack.Screen name="Nike shoe all of here" component={NikeItem}/>
+        <Stack.Screen name="Puma shoe all of here" component={PumaItem}/>
+        <Stack.Screen name="Adidas shoe all of here" component={AdidasItem}/>
+        <Stack.Screen name="Converse shoe all of here" component={ConverseItem}/>
+        <Stack.Screen name="Discount of here" component={DiscountItem}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

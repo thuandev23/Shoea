@@ -70,7 +70,16 @@ const AdidasItem = () => {
  
   return (
     <View >
-     
+      <Text
+        style={{
+          fontSize: 30,
+          textAlign: 'center',
+          margin: 20,
+          backgroundColor: '#2341',
+          borderRadius: 20,
+        }}>
+          Adidas
+      </Text>
       <FlatList
         data={productmain}
         numColumns={2}
@@ -134,6 +143,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'pink',
     marginBottom: 10,
+    paddingTop:10,
   },
 
   text: {

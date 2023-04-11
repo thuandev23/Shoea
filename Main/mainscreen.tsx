@@ -125,7 +125,7 @@ const Mainscreen = ({navigation}) => {
           <Text style={styles.textSlider1}>Special Offers</Text>
           <TouchableOpacity
             onPressIn={handleSeeClick}
-            onPress={() => Alert.alert('sê all')}>
+            onPress={() => navigation.navigate("Discount of here")}>
             <Text style={[styles.textSlider2, isClicked && {color: '#0B6E27'}]}>
               See All
             </Text>
@@ -152,7 +152,7 @@ const Mainscreen = ({navigation}) => {
           Types of shoes
         </Text> */}
         <View style={styles.typeShoe}>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Nike")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Nike shoe all of here")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/nike.png')}
@@ -162,7 +162,7 @@ const Mainscreen = ({navigation}) => {
               Nike
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Puma")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Puma shoe all of here")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/puma.png')}
@@ -172,7 +172,7 @@ const Mainscreen = ({navigation}) => {
               Puma
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Adidas")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Adidas shoe all of here")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/adidas.png')}
@@ -214,7 +214,7 @@ const Mainscreen = ({navigation}) => {
               New Ba...
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Converse")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Converse shoe all of here")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/converse.png')}
