@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "@reduxjs/toolkit": "^1.9.3",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-native": "0.71.6",
@@ -22,7 +23,10 @@
     "react-native-scl-alert": "^1.2.1",
     "react-native-screens": "^3.20.0",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-swiper": "^1.6.0"
+    "react-native-swiper": "^1.6.0",
+    "react-native-view-more-text": "^2.2.0",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

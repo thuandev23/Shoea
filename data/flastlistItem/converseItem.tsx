@@ -1,12 +1,16 @@
 import {
+  Alert,
   FlatList,
   Image,
+  Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
+import ViewMoreText from 'react-native-view-more-text';
 const ConverseItem = () => {
   const productmain = [
     {
@@ -14,6 +18,10 @@ const ConverseItem = () => {
       star: '4.3',
       money: '230',
       image: 'https://bom.so/mm2kzw',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       // https://drake.vn/converse/converse-chuck-taylor-all-star-denim-fashion-a02880c
     },
     {
@@ -21,6 +29,10 @@ const ConverseItem = () => {
       star: '4.5',
       money: '475',
       image: 'https://bom.so/qYwcXh',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       //https://drake.vn/converse/converse-chuck-taylor-all-star-lift-denim-fashion-a03821c
     },
     {
@@ -28,6 +40,10 @@ const ConverseItem = () => {
       star: '4.5',
       money: '537',
       image: 'https://bom.so/1u2IMk',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       // https://drake.vn/converse/converse-chuck-taylor-all-star-crafted-patchwork-a05195c
     },
     {
@@ -35,6 +51,10 @@ const ConverseItem = () => {
       star: '4.4',
       money: '550',
       image: 'https://bom.so/XWZq94',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       // https://drake.vn/converse/converse-chuck-taylor-all-star-cx-explore-hi-a02411c
     },
     {
@@ -42,6 +62,10 @@ const ConverseItem = () => {
       star: '4.7',
       money: '580',
       image: 'https://bom.so/jl5g0O',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       //https://drake.vn/converse/converse-chuck-taylor-all-star-workwear-textile-a02875c
     },
     {
@@ -49,6 +73,10 @@ const ConverseItem = () => {
       star: '4.3',
       money: '440',
       image: 'https://bom.so/rvMMlz',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       // https://drake.vn/converse/converse-chuck-taylor-all-star-1970s-archive-paint-splatter-a01170c?sort=p.price&order=DESC
     },
     {
@@ -56,6 +84,10 @@ const ConverseItem = () => {
       star: '4.2',
       money: '460',
       image: 'https://bom.so/A2mDdj',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       //https://drake.vn/converse/converse-chuck-taylor-all-star-1970s-recycled-rpet-canvas-172681c
     },
     {
@@ -63,19 +95,42 @@ const ConverseItem = () => {
       star: '4.8',
       money: '605',
       image: 'https://bom.so/L7tXYW',
+      description:
+        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
+      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
+      ID: 'DM8019-201',
       // https://drake.vn/converse/converse-chuck-taylor-all-star-cx-explore-roots-170138c?sort=p.price&order=DESC
     },
   ];
-  const [cartItems, setCartItems] = useState([]);
-  const addToCart = (item: {
-    text: string;
-    star: string;
-    money: string;
-    image: string;
-  }) => {
-    setCartItems([...cartItems, item]);
+ 
+  const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
+  const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
+
+  const handleItemClick = item => {
+    setSelectedProduct(item);
+    setModalVisible(true);
   };
 
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setModalVisible(false);
+  };
+
+  const _renderViewMore = onPress => {
+    return (
+      <Text onPress={onPress} style={{color: 'black'}}>
+        View more
+      </Text>
+    );
+  };
+
+  const _renderViewLess = onPress => {
+    return (
+      <Text onPress={onPress} style={{color: 'black'}}>
+        View less
+      </Text>
+    );
+  };
   return (
     <View>
       <Text
@@ -93,28 +148,8 @@ const ConverseItem = () => {
         data={productmain}
         numColumns={2}
         renderItem={({item, index}) => (
-          <View
-            style={{
-              flex: 1,
-              height: 220,
-              width: 190,
-              marginLeft: 10,
-              marginTop: 5,
-              marginRight: 10,
-              marginBottom: 5,
-              borderRadius: 20,
-              borderWidth: 1,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 1,
-              },
-              shadowOpacity: 0.22,
-              shadowRadius: 2.22,
-              elevation: 5,
-              backgroundColor: '#fff',
-            }}>
-            <TouchableOpacity>
+          <View style={styles.view_flatlist}>
+            <TouchableOpacity onPress={() => handleItemClick(item)}>
               <Image
                 source={{uri: item.image}}
                 resizeMode="cover"
@@ -131,26 +166,96 @@ const ConverseItem = () => {
                 <Text style={styles.money}>${item.money}</Text>
               </View>
             </TouchableOpacity>
-
-            {/* <Text>Cart Items: {JSON.stringify(cartItems)}</Text> */}
-
-            <TouchableOpacity onPress={() => addToCart(item)}>
-              <Image
-                source={{
-                  uri: 'https://yt3.ggpht.com/ytc/AL5GRJUyZLSndhcJ_YiOnY9DuRp0Fznif8p4gdeVceARdQ=s68-c-k-c0x00ffffff-no-rj',
-                }}
-                resizeMode="cover"
-                style={{
-                  height: 30,
-                  width: 30,
-                  position: 'absolute',
-                  marginLeft: 150,
-                }}
-              />
-            </TouchableOpacity>
           </View>
         )}
       />
+
+      {/* Item */}
+      {selectedProduct && (
+        <Modal
+          visible={modalVisible}
+          animationType="slide"
+          onRequestClose={closeModal}>
+          <TouchableOpacity
+            onPress={closeModal}
+            style={{paddingTop: 40, backgroundColor: '#2342'}}>
+            <Image
+              source={require('../database/checkerror.png')}
+              style={styles.close}
+            />
+          </TouchableOpacity>
+
+          <ScrollView>
+            <View
+              style={{flex: 1, alignItems: 'center', backgroundColor: '#2342'}}>
+              <Image
+                source={{uri: selectedProduct.image}}
+                style={styles.img_main}
+              />
+              <Text style={styles.text_main}>{selectedProduct.text}</Text>
+              <View style={{marginLeft: 20}}>
+                <Text style={{marginRight: 250, fontSize: 18, color: 'black'}}>
+                  Rate: {selectedProduct.star}
+                </Text>
+
+                <View style={{borderWidth: 0.4, width: 400, height: 1}} />
+
+                <ViewMoreText
+                  numberOfLines={3}
+                  renderViewLess={_renderViewLess}
+                  renderViewMore={_renderViewMore}>
+                  <Text
+                    style={{
+                      marginRight: 250,
+                      fontSize: 18,
+                      marginLeft: 100,
+                      color: 'black',
+                    }}>
+                    Description:{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      marginRight: 250,
+                      fontSize: 18,
+                      marginLeft: 100,
+                      color: '#179',
+                    }}>
+                    {'\n'}
+                    {selectedProduct.description}
+                  </Text>
+                </ViewMoreText>
+
+                <Text style={{fontSize: 18, color: 'black'}}>
+                  ColourShown:{' '}
+                </Text>
+                <Text style={styles.alltext}>
+                  {selectedProduct.ColourShown}
+                </Text>
+                <Text style={styles.alltext}>Styles: {selectedProduct.ID}</Text>
+              </View>
+
+              <View style={styles.viewBtn}>
+                <Text style={{fontSize: 15, padding: 5}}>
+                  Total price: {'\n'}
+                  <Text style={{fontSize: 20, color: 'black'}}>
+                    $ {selectedProduct.money}
+                  </Text>
+                </Text>
+                <TouchableOpacity style={styles.btnAdd} onPress={()=>Alert.alert('đã add')}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      textAlign: 'center',
+                      color: '#fff',
+                    }}>
+                    Add your Cart
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </Modal>
+      )}
     </View>
   );
 };
@@ -158,6 +263,26 @@ const ConverseItem = () => {
 export default ConverseItem;
 
 const styles = StyleSheet.create({
+  view_flatlist: {
+    flex: 1,
+    height: 220,
+    width: 190,
+    marginLeft: 10,
+    marginTop: 5,
+    marginRight: 10,
+    marginBottom: 5,
+    borderRadius: 20,
+    borderWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
+    backgroundColor: '#fff',
+  },
   image: {
     height: 130,
     width: '100%',
@@ -186,5 +311,50 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 50,
     fontWeight: 'bold',
+  },
+  close: {
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    marginLeft: 350,
+  },
+  alltext: {
+    fontSize: 18,
+    color: '#179',
+  },
+  img_main: {
+    height: 350,
+    width: '90%',
+    borderRadius: 10,
+    marginTop: 30,
+  },
+  text_main: {
+    fontSize: 35,
+    textAlign: 'center',
+    margin: 15,
+    color: 'black',
+  },
+  viewBtn: {
+    flexDirection: 'row',
+    marginTop: 50,
+    marginBottom: 10,
+    borderRadius: 15,
+    width: '90%',
+  },
+  btnAdd: {
+    backgroundColor: '#2349',
+    padding: 15,
+    marginLeft: 50,
+    borderRadius: 23,
+    width: '60%',
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 9,
   },
 });

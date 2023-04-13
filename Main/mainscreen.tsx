@@ -12,6 +12,8 @@ import {
   Dimensions,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
+
+
 import DiscountItem from '../data/flastlistItem/discountItem';
 import {
   AllItemScreen,
@@ -67,33 +69,30 @@ const Mainscreen = ({navigation}) => {
       <Text style={{fontSize: 25, color: 'black'}}>{item.name}</Text>
     </TouchableOpacity>
   );
-
+    // Get avatar
+    
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
+
           <Image
             source={require('../assets/logo.jpg')}
             resizeMode="cover"
             style={styles.avatar}
           />
+
           <Text style={styles.headerText}>Wellcome Back</Text>
           <Text style={styles.headerName}>thuandevnguyen</Text>
           <View style={styles.headerImage}>
             <TouchableOpacity>
               <Image
-                style={{height: 35, width: 35, marginLeft: 10}}
+                style={{height: 35, width: 35, marginLeft: 40}}
                 source={require('../assets/notice.png')}
                 resizeMode="cover"
               />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{height: 35, width: 35, marginLeft: 10}}
-                source={require('../assets/heart.png')}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
+           
           </View>
         </View>
 
@@ -182,7 +181,7 @@ const Mainscreen = ({navigation}) => {
               Adidas
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("More")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/asics.png')}
@@ -194,7 +193,7 @@ const Mainscreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.typeShoe}>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("More")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/reebok.png')}
@@ -204,7 +203,7 @@ const Mainscreen = ({navigation}) => {
               Reebok
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("More")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/nb.png')}
@@ -224,7 +223,7 @@ const Mainscreen = ({navigation}) => {
               Converse
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("")}>
+          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("All")}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/more.png')}
@@ -241,7 +240,7 @@ const Mainscreen = ({navigation}) => {
         <View style={styles.viewPopular}>
           <View style={styles.popular}>
             {tabs.map((e, i) => (
-              <Pressable onPress={() => setSelected(i)}>
+              <Pressable key={e}  onPress={() => setSelected(i)}>
                 <Text
                   style={[
                     styles.tabsText,
@@ -269,6 +268,7 @@ const Mainscreen = ({navigation}) => {
             keyExtractor={item => item.key}
             renderItem={({item}) => item.screen}
             initialScrollIndex={selected}
+            
           />
         </View>
       </View>
@@ -376,6 +376,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-between',
     padding: 15,
+    paddingLeft:25,
+    paddingRight:25,
   },
   btnTypes: {
     margin: -10,

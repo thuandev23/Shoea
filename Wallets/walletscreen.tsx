@@ -1,12 +1,14 @@
-import { View, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const WalletScreen = () => {
+const Walletscreen = () => {
   return (
     <View>
-      <Text>WalletScreen</Text>
+      <Text>Walletscreen</Text>
     </View>
   )
 }
 
-export default WalletScreen
+export default Walletscreen
+
+const styles = StyleSheet.create({})
