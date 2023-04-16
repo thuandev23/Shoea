@@ -1,40 +1,49 @@
+import {useState} from 'react';
 import {
-  View,
   Text,
+  View,
+  TextInput,
+  TouchableOpacity,
   StyleSheet,
-  Image,
-  ScrollView,
 } from 'react-native';
-import React from 'react';
 
-import Swiper from 'react-native-swiper';
-import dataSlide from '../data/flastlistItem/datalist';
+const Fullnamescreen = ({navigation}) => {
+  const [firstname, setName] = useState('');
+  const [isPulsing, setIsPulsing] = useState(false);
 
+  const handlePressIn = () => {
+    setIsPulsing(true);
+  };
 
-const fullname = () => {
+  const handlePressOut = () => {
+    setIsPulsing(false);
+  };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-       
-        <View style={styles.dataListItem}>
-          <Swiper autoplay={true} autoplayTimeout={3} horizontal={true}>
-            {dataSlide.map(item => (
-              <View key={item.id}>
-                <Image
-                  source={{uri: item.image}}
-                  style={{height: '100%', width: '100%',}}
-                />
-                <Text style={styles.percent}>{item.percent}%</Text>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.txt}>{item.txt}</Text>
-              </View>
-            ))}
-          </Swiper>
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.heading}>Full name</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={firstname}
+          onChangeText={setName}
+        />
 
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Tabs', {firstname: 'John'});
+          }}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          activeOpacity={0.7}
+          style={[styles.button, isPulsing && styles.pulsing]}>
+          <View style={styles.innerButton} />
+
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -42,36 +51,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#F2FCF1',
+    justifyContent: 'center',
   },
-  header: {
-    marginTop: 5,
-    width: '100%',
+  heading: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    marginBottom: 30,
+  },
+  inputContainer: {
+    width: '80%',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
     padding: 10,
+    marginBottom: 20,
+    borderRadius: 10,
   },
-  dataListItem: {
-    height: 360,
-  },
- 
-  percent: {
-    position: 'absolute',
-    fontSize: 85,
-    color: 'white',
-  },
-  title: {
-    position: 'absolute',
-    fontSize: 30,
-    marginTop: 100,
-    padding: 5,
-    color: 'white',
-  },
-  txt: {
-    position: 'absolute',
-    fontSize: 17,
-    color: 'white',
+  button: {
+    backgroundColor: '#399',
     padding: 10,
-    marginTop: 180,
+    borderRadius: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 9,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  innerButton: {
+    backgroundColor: '#fff',
+  },
+  pulsing: {
+    transform: [{scale: 1.2}],
   },
 });
 
-export default fullname;
+export default Fullnamescreen;

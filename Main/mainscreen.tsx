@@ -12,8 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
-
-
+import Fullnamescreen from '../Login/fullname';
 import DiscountItem from '../data/flastlistItem/discountItem';
 import {
   AllItemScreen,
@@ -41,8 +40,9 @@ const DATA = [
   {id: '10', name: 'Kiwi'},
 ];
 
-const Mainscreen = ({navigation}) => {
+const Mainscreen = ({navigation, route}) => {
   const [selected, setSelected] = useState(0);
+
   const onScroll = ({nativeEvent}) => {
     const index = Math.round(nativeEvent.contentOffset.x / (w - 20));
     setSelected(index);
@@ -69,30 +69,29 @@ const Mainscreen = ({navigation}) => {
       <Text style={{fontSize: 25, color: 'black'}}>{item.name}</Text>
     </TouchableOpacity>
   );
-    // Get avatar
-    
+  // Get avatar
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-
           <Image
-            source={require('../assets/logo.jpg')}
+            source={require('../assets/img-logo/logo.jpg')}
             resizeMode="cover"
             style={styles.avatar}
           />
 
           <Text style={styles.headerText}>Wellcome Back</Text>
+          {/* <Text style={styles.headerName}>{route.params.firstname}</Text> Lỗi không nhận firstname trong Screen Fullname */}
           <Text style={styles.headerName}>thuandevnguyen</Text>
           <View style={styles.headerImage}>
             <TouchableOpacity>
               <Image
                 style={{height: 35, width: 35, marginLeft: 40}}
-                source={require('../assets/notice.png')}
+                source={require('../assets/img-logo/notice.png')}
                 resizeMode="cover"
               />
             </TouchableOpacity>
-           
           </View>
         </View>
 
@@ -100,7 +99,7 @@ const Mainscreen = ({navigation}) => {
         <View style={styles.search}>
           <Image
             style={styles.btnSearch}
-            source={require('../assets/search_icon.png')}
+            source={require('../assets/img-logo/search_icon.png')}
             resizeMode="cover"
           />
           <TextInput
@@ -124,7 +123,7 @@ const Mainscreen = ({navigation}) => {
           <Text style={styles.textSlider1}>Special Offers</Text>
           <TouchableOpacity
             onPressIn={handleSeeClick}
-            onPress={() => navigation.navigate("Discount of here")}>
+            onPress={() => navigation.navigate('Discount of here')}>
             <Text style={[styles.textSlider2, isClicked && {color: '#0B6E27'}]}>
               See All
             </Text>
@@ -151,7 +150,9 @@ const Mainscreen = ({navigation}) => {
           Types of shoes
         </Text> */}
         <View style={styles.typeShoe}>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Nike shoe all of here")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('Nike shoe all of here')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/nike.png')}
@@ -161,7 +162,9 @@ const Mainscreen = ({navigation}) => {
               Nike
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Puma shoe all of here")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('Puma shoe all of here')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/puma.png')}
@@ -171,7 +174,9 @@ const Mainscreen = ({navigation}) => {
               Puma
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Adidas shoe all of here")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('Adidas shoe all of here')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/adidas.png')}
@@ -181,7 +186,9 @@ const Mainscreen = ({navigation}) => {
               Adidas
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("More")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('More')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/asics.png')}
@@ -193,7 +200,9 @@ const Mainscreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.typeShoe}>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("More")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('More')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/reebok.png')}
@@ -203,7 +212,9 @@ const Mainscreen = ({navigation}) => {
               Reebok
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("More")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('More')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/nb.png')}
@@ -213,7 +224,9 @@ const Mainscreen = ({navigation}) => {
               New Ba...
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("Converse shoe all of here")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('Converse shoe all of here')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/converse.png')}
@@ -223,7 +236,9 @@ const Mainscreen = ({navigation}) => {
               Converse
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTypes} onPress={()=> navigation.navigate("All")}>
+          <TouchableOpacity
+            style={styles.btnTypes}
+            onPress={() => navigation.navigate('All')}>
             <Image
               style={styles.imgTypes}
               source={require('../assets/img-type-shoe/more.png')}
@@ -240,7 +255,7 @@ const Mainscreen = ({navigation}) => {
         <View style={styles.viewPopular}>
           <View style={styles.popular}>
             {tabs.map((e, i) => (
-              <Pressable key={e}  onPress={() => setSelected(i)}>
+              <Pressable key={e} onPress={() => setSelected(i)}>
                 <Text
                   style={[
                     styles.tabsText,
@@ -268,7 +283,6 @@ const Mainscreen = ({navigation}) => {
             keyExtractor={item => item.key}
             renderItem={({item}) => item.screen}
             initialScrollIndex={selected}
-            
           />
         </View>
       </View>
@@ -376,8 +390,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-between',
     padding: 15,
-    paddingLeft:25,
-    paddingRight:25,
+    paddingLeft: 25,
+    paddingRight: 25,
   },
   btnTypes: {
     margin: -10,

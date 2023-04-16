@@ -19,24 +19,19 @@ const DangKiScreen = ({navigation}) => {
 
   const handleLogin = () => {
     // Xử lý đăng nhập ở đây
-    console.log(
-      'Đăng kí với tài khoản: ',
-      username,
-      'và mật khẩu: ',
-      password,
-    );
+    console.log('Đăng kí với tài khoản: ', username, 'và mật khẩu: ', password);
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
   };
-  const isEnablelogin = () =>{
-    return username != "" && password != "";
-  }
+  const isEnablelogin = () => {
+    return username != '' && password != '';
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require('../assets/logo.jpg')}
+          source={require('../assets/img-logo/logo.jpg')}
           resizeMode="cover"
           style={{height: 200, width: 200, borderRadius: 100}}
         />
@@ -45,7 +40,7 @@ const DangKiScreen = ({navigation}) => {
       <Text style={styles.title}>Create to Your Account</Text>
       <View style={styles.inputContainer1}>
         <Image
-          source={require('../assets/email.png')}
+          source={require('../assets/img-logo/email.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -60,7 +55,7 @@ const DangKiScreen = ({navigation}) => {
       </View>
       <View style={styles.inputContainer2}>
         <Image
-          source={require('../assets/password.png')}
+          source={require('../assets/img-logo/password.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -79,25 +74,29 @@ const DangKiScreen = ({navigation}) => {
           {isPasswordVisible ? (
             <Image
               style={{height: 25, width: 25}}
-              source={require('../assets/view.png')}
+              source={require('../assets/img-logo/view.png')}
               resizeMode="cover"
             />
           ) : (
             <Image
               style={{height: 25, width: 25}}
-              source={require('../assets/hide.png')}
+              source={require('../assets/img-logo/hide.png')}
               resizeMode="cover"
             />
           )}
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={[styles.button, {backgroundColor:isEnablelogin() ? 'green':'#393939' }]}
-      onPress={handleLogin} onPressIn={()=> navigation.navigate('Tabs')}>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
+        ]}
+        onPress={handleLogin}
+        onPressIn={() => navigation.navigate('Name')}>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
 
       <View style={styles.footer}>
-       
         <Text style={{fontSize: 15, marginTop: 30, textAlign: 'center'}}>
           {' '}
           or continue with{' '}
@@ -108,7 +107,7 @@ const DangKiScreen = ({navigation}) => {
             onPress={() => Alert.alert('Zô facebook')}>
             <Image
               style={styles.img}
-              source={require('../assets/fb_logo.png')}
+              source={require('../assets/img-logo/fb_logo.png')}
               resizeMode="cover"
             />
           </TouchableOpacity>
@@ -117,7 +116,7 @@ const DangKiScreen = ({navigation}) => {
             onPress={() => Alert.alert('Zô Google')}>
             <Image
               style={styles.img}
-              source={require('../assets/googlee_logo.png')}
+              source={require('../assets/img-logo/googlee_logo.png')}
               resizeMode="cover"
             />
           </TouchableOpacity>
@@ -125,8 +124,8 @@ const DangKiScreen = ({navigation}) => {
 
         <Text style={{marginTop: 10, fontSize: 16}}>
           Already have an account?
-          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-            <Text style={{fontSize: 16, color:'black'}}> Sign in</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+            <Text style={{fontSize: 16, color: 'black'}}> Sign in</Text>
           </TouchableOpacity>
         </Text>
       </View>
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
     borderColor: 'blue',
   },
   button: {
-   // backgroundColor: '#393939',
+    // backgroundColor: '#393939',
     paddingVertical: 12,
     paddingHorizontal: 110,
     borderRadius: 20,

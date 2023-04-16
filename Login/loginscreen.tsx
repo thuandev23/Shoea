@@ -31,7 +31,7 @@ const LoginScreen = ({navigation}) => {
         
         <View style={styles.container}>
         <Image
-          source={require('../assets/undraw_nature_m5ll.png')}
+          source={require('../assets/img-logo/undraw_nature_m5ll.png')}
           style={styles.Image}
         />
         <Text style={styles.text}>Let's you in</Text>
@@ -42,7 +42,7 @@ const LoginScreen = ({navigation}) => {
           <View>
             <Image
               style={styles.image_touchable}
-              source={require('../assets/fb_logo.png')}
+              source={require('../assets/img-logo/fb_logo.png')}
               resizeMode="cover"
             />
             <Text style={styles.text_touchable}>Continue with Facebook</Text>
@@ -55,7 +55,7 @@ const LoginScreen = ({navigation}) => {
           <View>
             <Image
               style={styles.image_touchable}
-              source={require('../assets/googlee_logo.png')}
+              source={require('../assets/img-logo/googlee_logo.png')}
               resizeMode="cover"
             />
             <Text style={styles.text_touchable}>Continue with Google</Text>

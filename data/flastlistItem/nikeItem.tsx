@@ -9,111 +9,134 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewMoreText from 'react-native-view-more-text';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addToCart,
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from '../../Cart/cartReducer';
 const NikeItem = () => {
+  const cart = useSelector(state => state.cart.cart);
+  // console.log(cart);
+  const dispatch = useDispatch();
   const productmain = [
     {
+      id: '8',
       text: 'Nike ACG Lowcate ',
-      star:'4.3',
-      money:'425',
-      image:'https://bom.so/97BrcX',
+      star: '4.3',
+      money: '425',
+      image: 'https://bom.so/97BrcX',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/t/acg-lowcate-shoes-HjWrQ6/DM8019-201
     },
     {
+      id: '9',
+
       text: 'Nike ACG Moc ',
-      star:'4.1',
-      money:'300',
-      image:'https://bom.so/KJWlTv',
+      star: '4.1',
+      money: '300',
+      image: 'https://bom.so/KJWlTv',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/t/acg-moc-shoes-kLZZlk/DZ3407-300
     },
     {
+      id: '10',
+
       text: 'Nike Vaporfly 3 ',
-      star:'4.3',
-      money:'537',
-      image:'https://bom.so/Ik2noZ',
+      star: '4.3',
+      money: '537',
+      image: 'https://bom.so/Ik2noZ',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/t/oneonta-next-nature-sandals-KwxRDD/FB1948-200
     },
     {
+      id: '11',
+
       text: 'Nike Oneonta Next Nature',
-      star:'4.1',
-      money:'350',
-      image:'https://bom.so/j306kA',
+      star: '4.1',
+      money: '350',
+      image: 'https://bom.so/j306kA',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/t/acg-lowcate-shoes-HjWrQ6/DM8019-201
     },
     {
+      id: '12',
+
       text: 'Nike Air Max 90 Futura',
-      star:'4.6',
-      money:'480',
-      image:'https://bom.so/L4SCDi',
+      star: '4.6',
+      money: '480',
+      image: 'https://bom.so/L4SCDi',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/u/nike-air-max-90-futura-by-you-custom-shoes-10001486/9847345872
     },
     {
+      id: '13',
+
       text: 'Air Jordan 1 Elevate High',
-      star:'4.3',
-      money:'305',
-      image:'https://bom.so/ubtUSJ',
+      star: '4.3',
+      money: '305',
+      image: 'https://bom.so/ubtUSJ',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/t/air-jordan-1-elevate-high-shoes-rKPNHR/DN3253-061
     },
     {
+      id: '14',
+
       text: 'Zoom Freak 4',
-      star:'4.3',
-      money:'425',
-      image:'https://bom.so/6wQFFs',
+      star: '4.3',
+      money: '425',
+      image: 'https://bom.so/6wQFFs',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       // https://www.nike.com/vn/t/zoom-freak-4-basketball-shoes-jFdxSB/FB9503-200
     },
     {
+      id: '15',
+
       text: 'Nike Air Force 1 Mid',
-      star:'4.3',
-      money:'425',
-      image:'https://bom.so/sxoS93',
+      star: '4.3',
+      money: '425',
+      image: 'https://bom.so/sxoS93',
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
       ID: 'DM8019-201',
-      
+
       //https://www.nike.com/vn/t/air-force-1-mid-07-shoes-ZzCgrn/DV0806-101
     },
   ];
 
-  
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
@@ -142,9 +165,33 @@ const NikeItem = () => {
       </Text>
     );
   };
+
+  const addItemToCart = item => {
+    dispatch(addToCart(item));
+  };
+
+  const removeItemFromCart = item => {
+    dispatch(removeFromCart(item));
+  };
+  const increaseQuantity = item => {
+    dispatch(incrementQuantity(item));
+  };
+  const decreaseQuantity = item => {
+    dispatch(decrementQuantity(item));
+  };
+
   return (
     <View>
-      <Text style={{fontSize:30,textAlign:'center', margin:20,backgroundColor:'#2341', borderRadius:20}}>Nike</Text>
+      <Text
+        style={{
+          fontSize: 30,
+          textAlign: 'center',
+          margin: 20,
+          backgroundColor: '#2341',
+          borderRadius: 20,
+        }}>
+        Nike
+      </Text>
 
       <FlatList
         data={productmain}
@@ -233,7 +280,9 @@ const NikeItem = () => {
                 <Text style={styles.alltext}>
                   {selectedProduct.ColourShown}
                 </Text>
-                <Text style={styles.alltext}>Styles: {selectedProduct.ID}</Text>
+                <Text style={styles.alltext}>
+                  Styles: {selectedProduct.type_ID}
+                </Text>
               </View>
 
               <View style={styles.viewBtn}>
@@ -243,16 +292,38 @@ const NikeItem = () => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                <TouchableOpacity style={styles.btnAdd} onPress={()=>Alert.alert('đã add')}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}>
-                    Add your Cart
-                  </Text>
-                </TouchableOpacity>
+                {cart.some(value => value.id == selectedProduct.id) ? (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() =>
+                      Alert.alert(
+                        'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                      )
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() => addItemToCart(selectedProduct)}
+                    onPressIn={() => Alert.alert('Đã thêm thành công')}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </ScrollView>

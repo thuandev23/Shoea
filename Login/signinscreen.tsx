@@ -29,15 +29,15 @@ const DangNhapScreen = ({navigation}) => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
   };
-  const isEnablelogin = () =>{
-    return username != "" && password != "";
-  }
+  const isEnablelogin = () => {
+    return username != '' && password != '';
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require('../assets/logo.jpg')}
+          source={require('../assets/img-logo/logo.jpg')}
           resizeMode="cover"
           style={{height: 200, width: 200, borderRadius: 100}}
         />
@@ -46,7 +46,7 @@ const DangNhapScreen = ({navigation}) => {
       <Text style={styles.title}>Login to Your Account</Text>
       <View style={styles.inputContainer1}>
         <Image
-          source={require('../assets/email.png')}
+          source={require('../assets/img-logo/email.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -61,7 +61,7 @@ const DangNhapScreen = ({navigation}) => {
       </View>
       <View style={styles.inputContainer2}>
         <Image
-          source={require('../assets/password.png')}
+          source={require('../assets/img-logo/password.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -80,21 +80,25 @@ const DangNhapScreen = ({navigation}) => {
           {isPasswordVisible ? (
             <Image
               style={{height: 25, width: 25}}
-              source={require('../assets/view.png')}
+              source={require('../assets/img-logo/view.png')}
               resizeMode="cover"
             />
           ) : (
             <Image
               style={{height: 25, width: 25}}
-              source={require('../assets/hide.png')}
+              source={require('../assets/img-logo/hide.png')}
               resizeMode="cover"
             />
           )}
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={[styles.button, {backgroundColor:isEnablelogin() ? 'green':'#393939' }]}
-       onPressIn={handleLogin}
-      onPress={()=> navigation.navigate('Tabs')} >
+      <TouchableOpacity
+        style={[
+          styles.button,
+          {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
+        ]}
+        onPressIn={handleLogin}
+        onPress={() => navigation.navigate('Name')}>
         <Text style={styles.buttonText}>Sign in</Text>
       </TouchableOpacity>
 
@@ -114,7 +118,7 @@ const DangNhapScreen = ({navigation}) => {
             onPress={() => Alert.alert('Zô facebook')}>
             <Image
               style={styles.img}
-              source={require('../assets/fb_logo.png')}
+              source={require('../assets/img-logo/fb_logo.png')}
               resizeMode="cover"
             />
           </TouchableOpacity>
@@ -123,7 +127,7 @@ const DangNhapScreen = ({navigation}) => {
             onPress={() => Alert.alert('Zô Google')}>
             <Image
               style={styles.img}
-              source={require('../assets/googlee_logo.png')}
+              source={require('../assets/img-logo/googlee_logo.png')}
               resizeMode="cover"
             />
           </TouchableOpacity>
@@ -131,8 +135,8 @@ const DangNhapScreen = ({navigation}) => {
 
         <Text style={{marginTop: 5, fontSize: 16}}>
           Dont't have an account?
-          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-            <Text style={{fontSize: 16, color:'black'}}> Sign up</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text style={{fontSize: 16, color: 'black'}}> Sign up</Text>
           </TouchableOpacity>
         </Text>
       </View>

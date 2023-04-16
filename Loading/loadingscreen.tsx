@@ -7,7 +7,7 @@ const Loading_headerMain = () => {
     <View>
       <ImageBackground
         style={styles.imgbackground}
-        source={require('../assets/intro_6.jpg')}
+        source={require('../assets/img-logo/intro_6.jpg')}
         resizeMode="cover">
         <LinearGradient
           colors={['#fff00000', '#234140cf']}
@@ -19,7 +19,7 @@ const Loading_headerMain = () => {
             style={{ fontSize:45, color:'white'}}
             >Wellcome to </Text>
             <Image
-              source={require('../assets/wave-hand.png')}
+              source={require('../assets/img-logo/wave-hand.png')}
               style={styles.icon}
             />
             <Text

@@ -22,6 +22,7 @@ import {
 
 const AllItemScreen = () => {
   const cart = useSelector(state => state.cart.cart);
+  // console.log(cart);
   const dispatch = useDispatch();
   const productmain = [
     {
@@ -150,7 +151,12 @@ const AllItemScreen = () => {
   };
 
   const addItemToCart = item => {
-    dispatch(addToCart(item));
+    const cartItem = cart.find(p => p.id === item.id);
+    if (cartItem) {
+      dispatch(incrementQuantity(item));
+    } else {
+      dispatch(addToCart(item));
+    }
   };
 
   const removeItemFromCart = item => {
@@ -275,18 +281,38 @@ const AllItemScreen = () => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                <TouchableOpacity
-                  style={styles.btnAdd}
-                  onPress={() => addItemToCart(selectedProduct)}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}>
-                    Add your Cart
-                  </Text>
-                </TouchableOpacity>
+                {cart.some(value => value.id == selectedProduct.id) ? (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() =>
+                      Alert.alert(
+                        'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                      )
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() => addItemToCart(selectedProduct)}
+                    onPressIn={() => Alert.alert('Đã thêm thành công')}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </ScrollView>

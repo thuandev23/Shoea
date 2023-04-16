@@ -32,7 +32,7 @@ const LoadingScreen = () => {
         ]}>
             <Image
              style={styles.image}
-            source={require('../assets/meme2.jpg')}/>
+            source={require('../assets/img-logo/meme2.jpg')}/>
       </Animated.View>
         <Text style={styles.text}>LOADING ... </Text>
     </View>

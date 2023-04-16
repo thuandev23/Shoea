@@ -29,6 +29,7 @@ import {
   PumaItem,
   MoreItem,
 } from '../data/flastlistItem/connect';
+import Fullnamescreen from './fullname';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -139,7 +140,7 @@ const IndexComponent = ({navigation}) => {
     // <DiscountItem/>
     // <Mainscreen/>
     // <Search/>
-    // <Fullname/>
+    // <Fullname />
     // <WalletScreen/>
 
     <NavigationContainer>
@@ -174,6 +175,11 @@ const IndexComponent = ({navigation}) => {
           name="SignUp"
           component={singupscreen}
           options={{headerTitle: ''}}
+        />
+        <Stack.Screen
+          name="Name"
+          component={Fullnamescreen}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Tabs"

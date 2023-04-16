@@ -11,9 +11,21 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addToCart,
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from '../../Cart/cartReducer';
 const ConverseItem = () => {
+  const cart = useSelector(state => state.cart.cart);
+  // console.log(cart);
+  const dispatch = useDispatch();
   const productmain = [
     {
+      id: '24',
+
       text: 'Denim Fashion',
       star: '4.3',
       money: '230',
@@ -25,6 +37,8 @@ const ConverseItem = () => {
       // https://drake.vn/converse/converse-chuck-taylor-all-star-denim-fashion-a02880c
     },
     {
+      id: '25',
+
       text: 'Lift Denim Fashion',
       star: '4.5',
       money: '475',
@@ -36,6 +50,8 @@ const ConverseItem = () => {
       //https://drake.vn/converse/converse-chuck-taylor-all-star-lift-denim-fashion-a03821c
     },
     {
+      id: '26',
+
       text: 'Crafted PatchWork',
       star: '4.5',
       money: '537',
@@ -47,6 +63,8 @@ const ConverseItem = () => {
       // https://drake.vn/converse/converse-chuck-taylor-all-star-crafted-patchwork-a05195c
     },
     {
+      id: '27',
+
       text: 'CX Explore Hi',
       star: '4.4',
       money: '550',
@@ -58,6 +76,8 @@ const ConverseItem = () => {
       // https://drake.vn/converse/converse-chuck-taylor-all-star-cx-explore-hi-a02411c
     },
     {
+      id: '28',
+
       text: 'WorkWear Textile',
       star: '4.7',
       money: '580',
@@ -69,6 +89,8 @@ const ConverseItem = () => {
       //https://drake.vn/converse/converse-chuck-taylor-all-star-workwear-textile-a02875c
     },
     {
+      id: '29',
+
       text: '1970s Archive Paint',
       star: '4.3',
       money: '440',
@@ -80,6 +102,8 @@ const ConverseItem = () => {
       // https://drake.vn/converse/converse-chuck-taylor-all-star-1970s-archive-paint-splatter-a01170c?sort=p.price&order=DESC
     },
     {
+      id: '30',
+
       text: '1970S Recycled Rpet Canvas',
       star: '4.2',
       money: '460',
@@ -91,6 +115,8 @@ const ConverseItem = () => {
       //https://drake.vn/converse/converse-chuck-taylor-all-star-1970s-recycled-rpet-canvas-172681c
     },
     {
+      id: '31',
+
       text: 'Chuck Taylor Roots',
       star: '4.8',
       money: '605',
@@ -102,7 +128,7 @@ const ConverseItem = () => {
       // https://drake.vn/converse/converse-chuck-taylor-all-star-cx-explore-roots-170138c?sort=p.price&order=DESC
     },
   ];
- 
+
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
@@ -131,17 +157,32 @@ const ConverseItem = () => {
       </Text>
     );
   };
+
+  const addItemToCart = item => {
+    dispatch(addToCart(item));
+  };
+
+  const removeItemFromCart = item => {
+    dispatch(removeFromCart(item));
+  };
+  const increaseQuantity = item => {
+    dispatch(incrementQuantity(item));
+  };
+  const decreaseQuantity = item => {
+    dispatch(decrementQuantity(item));
+  };
+
   return (
     <View>
       <Text
         style={{
-          fontSize: 25,
+          fontSize: 30,
           textAlign: 'center',
           margin: 20,
           backgroundColor: '#2341',
           borderRadius: 20,
         }}>
-        Converse Chuck Taylor All Start
+        Converse Taylor All Start
       </Text>
 
       <FlatList
@@ -231,7 +272,9 @@ const ConverseItem = () => {
                 <Text style={styles.alltext}>
                   {selectedProduct.ColourShown}
                 </Text>
-                <Text style={styles.alltext}>Styles: {selectedProduct.ID}</Text>
+                <Text style={styles.alltext}>
+                  Styles: {selectedProduct.type_ID}
+                </Text>
               </View>
 
               <View style={styles.viewBtn}>
@@ -241,16 +284,38 @@ const ConverseItem = () => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                <TouchableOpacity style={styles.btnAdd} onPress={()=>Alert.alert('đã add')}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}>
-                    Add your Cart
-                  </Text>
-                </TouchableOpacity>
+                {cart.some(value => value.id == selectedProduct.id) ? (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() =>
+                      Alert.alert(
+                        'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                      )
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() => addItemToCart(selectedProduct)}
+                    onPressIn={() => Alert.alert('Đã thêm thành công')}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </ScrollView>
@@ -267,7 +332,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 220,
     width: 190,
-    marginLeft: 10,
+    marginLeft: 20,
     marginTop: 5,
     marginRight: 10,
     marginBottom: 5,

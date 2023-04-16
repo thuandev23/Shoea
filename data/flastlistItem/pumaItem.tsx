@@ -11,9 +11,20 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  incrementQuantity,
+  addToCart,
+  removeFromCart,
+  decrementQuantity,
+} from '../../Cart/cartReducer';
 const PumaItem = () => {
+  const cart = useSelector(state => state.cart.cart);
+  // console.log(cart);
+  const dispatch = useDispatch();
   const productmain = [
     {
+      id: '32',
       text: 'RS-X Reinvention',
       star: '4.3',
       money: '230',
@@ -25,6 +36,7 @@ const PumaItem = () => {
       //https://us.puma.com/us/en/pd/rs-x-reinvention-sneakers/369579?search=true&swatch=14
     },
     {
+      id: '33',
       text: 'Cali Womens',
       star: '4.5',
       money: '475',
@@ -36,6 +48,7 @@ const PumaItem = () => {
       //https://us.puma.com/us/en/pd/cali-womens-sneakers/369155?search=true&swatch=04
     },
     {
+      id: '34',
       text: 'GV Speacial',
       star: '4.5',
       money: '537',
@@ -47,6 +60,7 @@ const PumaItem = () => {
       // https://us.puma.com/us/en/pd/gv-special%2B-sneakers/366613?search=true&swatch=07
     },
     {
+      id: '35',
       text: 'Clyde Core Foil Mens',
       star: '4.4',
       money: '550',
@@ -58,6 +72,7 @@ const PumaItem = () => {
       //https://us.puma.com/us/en/pd/clyde-core-foil-mens-sneakers/364669?search=true&swatch=04
     },
     {
+      id: '36',
       text: 'Califormia Casual',
       star: '4.7',
       money: '580',
@@ -69,6 +84,7 @@ const PumaItem = () => {
       //https://us.puma.com/us/en/pd/california-casual-mens-sneakers/366608?search=true&swatch=05
     },
     {
+      id: '37',
       text: 'Super Liga G Retro',
       star: '4.3',
       money: '440',
@@ -80,6 +96,7 @@ const PumaItem = () => {
       //https://us.puma.com/us/en/pd/super-liga-og-retro-sneakers/356999?search=true&swatch=19
     },
     {
+      id: '38',
       text: 'Smash v2',
       star: '4.2',
       money: '460',
@@ -91,6 +108,7 @@ const PumaItem = () => {
       //https://us.puma.com/us/en/pd/puma-smash-v2-sneakers/364989?search=true&swatch=15
     },
     {
+      id: '39',
       text: 'Reboound LayUp Mid',
       star: '4.8',
       money: '605',
@@ -132,18 +150,37 @@ const PumaItem = () => {
     );
   };
 
+  const addItemToCart = item => {
+    const cartItem = cart.find(p => p.id === item.id);
+    if (cartItem) {
+      dispatch(incrementQuantity(item));
+    } else {
+      dispatch(addToCart(item));
+    }
+  };
+
+  const removeItemFromCart = item => {
+    dispatch(removeFromCart(item));
+  };
+  const increaseQuantity = item => {
+    dispatch(incrementQuantity(item));
+  };
+  const decreaseQuantity = item => {
+    dispatch(decrementQuantity(item));
+  };
   return (
     <View>
       <Text
         style={{
-          fontSize: 25,
+          fontSize: 30,
           textAlign: 'center',
           margin: 20,
           backgroundColor: '#2341',
           borderRadius: 20,
         }}>
-        Puma Sneakers
+        Puma
       </Text>
+
       <FlatList
         data={productmain}
         numColumns={2}
@@ -231,7 +268,9 @@ const PumaItem = () => {
                 <Text style={styles.alltext}>
                   {selectedProduct.ColourShown}
                 </Text>
-                <Text style={styles.alltext}>Styles: {selectedProduct.ID}</Text>
+                <Text style={styles.alltext}>
+                  Styles: {selectedProduct.type_ID}
+                </Text>
               </View>
 
               <View style={styles.viewBtn}>
@@ -241,16 +280,38 @@ const PumaItem = () => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                <TouchableOpacity style={styles.btnAdd} onPress={()=>Alert.alert('đã add')}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}>
-                    Add your Cart
-                  </Text>
-                </TouchableOpacity>
+                {cart.some(value => value.id == selectedProduct.id) ? (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() =>
+                      Alert.alert(
+                        'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                      )
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() => addItemToCart(selectedProduct)}
+                    onPressIn={() => Alert.alert('Đã thêm thành công')}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </ScrollView>

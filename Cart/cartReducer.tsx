@@ -19,12 +19,12 @@ const cartSlice = createSlice({
       state.cart = removeFromCart;
     },
     incrementQuantity: (state, action) => {
-      const itemInCart = state.cart.find(item => item.id == action.payload.id);
-      itemInCart++;
+      const itemInCart = state.cart.find(item => item.id === action.payload.id);
+      if (itemInCart) itemInCart.quantity++;
     },
     decrementQuantity: (state, action) => {
-      const itemInCart = state.cart.find(item => item.id == action.payload.id);
-      if (itemInCart.quantity == 1) {
+      const itemInCart = state.cart.find(item => item.id === action.payload.id);
+      if (itemInCart && itemInCart.quantity == 1) {
         const removeFromCart = state.cart.filter(
           item => item.id !== action.payload.id,
         );

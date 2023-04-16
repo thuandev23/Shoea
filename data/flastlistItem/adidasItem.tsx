@@ -11,9 +11,21 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addToCart,
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from '../../Cart/cartReducer';
+
 const AdidasItem = () => {
+  const cart = useSelector(state => state.cart.cart);
+  // console.log(cart);
+  const dispatch = useDispatch();
   const productmain = [
     {
+      id: '16',
       text: 'Advantage',
       star: '4.3',
       money: '230',
@@ -25,6 +37,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-advantage/GZ5300.html
     },
     {
+      id: '17',
       text: 'Ultraboots 4.0 DNA',
       star: '4.5',
       money: '475',
@@ -36,6 +49,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-ultraboost-4.0-dna/FY9120.html
     },
     {
+      id: '18',
       text: 'Adizero Adios Pro 2.0',
       star: '4.5',
       money: '537',
@@ -47,6 +61,7 @@ const AdidasItem = () => {
       // https://www.adidas.com.vn/vi/gi%C3%A0y-adizero-adios-pro-2.0/FZ2477.html
     },
     {
+      id: '19',
       text: 'Racer TR21',
       star: '4.4',
       money: '550',
@@ -58,6 +73,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-racer-tr21/H00654.html
     },
     {
+      id: '20',
       text: 'Supernova',
       star: '4.7',
       money: '580',
@@ -69,6 +85,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-supernova/S42722.html
     },
     {
+      id: '21',
       text: 'ZG21 Motion Primegreen BOA',
       star: '4.3',
       money: '440',
@@ -80,6 +97,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-golf-c%E1%BB%95-l%E1%BB%ADng-zg21-motion-primegreen-boa/G58741.html
     },
     {
+      id: '22',
       text: 'Continental 80',
       star: '4.2',
       money: '460',
@@ -91,6 +109,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-continental-80/G27706.html
     },
     {
+      id: '23',
       text: 'Adifom SLTN',
       star: '4.8',
       money: '605',
@@ -102,7 +121,7 @@ const AdidasItem = () => {
       //https://www.adidas.com.vn/vi/gi%C3%A0y-adifom-sltn/HP6481.html
     },
   ];
- 
+
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
@@ -132,8 +151,22 @@ const AdidasItem = () => {
     );
   };
 
+  const addItemToCart = item => {
+    dispatch(addToCart(item));
+  };
+
+  const removeItemFromCart = item => {
+    dispatch(removeFromCart(item));
+  };
+  const increaseQuantity = item => {
+    dispatch(incrementQuantity(item));
+  };
+  const decreaseQuantity = item => {
+    dispatch(decrementQuantity(item));
+  };
+
   return (
-    <View >
+    <View>
       <Text
         style={{
           fontSize: 30,
@@ -142,8 +175,9 @@ const AdidasItem = () => {
           backgroundColor: '#2341',
           borderRadius: 20,
         }}>
-          Adidas
+        Adidas
       </Text>
+
       <FlatList
         data={productmain}
         numColumns={2}
@@ -231,7 +265,9 @@ const AdidasItem = () => {
                 <Text style={styles.alltext}>
                   {selectedProduct.ColourShown}
                 </Text>
-                <Text style={styles.alltext}>Styles: {selectedProduct.ID}</Text>
+                <Text style={styles.alltext}>
+                  Styles: {selectedProduct.type_ID}
+                </Text>
               </View>
 
               <View style={styles.viewBtn}>
@@ -241,16 +277,38 @@ const AdidasItem = () => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                <TouchableOpacity style={styles.btnAdd} onPress={()=>Alert.alert('đã add')}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}>
-                    Add your Cart
-                  </Text>
-                </TouchableOpacity>
+                {cart.some(value => value.id == selectedProduct.id) ? (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() =>
+                      Alert.alert(
+                        'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                      )
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.btnAdd}
+                    onPress={() => addItemToCart(selectedProduct)}
+                    onPressIn={() => Alert.alert('Đã thêm thành công')}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        color: '#fff',
+                      }}>
+                      Add your Cart
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </ScrollView>
