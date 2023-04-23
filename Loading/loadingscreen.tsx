@@ -15,19 +15,13 @@ const Loading_headerMain = () => {
           start={{x: 0.5, y: 0}}
           end={{x: 1, y: 1}}>
           <View style={styles.text}>
-            <Text
-            style={{ fontSize:45, color:'white'}}
-            >Wellcome to </Text>
+            <Text style={{fontSize: 45, color: 'white'}}>Wellcome to </Text>
             <Image
               source={require('../assets/img-logo/wave-hand.png')}
               style={styles.icon}
             />
-            <Text
-            style={{ fontSize:80, color:'white'}}
-            >Shoea</Text>
-            <Text
-            style={{ fontSize:20, color:'white', marginTop:20,}}
-            >
+            <Text style={{fontSize: 80, color: 'white'}}>Shoea</Text>
+            <Text style={{fontSize: 20, color: 'white', marginTop: 20}}>
               The best sneakers & shoes e-commerce app of the century for your
               fashion needs{' '}
             </Text>
@@ -41,11 +35,11 @@ const styles = StyleSheet.create({
   imgbackground: {
     height: '100%',
     width: '100%',
-    resizeMode:'cover'
+    resizeMode: 'cover',
   },
   text: {
-    marginTop:'120%',
-    marginLeft:30,
+    marginTop: '120%',
+    marginLeft: 30,
   },
   icon: {
     position: 'absolute',
@@ -53,7 +47,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     marginLeft: 250,
-    margin:5,
+    margin: 5,
   },
 });
 

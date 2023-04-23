@@ -17,7 +17,7 @@ import {
   removeFromCart,
 } from './cartReducer';
 
-const CartScreen = () => {
+const CartScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart.cart);
   const cartLength = cart ? cart.length : 0;
@@ -76,6 +76,14 @@ const CartScreen = () => {
             />
           </TouchableOpacity>
         </View>
+        <View
+          style={{
+            borderWidth: 0.5,
+            height: 1,
+            width: '105%',
+            marginTop: 15,
+          }}
+        />
       </View>
     );
   };
@@ -144,7 +152,7 @@ const CartScreen = () => {
         </Text>
         <TouchableOpacity
           style={styles.btnCheckOut}
-          onPress={() => console.warn('Đã check')}>
+          onPress={() => navigation.navigate('Check out')}>
           <Text style={{fontSize: 30, color: 'white'}}>Check Out</Text>
         </TouchableOpacity>
       </View>
@@ -160,7 +168,7 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 50,
     marginBottom: 20,
-    backgroundColor: '#2341',
+    // backgroundColor: '#2341',
     borderRadius: 20,
     shadowColor: '#3292D2',
     shadowOffset: {
@@ -175,7 +183,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontSize: 20,
     color: 'black',
-    marginLeft: 100,
+    marginLeft: 110,
     width: '60%',
     marginTop: 10,
   },
@@ -186,9 +194,9 @@ const styles = StyleSheet.create({
   },
   moneyProduct: {
     position: 'absolute',
-    fontSize: 20,
+    fontSize: 17,
     color: 'black',
-    marginLeft: 105,
+    marginLeft: 110,
     width: '70%',
     marginTop: 70,
   },

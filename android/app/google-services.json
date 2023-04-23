@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1088723739179",
+    "project_id": "auth-rn-cli-app",
+    "storage_bucket": "auth-rn-cli-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088723739179:android:35f1ceb10dd3ee78e8406e",
+        "android_client_info": {
+          "package_name": "com.shoea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088723739179-hbcdchuc9k7ka5bktervogms16pkqvtr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoea",
+            "certificate_hash": "d6890b4b34e0fc105bf1e34837782d0ff7e85f5a"
+          }
+        },
+        {
+          "client_id": "1088723739179-et7c47ci8vbjco5pf0sdehvautgultcr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU9wgumaBuj5CTbnmXqHj5DlwKKwnnx5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088723739179-et7c47ci8vbjco5pf0sdehvautgultcr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

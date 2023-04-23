@@ -33,7 +33,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-advantage/GZ5300.html
     },
     {
@@ -45,7 +45,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-ultraboost-4.0-dna/FY9120.html
     },
     {
@@ -57,7 +57,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       // https://www.adidas.com.vn/vi/gi%C3%A0y-adizero-adios-pro-2.0/FZ2477.html
     },
     {
@@ -69,7 +69,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-racer-tr21/H00654.html
     },
     {
@@ -81,7 +81,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-supernova/S42722.html
     },
     {
@@ -93,7 +93,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-golf-c%E1%BB%95-l%E1%BB%ADng-zg21-motion-primegreen-boa/G58741.html
     },
     {
@@ -105,7 +105,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-continental-80/G27706.html
     },
     {
@@ -117,7 +117,7 @@ const AdidasItem = () => {
       description:
         'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
       ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
+      type_ID: 'DM8019-201',
       //https://www.adidas.com.vn/vi/gi%C3%A0y-adifom-sltn/HP6481.html
     },
   ];

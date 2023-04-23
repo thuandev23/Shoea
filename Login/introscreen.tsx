@@ -48,9 +48,22 @@ export default class IntroScreen extends React.Component {
       </View>
     );
   };
+
+  _renderSkipButton = () => {
+    return (
+      <View style={styles.skipButton}>
+        <Text style={styles.skipButtonText}>Skip</Text>
+      </View>
+    );
+  };
+
   onDone = () => {
     this.setState({showRealApp: true}, () => console.log('Start'));
   };
+  onSkip = () => {
+    this.setState({showRealApp: true});
+  };
+
   render() {
     if (this.state.showRealApp) {
       return <LoginScreen navigation={this.props.navigation} />;
@@ -75,8 +88,11 @@ export default class IntroScreen extends React.Component {
           renderItem={this._renderItem}
           data={slides}
           onDone={this.onDone}
+          onSkip={this.onSkip}
           dotStyle={dotStyle}
+          renderSkipButton={this._renderSkipButton}
           activeDotStyle={activeDotStyle}
+          showSkipButton={true}
         />
       );
     }
@@ -109,5 +125,16 @@ const styles = StyleSheet.create({
     padding: 25,
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  skipButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: '#3B3C34',
+  },
+  skipButtonText: {
+    color: '#ffffff',
+    fontSize: 19,
+    fontWeight: '400',
   },
 });

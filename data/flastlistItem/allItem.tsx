@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -168,6 +168,18 @@ const AllItemScreen = () => {
   const decreaseQuantity = item => {
     dispatch(decrementQuantity(item));
   };
+
+  // const [data, setData] = useState([]);
+
+  // useEffect(() => {
+  //   fetch('http://10.0.3.2:3000/products')
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       setData(json);
+  //     })
+
+  //     .catch(error => console.error(error));
+  // }, []);
 
   return (
     <View>

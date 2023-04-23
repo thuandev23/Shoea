@@ -7,81 +7,81 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import Loading_headerMain from '../Loading/loadingscreen';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import DangNhapScreen from './signinscreen';
 
 const LoginScreen = ({navigation}) => {
-    const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
-    useEffect(() => {
-      setTimeout(() => {
-        setShowLoading(false);
-        SplashScreen.hide();
-      }, 5000);
-    }, []);
-  
+  useEffect(() => {
+    setTimeout(() => {
+      setShowLoading(false);
+      SplashScreen.hide();
+    }, 5000);
+  }, []);
+
   return (
-    
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {showLoading ? (<Loading_headerMain/>) 
-      : (
-        
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      {showLoading ? (
+        <Loading_headerMain />
+      ) : (
         <View style={styles.container}>
-        <Image
-          source={require('../assets/img-logo/undraw_nature_m5ll.png')}
-          style={styles.Image}
-        />
-        <Text style={styles.text}>Let's you in</Text>
-        <TouchableHighlight
-          underlayColor="#3763FCcf"
-          onPress={() => Alert.alert('Zô Facebook')}
-          style={styles.touchable}>
-          <View>
-            <Image
-              style={styles.image_touchable}
-              source={require('../assets/img-logo/fb_logo.png')}
-              resizeMode="cover"
-            />
-            <Text style={styles.text_touchable}>Continue with Facebook</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          underlayColor="#F94444cf"
-          onPress={() => Alert.alert('Zô Google')}
-          style={styles.touchable}>
-          <View>
-            <Image
-              style={styles.image_touchable}
-              source={require('../assets/img-logo/googlee_logo.png')}
-              resizeMode="cover"
-            />
-            <Text style={styles.text_touchable}>Continue with Google</Text>
-          </View>
-        </TouchableHighlight>
-  
-        <Text style={{fontSize: 18, marginTop: 45}}>
-          -----------------------------------or----------------------------------
-        </Text>
-  
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate("SignIn")}
-          style={styles.touchStart}>
-          <View>
-            <Text style={styles.text_touchableStart}>Sign in with password</Text>
-          </View>
-        </TouchableOpacity>
-        <Text style={{marginTop: 35, fontSize: 16}}>
-          Dont't have an account?
-          <TouchableOpacity  onPress={()=> navigation.navigate("SignUp")} >
-            <Text style={styles.NotHaveAccount}> Sign up</Text>
-          </TouchableOpacity >
-        </Text>
-      </View>
-      
+          <Image
+            source={require('../assets/img-logo/undraw_nature_m5ll.png')}
+            style={styles.Image}
+          />
+          <Text style={styles.text}>Let's you in</Text>
+          <TouchableHighlight
+            underlayColor="#3763FCcf"
+            onPress={() => Alert.alert('Zô Facebook')}
+            style={styles.touchable}>
+            <View>
+              <Image
+                style={styles.image_touchable}
+                source={require('../assets/img-logo/fb_logo.png')}
+                resizeMode="cover"
+              />
+              <Text style={styles.text_touchable}>Continue with Facebook</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor="#F94444cf"
+            onPress={() => Alert.alert('Zô Google')}
+            style={styles.touchable}>
+            <View>
+              <Image
+                style={styles.image_touchable}
+                source={require('../assets/img-logo/googlee_logo.png')}
+                resizeMode="cover"
+              />
+              <Text style={styles.text_touchable}>Continue with Google</Text>
+            </View>
+          </TouchableHighlight>
+
+          <Text style={{fontSize: 18, marginTop: 45}}>
+            -----------------------------------or----------------------------------
+          </Text>
+
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('SignIn')}
+            style={styles.touchStart}>
+            <View>
+              <Text style={styles.text_touchableStart}>
+                Sign in with Account
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <Text style={{marginTop: 35, fontSize: 16}}>
+            Dont't have an account?
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.NotHaveAccount}> Sign up</Text>
+            </TouchableOpacity>
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 15,
-    margin:8,
-    marginLeft:10,
+    margin: 8,
+    marginLeft: 10,
   },
   text_touchable: {
     position: 'absolute',

@@ -19,7 +19,7 @@ import WalletScreen from '../Wallets/walletscreen';
 import CartScreen from '../Cart/cartscreen';
 import AllItemScreen from '../data/flastlistItem/allItem';
 import DiscountItem from '../data/flastlistItem/discountItem';
-import OrderScreen from '../Main/orderscreen';
+import OtherScreen from '../Others/otherscreen';
 import Fullname from './fullname';
 import Search from '../Loading/search';
 import {
@@ -30,6 +30,11 @@ import {
   MoreItem,
 } from '../data/flastlistItem/connect';
 import Fullnamescreen from './fullname';
+import CheckOutScreen from '../Cart/checkOut';
+import TestAPIScreen from '../data/database/testAPI';
+import AddressScreen from '../Wallets/addressscreen';
+import LoadingScreen from '../Loading/loadding';
+import Loading_headerMain from '../Loading/loadingscreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,8 +46,8 @@ const MainTabs = () => {
         headerShown: false,
         tabBarActiveTintColor: '#000',
         tabBarInactiveTintColor: '#000',
-        tabBarActiveBackgroundColor: '#E9FBF9',
-        tabBarInactiveBackgroundColor: '#2355',
+        tabBarActiveBackgroundColor: '#F9C7F2',
+        tabBarInactiveBackgroundColor: '#fff',
         tabBarLabelStyle: {
           fontSize: 14,
           fontWeight: 'bold',
@@ -55,8 +60,10 @@ const MainTabs = () => {
         tabBarStyle: [
           {
             display: 'flex',
-            height: 55,
-            backgroundColor: '#F7FEF0',
+            paddingTop: 3,
+            height: 60,
+            backgroundColor: '#fff',
+            // borderTopColor: '#000',
           },
           null,
         ],
@@ -90,7 +97,7 @@ const MainTabs = () => {
 
       <Tab.Screen
         name="Orders"
-        component={OrderScreen}
+        component={OtherScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
@@ -136,13 +143,14 @@ const IndexComponent = ({navigation}) => {
     // <LoginScreen/>
     // <DangNhapScreen/>
     // <DangKiScreen/>
-    // <AllItemScreen/>
+    // <AllItemScreen />
     // <DiscountItem/>
+    // <Loading_headerMain />
     // <Mainscreen/>
     // <Search/>
     // <Fullname />
     // <WalletScreen/>
-
+    // <TestAPIScreen />
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -199,7 +207,8 @@ const IndexComponent = ({navigation}) => {
         <Stack.Screen name="Discount of here" component={DiscountItem} />
         <Stack.Screen name="More" component={MoreItem} />
         <Stack.Screen name="All" component={AllItemScreen} />
-        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Check out" component={CheckOutScreen} />
+        <Stack.Screen name="Address" component={AddressScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
