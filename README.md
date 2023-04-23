@@ -1,4 +1,4 @@
-# App Shoea -
+# App Shoea
 App selling shoes with beautiful and full functional interface of the user
 
 # Hi, I'm Figma team! 👋
