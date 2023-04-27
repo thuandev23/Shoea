@@ -29,6 +29,13 @@ import {
   PumaItem,
   MoreItem,
 } from '../data/flastlistItem/connect';
+import {
+  Editprofile,
+  NotificationSetting,
+  SecuritySetting,
+  PrivacyPolicySetting,
+  HelpSetting,
+} from '../ProfileSetting/inport';
 import Fullnamescreen from './fullname';
 import CheckOutScreen from '../Cart/checkOut';
 import TestAPIScreen from '../data/database/testAPI';
@@ -209,6 +216,12 @@ const IndexComponent = ({navigation}) => {
         <Stack.Screen name="All" component={AllItemScreen} />
         <Stack.Screen name="Check out" component={CheckOutScreen} />
         <Stack.Screen name="Address" component={AddressScreen} />
+
+        <Stack.Screen name="Edit Profile" component={Editprofile} />
+        <Stack.Screen name="Notification" component={NotificationSetting} />
+        <Stack.Screen name="Security" component={SecuritySetting} />
+        <Stack.Screen name="Privacy Policy" component={PrivacyPolicySetting} />
+        <Stack.Screen name="Help Center" component={HelpSetting} />
       </Stack.Navigator>
     </NavigationContainer>
   );

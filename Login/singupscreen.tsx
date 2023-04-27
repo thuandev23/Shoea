@@ -11,10 +11,16 @@ import {
 } from 'react-native';
 
 const DangKiScreen = ({navigation}) => {
+  const [name, setName] = useState('');
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [CFpassword, setCFPassword] = useState('');
+  const [isNameFocused, setIsNameFocused] = useState(false);
+
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isCFPasswordFocused, setIsCFPasswordFocused] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const handleLogin = () => {
@@ -38,6 +44,21 @@ const DangKiScreen = ({navigation}) => {
       </View>
 
       <Text style={styles.title}>Create to Your Account</Text>
+      <View style={styles.inputContainer3}>
+        <Image
+          source={require('../assets/img-logo/email.png')}
+          resizeMode="cover"
+          style={styles.inputIcon}
+        />
+        <TextInput
+          style={[styles.input, isNameFocused && styles.focusedInput]}
+          placeholder="User Name"
+          onChangeText={setName}
+          value={name}
+          onFocus={() => setIsNameFocused(true)}
+          onBlur={() => setIsNameFocused(false)}
+        />
+      </View>
       <View style={styles.inputContainer1}>
         <Image
           source={require('../assets/img-logo/email.png')}
@@ -68,6 +89,22 @@ const DangKiScreen = ({navigation}) => {
           onFocus={() => setIsPasswordFocused(true)}
           onBlur={() => setIsPasswordFocused(false)}
         />
+      </View>
+      <View style={styles.inputContainer4}>
+        <Image
+          source={require('../assets/img-logo/password.png')}
+          resizeMode="cover"
+          style={styles.inputIcon}
+        />
+        <TextInput
+          style={[styles.input, isCFPasswordFocused && styles.focusedInput]}
+          placeholder="Confirm Password"
+          secureTextEntry={!isPasswordVisible}
+          onChangeText={setCFPassword}
+          value={CFpassword}
+          onFocus={() => setIsCFPasswordFocused(true)}
+          onBlur={() => setIsCFPasswordFocused(false)}
+        />
         <TouchableOpacity
           style={{position: 'absolute', marginLeft: 340}}
           onPress={togglePasswordVisibility}>
@@ -92,43 +129,16 @@ const DangKiScreen = ({navigation}) => {
           {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
         ]}
         onPress={handleLogin}
-        onPressIn={() => navigation.navigate('Name')}>
+        onPressIn={() => navigation.navigate('Tabs')}>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
 
-      <View style={styles.footer}>
-        <Text style={{fontSize: 15, marginTop: 30, textAlign: 'center'}}>
-          {' '}
-          or continue with{' '}
-        </Text>
-        <View style={{flexDirection: 'row', margin: 15}}>
-          <TouchableOpacity
-            style={styles.touch}
-            onPress={() => Alert.alert('Zô facebook')}>
-            <Image
-              style={styles.img}
-              source={require('../assets/img-logo/fb_logo.png')}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.touch}
-            onPress={() => Alert.alert('Zô Google')}>
-            <Image
-              style={styles.img}
-              source={require('../assets/img-logo/googlee_logo.png')}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-        </View>
-
-        <Text style={{marginTop: 10, fontSize: 16}}>
-          Already have an account?
-          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            <Text style={{fontSize: 16, color: 'black'}}> Sign in</Text>
-          </TouchableOpacity>
-        </Text>
-      </View>
+      <Text style={{marginTop: 10, fontSize: 16}}>
+        Already have an account?
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+          <Text style={{fontSize: 16, color: 'black'}}> Sign in</Text>
+        </TouchableOpacity>
+      </Text>
     </KeyboardAvoidingView>
   );
 };
@@ -149,13 +159,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    marginTop: 20,
+    marginTop: 40,
   },
   inputContainer2: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    marginTop: '85%',
+    marginTop: '90%',
+  },
+  inputContainer3: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    marginTop: '60%',
+  },
+  inputContainer4: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    marginTop: '105%',
   },
   inputIcon: {
     height: 25,
@@ -188,7 +210,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 110,
     borderRadius: 20,
-    marginTop: 85,
+    marginTop: 145,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -201,23 +223,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
-  },
-  footer: {
-    position: 'absolute',
-    marginTop: 510,
-    alignItems: 'center',
-  },
-  touch: {
-    padding: 15,
-    margin: 15,
-    borderRadius: 25,
-    borderColor: '#2345',
-    borderWidth: 0.5,
-  },
-  img: {
-    height: 30,
-    width: 30,
-    borderRadius: 25,
   },
 });
 

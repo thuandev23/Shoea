@@ -70,7 +70,9 @@ const Mainscreen = ({navigation, route}) => {
     </TouchableOpacity>
   );
   // Get avatar
-
+  // Get name
+  // const {ten} = route.params;
+  // console.log(name);
   return (
     <ScrollView>
       <View style={styles.container}>

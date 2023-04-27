@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useRoute} from '@react-navigation/native';
 
 const CheckOutScreen = ({navigation}) => {
   const cart = useSelector(state => state.cart.cart);
@@ -18,6 +19,10 @@ const CheckOutScreen = ({navigation}) => {
     0,
   );
   const [text, setText] = React.useState('');
+  const route = useRoute();
+
+  // const {address} = route.params;
+  // console.log(address);
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -25,18 +30,11 @@ const CheckOutScreen = ({navigation}) => {
           <Text style={[styles.texth3, styles.texth4]}> Shipping Address</Text>
           <View style={styles.btn_address}>
             <TouchableOpacity onPress={() => navigation.navigate('Address')}>
-              <Image
-                source={require('../assets/img-logo/location-pin.png')}
-                style={styles.imgAddress}
-              />
-              <Text style={[styles.texth3, styles.texth4, styles.texth4_home]}>
-                Home
-              </Text>
-              <Text style={styles.texth4_add}>Address</Text>
-              <Image
-                source={require('../assets/img-logo/pencil.png')}
-                style={styles.imgChangeAddress}
-              />
+              <View>
+                {/* <Text>{address.name}</Text>
+                <Text>{address.address}</Text> */}
+                <Text>address</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>

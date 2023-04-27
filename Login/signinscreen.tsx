@@ -11,8 +11,10 @@ import {
 } from 'react-native';
 
 const DangNhapScreen = ({navigation}) => {
+  const [ten, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isNameFocused, setIsNameFocused] = useState(false);
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -20,6 +22,8 @@ const DangNhapScreen = ({navigation}) => {
   const handleLogin = () => {
     // Xử lý đăng nhập ở đây
     console.log(
+      'Tên: ',
+      ten,
       'Đăng nhập với tài khoản: ',
       username,
       'và mật khẩu: ',
@@ -44,6 +48,21 @@ const DangNhapScreen = ({navigation}) => {
       </View>
 
       <Text style={styles.title}>Login to Your Account</Text>
+      <View style={styles.inputContainer3}>
+        <Image
+          source={require('../assets/img-logo/email.png')}
+          resizeMode="cover"
+          style={styles.inputIcon}
+        />
+        <TextInput
+          style={[styles.input, isNameFocused && styles.focusedInput]}
+          placeholder="User Name"
+          onChangeText={setName}
+          value={ten}
+          onFocus={() => setIsNameFocused(true)}
+          onBlur={() => setIsNameFocused(false)}
+        />
+      </View>
       <View style={styles.inputContainer1}>
         <Image
           source={require('../assets/img-logo/email.png')}
@@ -97,8 +116,10 @@ const DangNhapScreen = ({navigation}) => {
           styles.button,
           {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
         ]}
-        onPressIn={handleLogin}
-        onPress={() => navigation.navigate('Name')}>
+        // onPressIn={handleLogin}
+        onPress={() =>
+          navigation.navigate('Tabs', {ten: ten}, console.log(ten))
+        }>
         <Text style={styles.buttonText}>Sign in</Text>
       </TouchableOpacity>
 
@@ -108,30 +129,6 @@ const DangNhapScreen = ({navigation}) => {
             Forgot the password ?
           </Text>
         </TouchableOpacity>
-        <Text style={{fontSize: 15, marginTop: 30, textAlign: 'center'}}>
-          {' '}
-          or continue with{' '}
-        </Text>
-        <View style={{flexDirection: 'row', margin: 15}}>
-          <TouchableOpacity
-            style={styles.touch}
-            onPress={() => Alert.alert('Zô facebook')}>
-            <Image
-              style={styles.img}
-              source={require('../assets/img-logo/fb_logo.png')}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.touch}
-            onPress={() => Alert.alert('Zô Google')}>
-            <Image
-              style={styles.img}
-              source={require('../assets/img-logo/googlee_logo.png')}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-        </View>
 
         <Text style={{marginTop: 5, fontSize: 16}}>
           Dont't have an account?
@@ -160,13 +157,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    marginTop: 20,
+    marginTop: 70,
   },
   inputContainer2: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    marginTop: '80%',
+    marginTop: '92%',
+  },
+  inputContainer3: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    marginTop: '60%',
   },
   inputIcon: {
     height: 25,
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 110,
     borderRadius: 20,
-    marginTop: 85,
+    marginTop: 100,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -215,7 +218,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    marginTop: 500,
+    marginTop: 620,
     alignItems: 'center',
   },
   touch: {
