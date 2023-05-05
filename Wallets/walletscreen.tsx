@@ -75,9 +75,10 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e5e5e5',
   },
   headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333333',
+    fontSize: 30,
+    color: 'black',
+    marginLeft: 15,
+    padding: 5,
   },
   addBtn: {
     backgroundColor: '#1e90ff',

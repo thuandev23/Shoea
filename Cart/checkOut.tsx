@@ -20,9 +20,10 @@ const CheckOutScreen = ({navigation}) => {
   );
   const [text, setText] = React.useState('');
   const route = useRoute();
-
-  // const {address} = route.params;
-  // console.log(address);
+  const addressname = route.params?.address.name;
+  const addressaddress = route.params?.address.address;
+  // const shipname = route.params?.ship.nameship;
+  // console.log(shipname);
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -31,9 +32,15 @@ const CheckOutScreen = ({navigation}) => {
           <View style={styles.btn_address}>
             <TouchableOpacity onPress={() => navigation.navigate('Address')}>
               <View>
-                {/* <Text>{address.name}</Text>
-                <Text>{address.address}</Text> */}
-                <Text>address</Text>
+                <Image
+                  source={require('../assets/img-logo/address.png')}
+                  style={styles.imgAddress}
+                />
+                <Text style={styles.nametxt}>
+                  {addressname ||
+                    'Please select the address you want to send shoes'}
+                </Text>
+                <Text style={styles.addresstxt}>{addressaddress}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -56,7 +63,7 @@ const CheckOutScreen = ({navigation}) => {
                 <View style={{position: 'absolute'}}>
                   <Text style={styles.nameItem}>{item.text}</Text>
                   <View style={{position: 'absolute', marginTop: 50}}>
-                    <Text style={styles.money}>Yoooooooooooooo</Text>
+                    {/* <Text style={styles.money}>{item.ID}</Text> */}
 
                     <Text style={styles.money}>${item.money}</Text>
                   </View>
@@ -73,7 +80,8 @@ const CheckOutScreen = ({navigation}) => {
           <Text style={[styles.texth3, styles.texth4]}>Choose Shipping</Text>
 
           <View style={styles.btn_ship}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Choose Shipping')}>
               <Image
                 source={require('../assets/img-logo/truck.png')}
                 style={styles.imgship}
@@ -84,6 +92,7 @@ const CheckOutScreen = ({navigation}) => {
                 style={styles.imgChangeship}
               />
             </TouchableOpacity>
+            {/* <Text>{route.params?.ship.nameship}</Text> */}
           </View>
         </View>
         <View style={styles.line} />
@@ -97,20 +106,52 @@ const CheckOutScreen = ({navigation}) => {
               placeholder=" Enter Promo Code"
               value={text}
               onChangeText={text => setText(text)}></TextInput>
-            <TouchableOpacity style={styles.addPromoCode}>
+            <TouchableOpacity
+              style={styles.addPromoCode}
+              onPress={() => navigation.navigate('Discount of here')}>
               <Text style={styles.textaddpromocode}>+</Text>
             </TouchableOpacity>
           </View>
           <View>
-            <Text>Amouunt {totalPrice}</Text>
-            <Text>Shipping</Text>
-            <Text>Promo</Text>
-            <Text>Total</Text>
+            <Text style={[styles.total]}>Amouunt </Text>
+            <Text
+              style={[styles.total, {position: 'absolute', marginLeft: 300}]}>
+              {totalPrice} $
+            </Text>
+            <Text style={[styles.total]}>Shipping</Text>
+            <Text
+              style={[
+                styles.total,
+                {position: 'absolute', marginLeft: 300, marginTop: 45},
+              ]}>
+              {/* {shippingPrice} chưa đưa vào */}
+              10 $
+            </Text>
+            <Text style={[styles.total]}>Promo</Text>
+            <Text
+              style={[
+                styles.total,
+                {position: 'absolute', marginLeft: 300, marginTop: 90},
+              ]}>
+              {/* {promoPrice} chưa đưa vào */}
+              15%
+            </Text>
+            <View style={styles.line} />
+
+            <Text style={[styles.total]}>Total</Text>
+            <Text
+              style={[
+                styles.total,
+                {position: 'absolute', marginLeft: 300, marginTop: 140},
+              ]}>
+              {totalPrice - 10 - totalPrice * 0.15} $
+            </Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles.viewContinue}>
         <TouchableOpacity
+          onPress={() => navigation.navigate('LoadingOrderScreen')}
           style={{
             height: 50,
             width: 300,
@@ -124,7 +165,7 @@ const CheckOutScreen = ({navigation}) => {
               fontWeight: '600',
               color: 'white',
             }}>
-            Continue to Payment{'  '}
+            Order{'     '}
             <Image
               source={require('../assets/img-logo/next.png')}
               style={{height: 30, width: 30}}
@@ -265,7 +306,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     marginLeft: 110,
-    // marginTop: 10,
+    marginTop: 10,
   },
   quantity: {
     position: 'absolute',
@@ -350,5 +391,25 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingTop: 7,
     paddingLeft: 17,
+  },
+  nametxt: {
+    position: 'absolute',
+    fontSize: 21,
+    fontWeight: 'bold',
+    color: 'black',
+    marginLeft: 90,
+    marginTop: 5,
+  },
+  addresstxt: {
+    position: 'absolute',
+    color: 'black',
+    fontSize: 18,
+    marginLeft: 90,
+    marginTop: 40,
+  },
+  total: {
+    color: 'black',
+    fontSize: 18,
+    padding: 10,
   },
 });

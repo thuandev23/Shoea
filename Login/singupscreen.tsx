@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-
+import { DataProvider } from '../data/database/context';
 const DangKiScreen = ({navigation}) => {
   const [name, setName] = useState('');
 
@@ -33,6 +33,8 @@ const DangKiScreen = ({navigation}) => {
   const isEnablelogin = () => {
     return username != '' && password != '';
   };
+
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -46,7 +48,7 @@ const DangKiScreen = ({navigation}) => {
       <Text style={styles.title}>Create to Your Account</Text>
       <View style={styles.inputContainer3}>
         <Image
-          source={require('../assets/img-logo/email.png')}
+          source={require('../assets/img-logo/user.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />
@@ -129,7 +131,9 @@ const DangKiScreen = ({navigation}) => {
           {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
         ]}
         onPress={handleLogin}
-        onPressIn={() => navigation.navigate('Tabs')}>
+        onPressIn={() =>
+          navigation.navigate('Tabs', {name: name}, console.log(name))
+        }>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
 

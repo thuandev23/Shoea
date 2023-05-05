@@ -8,7 +8,7 @@ const LoadingScreen = () => {
     Animated.loop(
       Animated.timing(spinValue, {
         toValue: 1,
-        duration: 5000,
+        duration: 1000,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
@@ -30,11 +30,11 @@ const LoadingScreen = () => {
             backgroundColor: '#ffffffc0',
           },
         ]}>
-            <Image
+        {/* <Image
              style={styles.image}
-            source={require('../assets/img-logo/meme2.jpg')}/>
+            source={require('../assets/img-logo/meme2.jpg')}/> */}
       </Animated.View>
-        <Text style={styles.text}>LOADING ... </Text>
+      {/* <Text style={styles.text}>LOADING ... </Text> */}
     </View>
   );
 };
@@ -46,23 +46,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   circle: {
-    width: 250,
-    height: 250,
+    width: 70,
+    height: 70,
     borderRadius: 125,
-    borderWidth: 4,
+    borderWidth: 5,
     borderColor: '#f2f2f2',
     borderStyle: 'solid',
     borderTopColor: '#4CAF50',
   },
-  image:{
-    height:240,
-    width:240,
-    borderRadius:120,
-    resizeMode:'cover',
+  image: {
+    height: 240,
+    width: 240,
+    borderRadius: 120,
+    resizeMode: 'cover',
   },
   text: {
     marginTop: 10,
-    color: '#4CAF50',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
   },

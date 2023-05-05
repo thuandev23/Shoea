@@ -50,7 +50,7 @@ const DangNhapScreen = ({navigation}) => {
       <Text style={styles.title}>Login to Your Account</Text>
       <View style={styles.inputContainer3}>
         <Image
-          source={require('../assets/img-logo/email.png')}
+          source={require('../assets/img-logo/user.png')}
           resizeMode="cover"
           style={styles.inputIcon}
         />

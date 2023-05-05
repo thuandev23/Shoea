@@ -23,6 +23,7 @@ import {
 } from '../data/flastlistItem/connect';
 import Swiper from 'react-native-swiper';
 import dataSlide from '../data/flastlistItem/datalist';
+import {useRoute} from '@react-navigation/native';
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
 
@@ -40,7 +41,7 @@ const DATA = [
   {id: '10', name: 'Kiwi'},
 ];
 
-const Mainscreen = ({navigation, route}) => {
+const Mainscreen = ({navigation}) => {
   const [selected, setSelected] = useState(0);
 
   const onScroll = ({nativeEvent}) => {
@@ -69,10 +70,11 @@ const Mainscreen = ({navigation, route}) => {
       <Text style={{fontSize: 25, color: 'black'}}>{item.name}</Text>
     </TouchableOpacity>
   );
+
   // Get avatar
   // Get name
-  // const {ten} = route.params;
-  // console.log(name);
+  const route = useRoute();
+  console.log(route.params?.ten);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -85,7 +87,9 @@ const Mainscreen = ({navigation, route}) => {
 
           <Text style={styles.headerText}>Wellcome Back</Text>
           {/* <Text style={styles.headerName}>{route.params.firstname}</Text> Lỗi không nhận firstname trong Screen Fullname */}
-          <Text style={styles.headerName}>thuandevnguyen</Text>
+          <Text style={styles.headerName}>
+            {route.params?.ten || 'Bạn biết gì chưa ?'}
+          </Text>
           <View style={styles.headerImage}>
             <TouchableOpacity>
               <Image

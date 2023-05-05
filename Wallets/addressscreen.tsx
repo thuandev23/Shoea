@@ -44,10 +44,12 @@ const AddressScreen = ({navigation}) => {
   ]);
 
   const handleSelectAddress = id => {
+    const selectedAddress = addresses.find(address => address.id === id);
+
     const updatedAddresses = addresses.map(address => {
       if (address.id === id) {
         address.isDefault = true;
-        // navigation.navigate('Check out', {address});
+        navigation.navigate('Check out', {address: selectedAddress});
       } else {
         address.isDefault = false;
       }
@@ -55,7 +57,10 @@ const AddressScreen = ({navigation}) => {
     });
     setAddresses(updatedAddresses);
   };
-
+  // const handleEditAddress = id => {
+  //   const addressToEdit = addresses.find(address => address.id === id);
+  //   navigation.navigate('Edit Address', { address: addressToEdit });
+  // };
   return (
     <View>
       {addresses.map(address => (
