@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,16 +14,42 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
 
 const menuItems = [
-  {title: 'Edit Profile', screen: 'Edit Profile'},
-  {title: 'Notification', screen: 'Notification'},
-  {title: 'Security', screen: 'Security'},
-  {title: 'Privacy Policy', screen: 'Privacy Policy'},
-  {title: 'Help Center', screen: 'Help Center'},
+  {
+    title: 'Edit Profile',
+    screen: 'Edit Profile',
+    image: require('../assets/img-logo/right-arrow.png'),
+  },
+  {
+    title: 'Notification',
+    screen: 'Notification',
+    image: require('../assets/img-logo/right-arrow.png'),
+  },
+  {
+    title: 'Security',
+    screen: 'Security',
+    image: require('../assets/img-logo/right-arrow.png'),
+  },
+  {
+    title: 'Privacy Policy',
+    screen: 'Privacy Policy',
+    image: require('../assets/img-logo/right-arrow.png'),
+  },
+  {
+    title: 'Help Center',
+    screen: 'Help Center',
+    image: require('../assets/img-logo/right-arrow.png'),
+  },
+  {
+    title: 'Language',
+    screen: 'Language',
+    image: require('../assets/img-logo/right-arrow.png'),
+  },
 ];
 
-const MenuItem = ({title, onPress}) => (
+const MenuItem = ({title, image, onPress}) => (
   <TouchableOpacity style={styles.button} onPress={onPress}>
     <Text style={styles.text}>{title}</Text>
+    <Image source={image} style={styles.imagenext} />
   </TouchableOpacity>
 );
 
@@ -31,7 +58,13 @@ const ProfileScreen = ({navigation}) => {
   const renderMenuItem = ({item}) => (
     <MenuItem
       title={item.title}
-      onPress={() => navigation.navigate(item.screen)}
+      onPress={() => {
+        if (item.screen === 'Edit Profile') {
+          setNewName(ten);
+        }
+        navigation.navigate(item.screen);
+      }}
+      image={item.image}
     />
   );
 
@@ -53,6 +86,31 @@ const ProfileScreen = ({navigation}) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const [ten, setTen] = useState('');
+  const [newName, setNewName] = useState('');
+
+  useEffect(() => {
+    getData();
+    // getName();
+  }, []);
+  const getData = async () => {
+    const email = await AsyncStorage.getItem('EMAIL');
+    const pass = await AsyncStorage.getItem('PASSWORD');
+    // console.log(email + ' ' + pass);
+
+    const ten = await AsyncStorage.getItem('NAME');
+    // console.log('Name:' + ten);
+    setTen(ten); // cập nhật giá trị cho state
+  };
+  const saveProfile = async () => {
+    try {
+      await AsyncStorage.setItem('NAME', newName);
+      setTen(newName); // Cập nhật lại giá trị của biến "ten" với giá trị mới vừa được lưu
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.viewHeaderCart}>
@@ -60,7 +118,7 @@ const ProfileScreen = ({navigation}) => {
           source={require('../assets/img-logo/logo.jpg')}
           style={styles.imagelogo}
         />
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>Setting</Text>
       </View>
 
       <View style={styles.avatarChange}>
@@ -78,9 +136,7 @@ const ProfileScreen = ({navigation}) => {
             source={require('../assets/img-logo/pencil-image.png')}
           />
         </TouchableOpacity>
-        <Text style={styles.textavatar}>
-          {route.params?.name || 'Bạn biết gì chưa ?'}
-        </Text>
+        <Text style={styles.textavatar}>{ten || 'Bạn biết gì chưa ?'}</Text>
       </View>
 
       <FlatList
@@ -104,7 +160,7 @@ const ProfileScreen = ({navigation}) => {
                 style={styles.buttonlogout}
                 onPress={() => {
                   toggleModal();
-                  // navigation.navigate('Login');
+                  navigation.navigate('Login');
                 }}>
                 <Text style={styles.buttonText}>Log out</Text>
               </TouchableOpacity>
@@ -197,6 +253,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     padding: 20,
   },
+  imagenext: {
+    position: 'absolute',
+    height: 30,
+    width: 30,
+    marginLeft: 270,
+  },
   btnlogout: {
     width: '100%',
   },
@@ -207,8 +269,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 300,
-    height: 300,
+    width: 200,
+    height: 200,
     marginBottom: 20,
   },
   buttonlogout: {

@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,7 +12,6 @@ import {
 } from 'react-native';
 
 const DangNhapScreen = ({navigation}) => {
-  const [ten, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isNameFocused, setIsNameFocused] = useState(false);
@@ -22,8 +22,6 @@ const DangNhapScreen = ({navigation}) => {
   const handleLogin = () => {
     // Xử lý đăng nhập ở đây
     console.log(
-      'Tên: ',
-      ten,
       'Đăng nhập với tài khoản: ',
       username,
       'và mật khẩu: ',
@@ -37,6 +35,56 @@ const DangNhapScreen = ({navigation}) => {
     return username != '' && password != '';
   };
 
+  const saveEmailPass = async () => {
+    try {
+      await AsyncStorage.setItem('EMAIL', username);
+      await AsyncStorage.setItem('PASSWORD', password);
+      navigation.navigate('Tabs');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const [error, setError] = useState('');
+
+  const checkFormat = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(username);
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    const isPasswordValid = passwordRegex.test(password);
+
+    if (!isEmailValid) {
+      setError('Invalid email format !');
+      return false;
+    } else if (!isPasswordValid) {
+      setError(
+        'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number !',
+      );
+      return false;
+    } else {
+      setError('');
+      return true;
+    }
+  };
+
+  const checkLogin = async () => {
+    const email = await AsyncStorage.getItem('EMAIL');
+    const pass = await AsyncStorage.getItem('PASSWORD');
+
+    const isValid = checkFormat();
+    if (!isValid) {
+      return;
+    }
+
+    if (email !== username || pass !== password) {
+      Alert.alert('Invalid email and password or you have not account !');
+      // setError('Invalid email or password');
+    } else {
+      Alert.alert('Succesfull <3');
+      navigation.navigate('Tabs');
+    }
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -48,21 +96,7 @@ const DangNhapScreen = ({navigation}) => {
       </View>
 
       <Text style={styles.title}>Login to Your Account</Text>
-      <View style={styles.inputContainer3}>
-        <Image
-          source={require('../assets/img-logo/user.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isNameFocused && styles.focusedInput]}
-          placeholder="User Name"
-          onChangeText={setName}
-          value={ten}
-          onFocus={() => setIsNameFocused(true)}
-          onBlur={() => setIsNameFocused(false)}
-        />
-      </View>
+
       <View style={styles.inputContainer1}>
         <Image
           source={require('../assets/img-logo/email.png')}
@@ -111,16 +145,16 @@ const DangNhapScreen = ({navigation}) => {
           )}
         </TouchableOpacity>
       </View>
+      {error !== '' && <Text style={styles.error}>{error}</Text>}
       <TouchableOpacity
         style={[
           styles.button,
           {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
         ]}
-        // onPressIn={handleLogin}
-        onPress={() =>
-          navigation.navigate('Tabs', {ten: ten}, console.log(ten))
-        }>
-        <Text style={styles.buttonText}>Sign in</Text>
+        onPress={checkLogin}
+        // onPress={() => navigation.navigate('Tabs')}
+      >
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
       <View style={styles.footer}>
@@ -133,7 +167,7 @@ const DangNhapScreen = ({navigation}) => {
         <Text style={{marginTop: 5, fontSize: 16}}>
           Dont't have an account?
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={{fontSize: 16, color: 'black'}}> Sign up</Text>
+            <Text style={{fontSize: 16, color: 'black'}}> Register</Text>
           </TouchableOpacity>
         </Text>
       </View>
@@ -157,20 +191,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    marginTop: 70,
+    marginTop: 50,
   },
   inputContainer2: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    marginTop: '92%',
+    marginTop: '88%',
   },
-  inputContainer3: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    marginTop: '60%',
-  },
+
   inputIcon: {
     height: 25,
     width: 25,
@@ -181,7 +210,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: 'black',
     fontWeight: 'bold',
-    marginTop: 215,
+    marginTop: 225,
   },
   input: {
     height: 50,
@@ -232,6 +261,12 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 25,
+  },
+  error: {
+    position: 'absolute',
+    color: 'red',
+    fontSize: 15,
+    marginTop: '110%',
   },
 });
 

@@ -134,7 +134,7 @@ const CheckOutScreen = ({navigation}) => {
                 {position: 'absolute', marginLeft: 300, marginTop: 90},
               ]}>
               {/* {promoPrice} chưa đưa vào */}
-              15%
+              20%
             </Text>
             <View style={styles.line} />
 
@@ -144,7 +144,7 @@ const CheckOutScreen = ({navigation}) => {
                 styles.total,
                 {position: 'absolute', marginLeft: 300, marginTop: 140},
               ]}>
-              {totalPrice - 10 - totalPrice * 0.15} $
+              {totalPrice - 10 - totalPrice * 0.2} $
             </Text>
           </View>
         </View>

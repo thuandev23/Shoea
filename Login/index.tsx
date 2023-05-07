@@ -48,6 +48,7 @@ import {DataProvider} from '../data/database/context';
 import Shipping from '../Wallets/shipping';
 import OrderDeliver from '../Others/orderDeliver';
 import LoadingOrder from '../Others/loadingorder';
+import LanguageScreen from '../ProfileSetting/language';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,7 +60,7 @@ const MainTabs = () => {
         headerShown: false,
         tabBarActiveTintColor: '#000',
         tabBarInactiveTintColor: '#000',
-        tabBarActiveBackgroundColor: '#F9C7F2',
+        tabBarActiveBackgroundColor: '#ADB2C5cf',
         tabBarInactiveBackgroundColor: '#fff',
         tabBarLabelStyle: {
           fontSize: 14,
@@ -135,7 +136,7 @@ const MainTabs = () => {
       />
 
       <Tab.Screen
-        name="Profile"
+        name="Setting"
         component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -240,6 +241,7 @@ const IndexComponent = ({navigation}) => {
             component={LoadingOrder}
             options={{headerShown: false}}
           />
+          <Stack.Screen name="Language" component={LanguageScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </DataProvider>

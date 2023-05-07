@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import { DataProvider } from '../data/database/context';
+import {DataProvider} from '../data/database/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const DangKiScreen = ({navigation}) => {
   const [name, setName] = useState('');
 
@@ -25,7 +26,14 @@ const DangKiScreen = ({navigation}) => {
 
   const handleLogin = () => {
     // Xử lý đăng nhập ở đây
-    console.log('Đăng kí với tài khoản: ', username, 'và mật khẩu: ', password);
+    console.log(
+      'Tên:',
+      name,
+      'Đăng kí với tài khoản: ',
+      username,
+      'và mật khẩu: ',
+      password,
+    );
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -33,8 +41,56 @@ const DangKiScreen = ({navigation}) => {
   const isEnablelogin = () => {
     return username != '' && password != '';
   };
+  const saveEmailPass = async () => {
+    try {
+      await AsyncStorage.setItem('NAME', name);
+      await AsyncStorage.setItem('EMAIL', username);
+      await AsyncStorage.setItem('PASSWORD', password);
+      navigation.navigate('Tabs', {ten: name});
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
+  const [error, setError] = useState('');
 
+  const checkFormat = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(username);
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    const isPasswordValid = passwordRegex.test(password);
+    if (name == '') {
+      setError('enter your name !');
+      return false;
+    } else if (!isEmailValid) {
+      setError('Invalid email format !');
+      return false;
+    } else if (!isPasswordValid) {
+      setError(
+        'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number !',
+      );
+      return false;
+    } else if (password !== CFpassword) {
+      setError('Comfirm password incorrect !');
+    } else {
+      setError('');
+      return true;
+    }
+  };
+
+  const checkLogin = async () => {
+    const email = await AsyncStorage.getItem('EMAIL');
+    const pass = await AsyncStorage.getItem('PASSWORD');
+
+    const isValid = checkFormat();
+    if (!isValid) {
+      return;
+    }
+    Alert.alert('Succesfull <3');
+    // navigation.navigate('Tabs');
+    saveEmailPass();
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -125,16 +181,16 @@ const DangKiScreen = ({navigation}) => {
           )}
         </TouchableOpacity>
       </View>
+      {error !== '' && <Text style={styles.error}>{error}</Text>}
+
       <TouchableOpacity
         style={[
           styles.button,
           {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
         ]}
-        onPress={handleLogin}
-        onPressIn={() =>
-          navigation.navigate('Tabs', {name: name}, console.log(name))
-        }>
-        <Text style={styles.buttonText}>Sign up</Text>
+        // onPress={handleLogin}
+        onPressIn={checkLogin}>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
       <Text style={{marginTop: 10, fontSize: 16}}>
@@ -214,7 +270,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 110,
     borderRadius: 20,
-    marginTop: 145,
+    marginTop: 175,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -227,6 +283,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  error: {
+    position: 'absolute',
+    color: 'red',
+    fontSize: 15,
+    marginTop: '127%',
   },
 });
 

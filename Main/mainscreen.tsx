@@ -11,7 +11,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Fullnamescreen from '../Login/fullname';
 import DiscountItem from '../data/flastlistItem/discountItem';
 import {
@@ -24,6 +24,7 @@ import {
 import Swiper from 'react-native-swiper';
 import dataSlide from '../data/flastlistItem/datalist';
 import {useRoute} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
 
@@ -74,7 +75,26 @@ const Mainscreen = ({navigation}) => {
   // Get avatar
   // Get name
   const route = useRoute();
-  console.log(route.params?.ten);
+  // console.log(route.params?.ten);
+  const [ten, setTen] = useState('');
+  useEffect(() => {
+    getData();
+    // getName();
+  }, []);
+  const getData = async () => {
+    const email = await AsyncStorage.getItem('EMAIL');
+    const pass = await AsyncStorage.getItem('PASSWORD');
+    // console.log(email + ' ' + pass);
+
+    const ten = await AsyncStorage.getItem('NAME');
+    // console.log('Name:' + ten);
+    setTen(ten); // cập nhật giá trị cho state
+  };
+  const getName = async () => {
+    const ten = await AsyncStorage.getItem('NAME');
+    console.log('Name:' + ten);
+    return ten;
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -86,10 +106,7 @@ const Mainscreen = ({navigation}) => {
           />
 
           <Text style={styles.headerText}>Wellcome Back</Text>
-          {/* <Text style={styles.headerName}>{route.params.firstname}</Text> Lỗi không nhận firstname trong Screen Fullname */}
-          <Text style={styles.headerName}>
-            {route.params?.ten || 'Bạn biết gì chưa ?'}
-          </Text>
+          <Text style={styles.headerName}>{ten}</Text>
           <View style={styles.headerImage}>
             <TouchableOpacity>
               <Image
@@ -326,7 +343,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
     marginTop: 50,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   headerImage: {
     flexDirection: 'row',

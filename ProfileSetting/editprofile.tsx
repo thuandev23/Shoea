@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {
   View,
@@ -7,9 +8,9 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import RNRestart from 'react-native-restart';
 
 const Editprofile = ({navigation}) => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -17,21 +18,66 @@ const Editprofile = ({navigation}) => {
     // Update the user's profile information in the backend
 
     Alert.alert('Profile saved successfully.');
-    navigation.navigate('Profile', {name: name});
+    navigation.navigate('Profile', {name: newName});
   };
+  const [newName, setNewName] = useState('');
 
+  const saveProfile = async () => {
+    try {
+      await AsyncStorage.setItem('NAME', newName);
+      setNewName(newName);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Name</Text>
-      <TextInput style={styles.input} value={name} onChangeText={setName} />
+      <TextInput
+        style={styles.input}
+        value={newName}
+        onChangeText={text => setNewName(text)}
+        placeholder="Enter your new name"
+      />
 
       <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+      <TextInput
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Enter your new email"
+      />
 
       <Text style={styles.label}>Phone</Text>
-      <TextInput style={styles.input} value={phone} onChangeText={setPhone} />
+      <TextInput
+        style={styles.input}
+        value={phone}
+        onChangeText={setPhone}
+        placeholder="Enter your new phone"
+      />
 
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          saveProfile();
+          // navigation.navigate('Setting');
+          Alert.alert(
+            'Thông báo',
+            'Bạn có muốn khởi động lại ứng dụng để cập nhật tên người dùng không?',
+            [
+              {
+                text: 'Không',
+                onPress: () => navigation.navigate('Setting'),
+                style: 'cancel',
+              },
+              {
+                text: 'Có',
+                onPress: () => navigation.navigate('Login'),
+              },
+            ],
+            {cancelable: false},
+          );
+        }}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
     </View>
