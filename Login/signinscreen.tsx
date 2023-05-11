@@ -35,16 +35,6 @@ const DangNhapScreen = ({navigation}) => {
     return username != '' && password != '';
   };
 
-  const saveEmailPass = async () => {
-    try {
-      await AsyncStorage.setItem('EMAIL', username);
-      await AsyncStorage.setItem('PASSWORD', password);
-      navigation.navigate('Tabs');
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const [error, setError] = useState('');
 
   const checkFormat = () => {
@@ -53,8 +43,12 @@ const DangNhapScreen = ({navigation}) => {
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
     const isPasswordValid = passwordRegex.test(password);
-
-    if (!isEmailValid) {
+    if (username == 'admin' && password == 'admin') {
+      return true;
+    } else if (username == '' || password == '') {
+      setError('Please enter email and password !');
+      // setError('Invalid email or password');
+    } else if (!isEmailValid) {
       setError('Invalid email format !');
       return false;
     } else if (!isPasswordValid) {
@@ -69,22 +63,70 @@ const DangNhapScreen = ({navigation}) => {
   };
 
   const checkLogin = async () => {
-    const email = await AsyncStorage.getItem('EMAIL');
-    const pass = await AsyncStorage.getItem('PASSWORD');
+    try {
+      const email = username;
+      const pass = password;
 
-    const isValid = checkFormat();
-    if (!isValid) {
-      return;
-    }
+      // Check email and password format
+      const isValidFormat = checkFormat();
+      if (!isValidFormat) {
+        return;
+      }
 
-    if (email !== username || pass !== password) {
-      Alert.alert('Invalid email and password or you have not account !');
-      // setError('Invalid email or password');
-    } else {
-      Alert.alert('Succesfull <3');
-      navigation.navigate('Tabs');
+      // Check if the user is admin
+      if (email === 'admin' && pass === 'admin') {
+        const adminAccount = {
+          name: 'Admin',
+          email: 'admin',
+          password: 'admin',
+        };
+
+        const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+        let accountList = [];
+        if (existingAccounts !== null) {
+          accountList = JSON.parse(existingAccounts);
+        }
+        // Check if admin account already exists in accountList
+        const adminAccountIndex = accountList.findIndex(account => {
+          return account.email === adminAccount.email;
+        });
+        if (adminAccountIndex === -1) {
+          accountList.push(adminAccount);
+        } else {
+          // Update admin account if it already exists
+          accountList[adminAccountIndex] = adminAccount;
+        }
+        await AsyncStorage.setItem('ACCOUNTS', JSON.stringify(accountList));
+        Alert.alert('Login successful');
+        navigation.navigate('Tabs');
+        // console.log(accountList);
+        return;
+      }
+
+      // Check if the account exists
+      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+      if (existingAccounts !== null) {
+        const accountList = JSON.parse(existingAccounts);
+
+        const matchingAccount = accountList.find(account => {
+          return account.email === email && account.password === pass;
+        });
+
+        if (matchingAccount) {
+          await AsyncStorage.setItem('EMAIL', matchingAccount.email);
+          Alert.alert('Login successful');
+          navigation.navigate('Tabs');
+        } else {
+          Alert.alert('Wait a minute', 'Invalid email or password');
+        }
+      } else {
+        Alert.alert('Wait a minute', 'No accounts found');
+      }
+    } catch (e) {
+      console.log('Wait a minute', 'Error checking login:', e);
     }
   };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -158,8 +200,8 @@ const DangNhapScreen = ({navigation}) => {
       </TouchableOpacity>
 
       <View style={styles.footer}>
-        <TouchableOpacity>
-          <Text style={{fontSize: 15, textAlign: 'center', color: 'black'}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>
+          <Text style={{fontSize: 17, textAlign: 'center', color: 'blue'}}>
             Forgot the password ?
           </Text>
         </TouchableOpacity>
@@ -167,7 +209,7 @@ const DangNhapScreen = ({navigation}) => {
         <Text style={{marginTop: 5, fontSize: 16}}>
           Dont't have an account?
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={{fontSize: 16, color: 'black'}}> Register</Text>
+            <Text style={{fontSize: 17, color: 'black'}}> Register</Text>
           </TouchableOpacity>
         </Text>
       </View>

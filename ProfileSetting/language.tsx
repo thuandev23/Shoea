@@ -14,9 +14,37 @@ import RNRestart from 'react-native-restart';
 import Modal from 'react-native-modal';
 import {CommonActions} from '@react-navigation/native';
 const languages = [
-  {code: 'en', name: 'English'},
-  {code: 'vi', name: 'Vietnamese'},
-  {code: 'fr', name: 'French'},
+  {
+    code: 'en',
+    name: 'English',
+    img: require('../assets/img-logo/united-kingdom.png'),
+  },
+  {
+    code: 'vi',
+    name: 'Vietnamese',
+    img: require('../assets/img-logo/vietnam.png'),
+  },
+  {
+    code: 'fr',
+    name: 'French',
+    img: require('../assets/img-logo/france.png'),
+  },
+  {
+    code: 'js',
+    name: 'Japan',
+    img: require('../assets/img-logo/japan.png'),
+  },
+  {
+    code: 'bz',
+    name: 'Brazil',
+    img: require('../assets/img-logo/brazil-.png'),
+  },
+  {
+    code: 'bl',
+    name: 'Belgium',
+    img: require('../assets/img-logo/belgium.png'),
+  },
+
   // Add more languages here
 ];
 
@@ -77,6 +105,14 @@ const LanguageScreen = ({navigation}) => {
               {color: selectedLanguage === language.code ? 'white' : 'black'},
             ]}>
             {language.name}
+          <Image
+            source={language.img}
+            style={{
+              position: 'absolute',
+              height: 30,
+              width: 30,
+            }}
+          />
           </Text>
         </TouchableOpacity>
       ))}
@@ -130,6 +166,7 @@ const styles = StyleSheet.create({
   languageName: {
     fontSize: 16,
     fontWeight: 'bold',
+    height:40,
   },
   modal: {
     backgroundColor: 'white',

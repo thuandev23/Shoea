@@ -197,7 +197,7 @@ const NikeItem = () => {
         data={productmain}
         numColumns={2}
         renderItem={({item, index}) => (
-          <View style={styles.view_flatlist}>
+          <View key={`${item.id}-${index}`} style={styles.view_flatlist}>
             <TouchableOpacity onPress={() => handleItemClick(item)}>
               <Image
                 source={{uri: item.image}}
@@ -297,7 +297,8 @@ const NikeItem = () => {
                     style={styles.btnAdd}
                     onPress={() =>
                       Alert.alert(
-                        'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                        // 'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                        'The product has been added to cart',
                       )
                     }>
                     <Text
@@ -313,7 +314,7 @@ const NikeItem = () => {
                   <TouchableOpacity
                     style={styles.btnAdd}
                     onPress={() => addItemToCart(selectedProduct)}
-                    onPressIn={() => Alert.alert('Đã thêm thành công')}>
+                    onPressIn={() => Alert.alert('Added product')}>
                     <Text
                       style={{
                         fontSize: 20,

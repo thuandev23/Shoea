@@ -12,8 +12,6 @@ import {
   Dimensions,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import Fullnamescreen from '../Login/fullname';
-import DiscountItem from '../data/flastlistItem/discountItem';
 import {
   AllItemScreen,
   NikeItem,
@@ -78,23 +76,28 @@ const Mainscreen = ({navigation}) => {
   // console.log(route.params?.ten);
   const [ten, setTen] = useState('');
   useEffect(() => {
-    getData();
+    getAccounts();
     // getName();
   }, []);
-  const getData = async () => {
-    const email = await AsyncStorage.getItem('EMAIL');
-    const pass = await AsyncStorage.getItem('PASSWORD');
-    // console.log(email + ' ' + pass);
 
-    const ten = await AsyncStorage.getItem('NAME');
-    // console.log('Name:' + ten);
-    setTen(ten); // cập nhật giá trị cho state
+  const getAccounts = async () => {
+    try {
+      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+      if (existingAccounts !== null) {
+        const accountList = JSON.parse(existingAccounts);
+        const currentUserEmail = await AsyncStorage.getItem('EMAIL');
+        const matchingAccount = accountList.find(account => {
+          return account.email === currentUserEmail;
+        });
+        if (matchingAccount) {
+          setTen(matchingAccount.name);
+        }
+      }
+    } catch (e) {
+      console.log('Error getting accounts:', e);
+    }
   };
-  const getName = async () => {
-    const ten = await AsyncStorage.getItem('NAME');
-    console.log('Name:' + ten);
-    return ten;
-  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -108,7 +111,10 @@ const Mainscreen = ({navigation}) => {
           <Text style={styles.headerText}>Wellcome Back</Text>
           <Text style={styles.headerName}>{ten}</Text>
           <View style={styles.headerImage}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert('Lỗi thư viện react-native-cli với firebase')
+              }>
               <Image
                 style={{height: 35, width: 35, marginLeft: 40}}
                 source={require('../assets/img-logo/notice.png')}

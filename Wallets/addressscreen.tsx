@@ -87,7 +87,7 @@ const AddressScreen = ({navigation}) => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => Alert.alert('Bạn muốn thay đổi địa chỉ ?')}>
+            onPress={() => navigation.navigate('Choose Address')}>
             <Image
               source={require('../assets/img-logo/Edit.png')}
               style={styles.imgChangeAddress}

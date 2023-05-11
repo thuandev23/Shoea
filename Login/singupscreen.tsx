@@ -13,12 +13,10 @@ import {DataProvider} from '../data/database/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const DangKiScreen = ({navigation}) => {
   const [name, setName] = useState('');
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [CFpassword, setCFPassword] = useState('');
   const [isNameFocused, setIsNameFocused] = useState(false);
-
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isCFPasswordFocused, setIsCFPasswordFocused] = useState(false);
@@ -40,16 +38,6 @@ const DangKiScreen = ({navigation}) => {
   };
   const isEnablelogin = () => {
     return username != '' && password != '';
-  };
-  const saveEmailPass = async () => {
-    try {
-      await AsyncStorage.setItem('NAME', name);
-      await AsyncStorage.setItem('EMAIL', username);
-      await AsyncStorage.setItem('PASSWORD', password);
-      navigation.navigate('Tabs', {ten: name});
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const [error, setError] = useState('');
@@ -79,6 +67,75 @@ const DangKiScreen = ({navigation}) => {
     }
   };
 
+  const isEmailAlreadyRegistered = async email => {
+    try {
+      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+
+      if (existingAccounts !== null) {
+        const accountList = JSON.parse(existingAccounts);
+
+        return accountList.some(account => account.email === email);
+      }
+
+      return false;
+    } catch (e) {
+      console.log('Error checking if email is already registered:', e);
+      return false;
+    }
+  };
+
+  const saveEmailPass = async () => {
+    try {
+      const account = {
+        name: name,
+        email: username,
+        password: password,
+      };
+      const emailAlreadyRegistered = await isEmailAlreadyRegistered(username);
+
+      if (emailAlreadyRegistered) {
+        Alert.alert('Email already registered');
+        return;
+      } else {
+        let accountList = [];
+        const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+        if (existingAccounts !== null) {
+          accountList = JSON.parse(existingAccounts);
+        }
+        accountList.push(account);
+        await AsyncStorage.setItem('ACCOUNTS', JSON.stringify(accountList));
+
+        console.log('Account saved:', account);
+        Alert.alert('Succesfull <3');
+        displayAccounts();
+        navigation.navigate('Tabs');
+      }
+    } catch (e) {
+      console.log('Error saving account:', e);
+    }
+  };
+  const displayAccounts = async () => {
+    try {
+      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+
+      if (existingAccounts !== null) {
+        const accountList = JSON.parse(existingAccounts);
+
+        console.log('Account list:', accountList);
+
+        accountList.forEach(account => {
+          console.log(
+            `Account ${account.name}: ${account.email} / ${account.password}`,
+          );
+          // create a UI representation for each account here
+        });
+      } else {
+        console.log('No accounts found');
+      }
+    } catch (e) {
+      console.log('Error retrieving accounts:', e);
+    }
+  };
   const checkLogin = async () => {
     const email = await AsyncStorage.getItem('EMAIL');
     const pass = await AsyncStorage.getItem('PASSWORD');
@@ -87,9 +144,9 @@ const DangKiScreen = ({navigation}) => {
     if (!isValid) {
       return;
     }
-    Alert.alert('Succesfull <3');
-    // navigation.navigate('Tabs');
     saveEmailPass();
+    // displayAccounts();
+    // navigation.navigate('Tabs');
   };
   return (
     <KeyboardAvoidingView style={styles.container}>

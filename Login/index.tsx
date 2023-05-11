@@ -49,6 +49,12 @@ import Shipping from '../Wallets/shipping';
 import OrderDeliver from '../Others/orderDeliver';
 import LoadingOrder from '../Others/loadingorder';
 import LanguageScreen from '../ProfileSetting/language';
+import AuthLoginScreen from '../ProfileSetting/AuthLogin';
+import ForgotPasswordScreen from './Forgot&ResetPass/ForgotPassword';
+import ResetPasswordScreen from './Forgot&ResetPass/ResetPass';
+import OTPScreen from './Forgot&ResetPass/EnterOTP';
+import ReviewScreen from '../Others/danhgia';
+import EditAddressScreen from '../Wallets/editaddress';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -160,91 +166,116 @@ const IndexComponent = ({navigation}) => {
     // <AllItemScreen />
     // <DiscountItem/>
     // <Loading_headerMain />
+    // <LoadingScreen />
     // <Mainscreen/>
     // <Search/>
     // <Fullname />
     // <WalletScreen/>
+    // <ForgotPasswordScreen />
+    // <OTPScreen />
+    // <ResetPasswordScreen />
     // <TestAPIScreen />
-    <DataProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: '#fff',
-            },
-            headerTintColor: '#000',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerBackTitle: 'Back',
-          }}>
-          <Stack.Screen
-            name="Intro"
-            component={IntroScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="SignIn"
-            component={signinscreen}
-            options={{headerTitle: ''}}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={singupscreen}
-            options={{headerTitle: ''}}
-          />
-          <Stack.Screen
-            name="Name"
-            component={Fullnamescreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Tabs"
-            component={MainTabs}
-            options={{headerShown: false}}
-          />
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerBackTitle: 'Back',
+        }}>
+        <Stack.Screen
+          name="Intro"
+          component={IntroScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignIn"
+          component={signinscreen}
+          options={{headerTitle: ''}}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={singupscreen}
+          options={{headerTitle: ''}}
+        />
+        <Stack.Screen
+          name="Name"
+          component={Fullnamescreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Tabs"
+          component={MainTabs}
+          options={{headerShown: false}}
+        />
 
-          <Stack.Screen name="Mainscreen" component={Mainscreen} />
+        <Stack.Screen name="Mainscreen" component={Mainscreen} />
 
-          <Stack.Screen name="Nike shoe all of here" component={NikeItem} />
-          <Stack.Screen name="Puma shoe all of here" component={PumaItem} />
-          <Stack.Screen name="Adidas shoe all of here" component={AdidasItem} />
-          <Stack.Screen
-            name="Converse shoe all of here"
-            component={ConverseItem}
-          />
-          <Stack.Screen name="Discount of here" component={DiscountItem} />
-          <Stack.Screen name="More" component={MoreItem} />
-          <Stack.Screen name="All" component={AllItemScreen} />
-          <Stack.Screen name="Check out" component={CheckOutScreen} />
-          <Stack.Screen name="Address" component={AddressScreen} />
+        <Stack.Screen name="Nike shoe all of here" component={NikeItem} />
+        <Stack.Screen name="Puma shoe all of here" component={PumaItem} />
+        <Stack.Screen name="Adidas shoe all of here" component={AdidasItem} />
+        <Stack.Screen
+          name="Converse shoe all of here"
+          component={ConverseItem}
+        />
+        <Stack.Screen name="Discount of here" component={DiscountItem} />
+        <Stack.Screen name="More" component={MoreItem} />
+        <Stack.Screen name="All" component={AllItemScreen} />
+        <Stack.Screen name="Check out" component={CheckOutScreen} />
+        <Stack.Screen name="Address" component={AddressScreen} />
 
-          <Stack.Screen name="Edit Profile" component={Editprofile} />
-          <Stack.Screen name="Notification" component={NotificationSetting} />
-          <Stack.Screen name="Security" component={SecuritySetting} />
-          <Stack.Screen
-            name="Privacy Policy"
-            component={PrivacyPolicySetting}
-          />
-          <Stack.Screen name="Help Center" component={HelpSetting} />
-          <Stack.Screen name="Edit Address" component={EditAddress} />
-          <Stack.Screen name="Choose Shipping" component={Shipping} />
-          <Stack.Screen name="Deliver" component={OrderDeliver} />
-          <Stack.Screen
-            name="LoadingOrderScreen"
-            component={LoadingOrder}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name="Language" component={LanguageScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </DataProvider>
+        <Stack.Screen name="Edit Profile" component={Editprofile} />
+        <Stack.Screen name="Notification" component={NotificationSetting} />
+        <Stack.Screen name="Security" component={SecuritySetting} />
+        <Stack.Screen name="Privacy Policy" component={PrivacyPolicySetting} />
+        <Stack.Screen name="Help Center" component={HelpSetting} />
+        <Stack.Screen name="Edit Address" component={EditAddress} />
+        <Stack.Screen name="Choose Shipping" component={Shipping} />
+        <Stack.Screen name="Deliver" component={OrderDeliver} />
+        <Stack.Screen
+          name="LoadingOrderScreen"
+          component={LoadingOrder}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name="Language" component={LanguageScreen} />
+        <Stack.Screen name="Manager Accout" component={AuthLoginScreen} />
+        <Stack.Screen
+          name="Forgot"
+          component={ForgotPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Reset"
+          component={ResetPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OTP"
+          component={OTPScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Evaluate"
+          component={ReviewScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Choose Address"
+          component={EditAddressScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

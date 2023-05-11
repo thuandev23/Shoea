@@ -1,137 +1,231 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+const width_screen = Dimensions.get('window').width;
 
-export default function WalletScreen() {
+const card_item = width_screen - 24 * 2;
+
+const card_size = {
+  width: 325,
+  height: 196,
+};
+const listTransations = [
+  {
+    type: 'Spotify',
+    icon: require('../assets/img-logo/ic_spotify.png'),
+    date: 'Jun 12, 12:30',
+    payment: '+ $12',
+  },
+  {
+    type: 'Paypal',
+    icon: require('../assets/img-logo/ic_paypal.png'),
+    date: 'Jun 12, 12:30',
+    payment: '+ $12',
+  },
+  {
+    type: 'Dribble',
+    icon: require('../assets/img-logo/ic_dribble.png'),
+    date: 'Jun 12, 12:30',
+    payment: '+ $14',
+  },
+];
+
+const renderTransactionItem = item => (
+  <View key={item.type} style={styles.items}>
+    <View style={styles.icon}>
+      <Image source={item.icon} />
+    </View>
+    <View style={styles.itemBody}>
+      <Text style={styles.type}>{item.type}</Text>
+      <Text style={styles.date}>{item.date}</Text>
+    </View>
+    <View>
+      <Text style={styles.payment}>{item.payment}</Text>
+    </View>
+  </View>
+);
+const listService = [
+  {
+    name: 'Wallet',
+    icon: require('../assets/img-logo/ic_wallet.png'),
+  },
+  {
+    name: 'Transfer',
+    icon: require('../assets/img-logo/ic_transfer.png'),
+  },
+  {
+    name: '   Pay',
+    icon: require('../assets/img-logo/ic_pay.png'),
+  },
+  {
+    name: 'Top Up',
+    icon: require('../assets/img-logo/ic_topup.png'),
+  },
+];
+const renderServiceItem = item => {
+  return (
+    <View key={item.name} style={styles.items}>
+      <View style={styles.icon}>
+        <Image source={item.icon} />
+      </View>
+      <Text style={styles.itemText}>{item.name}</Text>
+    </View>
+  );
+};
+const WalletScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>My Wallet</Text>
-        <TouchableOpacity style={styles.addBtn}>
-          <Image
-            source={require('../assets/img-logo/plus.png')}
-            style={{height: 30, width: 30}}
-          />
-        </TouchableOpacity>
+      <View style={styles.viewHeaderCart}>
+        <Image
+          source={require('../assets/img-logo/logo.jpg')}
+          style={styles.imagelogo}
+        />
+        <Text
+          style={{fontSize: 30, color: 'black', marginLeft: 20, marginTop: 15}}>
+          My Wallet
+        </Text>
       </View>
-      <View style={styles.balanceContainer}>
-        <Text style={styles.balanceTitle}>Current Balance</Text>
-        <Text style={styles.balanceAmount}>$2,500.00</Text>
+      <ImageBackground
+        source={require('../assets/img-logo/card_visa_bg.png')}
+        style={styles.card}>
+        <View style={styles.cardIcon}>
+          <Image source={require('../assets/img-logo/card_icon.png')} />
+        </View>
+        <View style={styles.cardNumber}>
+          <Text style={styles.cardNumberText}>{`1234 5678 1234 5678`}</Text>
+        </View>
+        <View style={styles.cardFooter}>
+          <View>
+            <Text style={styles.cardHolderName}>Card holder</Text>
+            <Text style={styles.cardName}>Nguyen Van A</Text>
+          </View>
+          <Image source={require('../assets/img-logo/visa_text.png')} />
+        </View>
+      </ImageBackground>
+      <View>
+        <Text style={styles.title1}>Service</Text>
+        <View style={styles.list1}>{listService.map(renderServiceItem)}</View>
       </View>
-      <View style={styles.transactionsContainer}>
-        <Text style={styles.transactionsTitle}>Recent Transactions</Text>
-        <View style={styles.transaction}>
-          <Image
-            style={styles.transactionIcon}
-            source={require('../assets/img-logo/card.png')}
-          />
-          <View>
-            <Text style={styles.transactionTitle}>Payment Received</Text>
-            <Text style={styles.transactionAmount}>$500.00</Text>
-            <Text style={styles.transactionDate}>Apr 26, 2023</Text>
-          </View>
-        </View>
-        <View style={styles.transaction}>
-          <Image
-            style={styles.transactionIcon}
-            source={require('../assets/img-logo/card1.png')}
-          />
-          <View>
-            <Text style={styles.transactionTitle}>Online Purchase</Text>
-            <Text style={styles.transactionAmount}>-$100.00</Text>
-            <Text style={styles.transactionDate}>Apr 25, 2023</Text>
-          </View>
-        </View>
-        <View style={styles.transaction}>
-          <Image
-            style={styles.transactionIcon}
-            source={require('../assets/img-logo/card2.png')}
-          />
-          <View>
-            <Text style={styles.transactionTitle}>Payment Sent</Text>
-            <Text style={styles.transactionAmount}>-$200.00</Text>
-            <Text style={styles.transactionDate}>Apr 24, 2023</Text>
-          </View>
-        </View>
+      <Text style={styles.title}>Recent Transaction</Text>
+      <View style={styles.list}>
+        {listTransations.map(renderTransactionItem)}
       </View>
     </View>
   );
-}
+};
+
+export default WalletScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  viewHeaderCart: {
+    height: 80,
+    width: '100%',
+    flexDirection: 'row',
+  },
+  imagelogo: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    marginTop: 15,
+    marginLeft: 5,
+  },
+  card: {
+    width: card_item,
+    height: (card_item * card_size.height) / card_size.width,
+    padding: 24,
+    marginLeft: '5%',
+  },
+  cardNumber: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
+  cardNumberText: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: '600',
   },
-  headerText: {
-    fontSize: 30,
-    color: 'black',
-    marginLeft: 15,
-    padding: 5,
+  cardHolderName: {
+    color: 'rgba(255,255,255,0.4)',
   },
-  addBtn: {
-    backgroundColor: '#1e90ff',
-    padding: 8,
-    borderRadius: 20,
-  },
-  balanceContainer: {
-    backgroundColor: '#ffffff',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
-  },
-  balanceTitle: {
-    fontSize: 16,
-    color: '#333333',
-    marginBottom: 10,
-  },
-  balanceAmount: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1e90ff',
-  },
-  transactionsContainer: {
-    backgroundColor: '#ffffff',
-    padding: 20,
-  },
-  transactionsTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginBottom: 10,
-  },
-  transaction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  transactionIcon: {
-    width: 40,
-    height: 40,
-    marginRight: 10,
-  },
-  transactionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333333',
-  },
-  transactionAmount: {
+  cardName: {
+    color: 'white',
     fontSize: 14,
-    color: '#1e90ff',
   },
-  transactionDate: {
-    fontSize: 12,
-    color: '#999999',
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    margin: 10,
+    marginTop: 30,
+  },
+  container: {
+    backgroundColor: '#F2FCF1',
+  },
+  items: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  icon: {
+    padding: 10,
+    backgroundColor: 'white',
+    width: 60,
+    height: 60,
+    shadowColor: '#000',
+    shadowOffset: {height: 10, width: 2},
+    shadowOpacity: 0.7,
+    shadowRadius: 80,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  itemBody: {
+    flex: 1,
+    paddingLeft: 14,
+  },
+
+  type: {
+    fontWeight: '500',
+    fontSize: 16,
+  },
+
+  date: {
+    marginTop: 5,
+  },
+
+  payment: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginRight: 40,
+  },
+  title1: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    margin: 10,
+  },
+  list1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  itemText: {
+    position: 'absolute',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 60,
+    fontWeight: '500',
+    marginLeft: 10,
   },
 });

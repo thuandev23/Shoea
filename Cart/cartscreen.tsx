@@ -16,7 +16,6 @@ import {
   incrementQuantity,
   removeFromCart,
 } from './cartReducer';
-
 const CartScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart.cart);
@@ -56,6 +55,7 @@ const CartScreen = ({navigation}) => {
       <View style={styles.viewProduct}>
         <Text style={styles.textProduct}>{item.text}</Text>
         <Image source={{uri: item.image}} style={styles.imageProduct} />
+        <Text style={styles.typeProduct}>Type:{item.type_ID}</Text>
         <Text style={styles.moneyProduct}>$ {item.money}</Text>
         <View style={styles.viewIncreDecreDelete}>
           <View style={styles.IncreDecre}>
@@ -89,14 +89,15 @@ const CartScreen = ({navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: 'white', flex: 1}}>
+    <View style={{backgroundColor: '#F2FCF1', flex: 1}}>
       {/* header_cart */}
       <View style={styles.viewHeaderCart}>
-        <Text style={{fontSize: 30, color: 'black'}}>
-          <Image
-            source={require('../assets/img-logo/logo.jpg')}
-            style={styles.imagelogo}
-          />
+        <Image
+          source={require('../assets/img-logo/logo.jpg')}
+          style={styles.imagelogo}
+        />
+        <Text
+          style={{fontSize: 30, color: 'black', marginLeft: 20, marginTop: 15}}>
           My Cart
         </Text>
         {/* Thêm chức năng sắp xếp theo tên tăng giảm, giá tiền tăng giảm */}
@@ -192,13 +193,21 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 20,
   },
+  typeProduct: {
+    position: 'absolute',
+    fontSize: 17,
+    color: 'black',
+    marginLeft: 110,
+    width: '70%',
+    marginTop: 55,
+  },
   moneyProduct: {
     position: 'absolute',
     fontSize: 17,
     color: 'black',
     marginLeft: 110,
     width: '70%',
-    marginTop: 70,
+    marginTop: 80,
   },
   viewIncreDecreDelete: {
     flexDirection: 'row',
@@ -214,6 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2343',
     flexDirection: 'row',
     marginLeft: 10,
+    marginTop: 13,
   },
   btnIncreDecre: {
     fontSize: 25,
@@ -224,6 +234,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     marginLeft: 20,
+    marginTop: 8,
   },
   viewHeaderCart: {
     height: 80,
@@ -234,11 +245,13 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
+    marginTop: 15,
+    marginLeft: 5,
   },
   imageSearch: {
     height: 30,
     width: 30,
-    marginLeft: 210,
+    marginLeft: 180,
     marginTop: 25,
   },
   viewItem: {

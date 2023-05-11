@@ -88,20 +88,31 @@ const ProfileScreen = ({navigation}) => {
   };
   const [ten, setTen] = useState('');
   const [newName, setNewName] = useState('');
+  const [admin, setAdmin] = useState('');
 
   useEffect(() => {
-    getData();
+    getAccountInfo();
     // getName();
   }, []);
-  const getData = async () => {
-    const email = await AsyncStorage.getItem('EMAIL');
-    const pass = await AsyncStorage.getItem('PASSWORD');
-    // console.log(email + ' ' + pass);
-
-    const ten = await AsyncStorage.getItem('NAME');
-    // console.log('Name:' + ten);
-    setTen(ten); // cập nhật giá trị cho state
+  const getAccountInfo = async () => {
+    try {
+      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+      if (existingAccounts !== null) {
+        const accountList = JSON.parse(existingAccounts);
+        const currentUserEmail = await AsyncStorage.getItem('EMAIL');
+        const matchingAccount = accountList.find(account => {
+          return account.email === currentUserEmail;
+        });
+        if (matchingAccount) {
+          setTen(matchingAccount.name);
+          setAdmin(matchingAccount.email);
+        }
+      }
+    } catch (e) {
+      console.log('Error getting accounts:', e);
+    }
   };
+
   const saveProfile = async () => {
     try {
       await AsyncStorage.setItem('NAME', newName);
@@ -110,7 +121,6 @@ const ProfileScreen = ({navigation}) => {
       console.log(error);
     }
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.viewHeaderCart}>
@@ -119,8 +129,28 @@ const ProfileScreen = ({navigation}) => {
           style={styles.imagelogo}
         />
         <Text style={styles.title}>Setting</Text>
-      </View>
 
+        {admin === 'admin' ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Manager Accout')}>
+            <Image
+              source={require('../assets/img-logo/project-management.png')}
+              style={styles.imgManage}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() =>
+              Alert.alert("You aren't Admin, so you Manager Account !")
+            }>
+            <Image
+              source={require('../assets/img-logo/project-management.png')}
+              style={styles.imgManage}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      {/* Lỗi khi resart thì ảnh sẽ mất quay về ảnh mặt định -> chưa fix */}
       <View style={styles.avatarChange}>
         <Image
           style={styles.avatar}
@@ -136,7 +166,7 @@ const ProfileScreen = ({navigation}) => {
             source={require('../assets/img-logo/pencil-image.png')}
           />
         </TouchableOpacity>
-        <Text style={styles.textavatar}>{ten || 'Bạn biết gì chưa ?'}</Text>
+        <Text style={styles.textavatar}>{ten || admin}</Text>
       </View>
 
       <FlatList
@@ -185,7 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#ffffffc9',
+    backgroundColor: '#F2FCF1',
   },
   viewHeaderCart: {
     padding: 10,
@@ -197,6 +227,12 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
+  },
+  imgManage: {
+    height: 40,
+    width: 40,
+    marginLeft: '60%',
+    marginTop: 5,
   },
   title: {
     fontSize: 30,
