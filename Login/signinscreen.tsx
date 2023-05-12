@@ -98,29 +98,29 @@ const DangNhapScreen = ({navigation}) => {
         }
         await AsyncStorage.setItem('ACCOUNTS', JSON.stringify(accountList));
         Alert.alert('Login successful');
-        navigation.navigate('Tabs');
+        navigation.navigate('Tabs', {name: 'Admin'});
         // console.log(accountList);
         return;
-      }
-
-      // Check if the account exists
-      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-      if (existingAccounts !== null) {
-        const accountList = JSON.parse(existingAccounts);
-
-        const matchingAccount = accountList.find(account => {
-          return account.email === email && account.password === pass;
-        });
-
-        if (matchingAccount) {
-          await AsyncStorage.setItem('EMAIL', matchingAccount.email);
-          Alert.alert('Login successful');
-          navigation.navigate('Tabs');
-        } else {
-          Alert.alert('Wait a minute', 'Invalid email or password');
-        }
       } else {
-        Alert.alert('Wait a minute', 'No accounts found');
+        // Check if the account exists
+        const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+        if (existingAccounts !== null) {
+          const accountList = JSON.parse(existingAccounts);
+
+          const matchingAccount = accountList.find(account => {
+            return account.email === email && account.password === pass;
+          });
+
+          if (matchingAccount) {
+            await AsyncStorage.setItem('EMAIL', matchingAccount.email);
+            Alert.alert('Login successful');
+            navigation.navigate('Tabs', {name: 'Admin'});
+          } else {
+            Alert.alert('Wait a minute', 'Invalid email or password');
+          }
+        } else {
+          Alert.alert('Wait a minute', 'No accounts found');
+        }
       }
     } catch (e) {
       console.log('Wait a minute', 'Error checking login:', e);

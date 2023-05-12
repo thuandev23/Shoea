@@ -19,8 +19,22 @@ const AccountListScreen = () => {
   });
   useEffect(() => {
     // getData();
-    // displayAccounts();
+    fetchAccounts();
   }, []);
+
+  const fetchAccounts = async () => {
+    try {
+      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
+      if (existingAccounts !== null) {
+        const accountList = JSON.parse(existingAccounts);
+        setAccountList(accountList);
+      } else {
+        console.log('No accounts found');
+      }
+    } catch (e) {
+      console.log('Error retrieving accounts:', e);
+    }
+  };
   const getData = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -44,29 +58,6 @@ const AccountListScreen = () => {
       console.error(error);
     }
   };
-
-  const displayAccounts = async () => {
-    try {
-      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-
-      if (existingAccounts !== null) {
-        const accountList = JSON.parse(existingAccounts);
-        // console.log('Account list:', accountList);
-        accountList.forEach(account => {
-          console.log(
-            `Account ${account.name}: ${account.email} / ${account.password}`,
-          );
-          // create a UI representation for each account here
-        });
-      } else {
-        console.log('No accounts found');
-      }
-    } catch (e) {
-      console.log('Error retrieving accounts:', e);
-    }
-  };
-  console.log(displayAccounts());
-
   const handleDeleteAccount = async key => {
     try {
       await AsyncStorage.removeItem(key);
@@ -117,8 +108,14 @@ const AccountListScreen = () => {
         const key = `${name}-${Date.now()}`;
         await AsyncStorage.setItem(key, JSON.stringify(newAccount));
         Alert.alert('Success', 'Account added successfully!');
+        const newAccountItem = {
+          key: key,
+          name: name,
+          email: email,
+          password: password,
+        };
+        setAccountList(prevState => [...prevState, newAccountItem]);
         setNewAccount({name: '', email: '', password: ''});
-        getData();
       } catch (e) {
         console.log(e);
         Alert.alert('Error', 'Failed to add account!');

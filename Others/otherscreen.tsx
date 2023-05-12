@@ -142,7 +142,7 @@ const Otherscreen = ({navigation}) => {
             onPress={closeModal}
             style={{paddingTop: 40, backgroundColor: '#2342'}}>
             <Image
-              source={require('../assets/img-logo/logo.jpg')}
+              source={require('../assets/img-logo/checkerror.png')}
               style={styles.close}
             />
           </TouchableOpacity>

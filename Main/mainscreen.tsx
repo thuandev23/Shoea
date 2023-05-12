@@ -26,20 +26,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
 
-//  Search
-const DATA = [
-  {id: '1', name: 'Apple'},
-  {id: '2', name: 'Banana'},
-  {id: '3', name: 'Cherry'},
-  {id: '4', name: 'Durian'},
-  {id: '5', name: 'Elderberry'},
-  {id: '6', name: 'Fig'},
-  {id: '7', name: 'Grape'},
-  {id: '8', name: 'Honeydew'},
-  {id: '9', name: 'Jackfruit'},
-  {id: '10', name: 'Kiwi'},
-];
-
 const Mainscreen = ({navigation}) => {
   const [selected, setSelected] = useState(0);
 
@@ -52,23 +38,6 @@ const Mainscreen = ({navigation}) => {
   const handleSeeClick = () => {
     setIsClicked(true);
   };
-
-  const [searchText, setSearchText] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const handleSearch = text => {
-    setSearchText(text);
-    const results = DATA.filter(item =>
-      item.name.toLowerCase().includes(text.toLowerCase()),
-    );
-    setSearchResults(results);
-  };
-  const renderItem = ({item}) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => console.log('Navigate to', item.name)}>
-      <Text style={{fontSize: 25, color: 'black'}}>{item.name}</Text>
-    </TouchableOpacity>
-  );
 
   // Get avatar
   // Get name
@@ -109,7 +78,7 @@ const Mainscreen = ({navigation}) => {
           />
 
           <Text style={styles.headerText}>Wellcome Back</Text>
-          <Text style={styles.headerName}>{ten}</Text>
+          <Text style={styles.headerName}>{ten || 'Admin'}</Text>
           <View style={styles.headerImage}>
             <TouchableOpacity
               onPress={() =>
@@ -126,27 +95,16 @@ const Mainscreen = ({navigation}) => {
 
         {/* Search */}
         <View style={styles.search}>
-          <Image
-            style={styles.btnSearch}
-            source={require('../assets/img-logo/search_icon.png')}
-            resizeMode="cover"
-          />
-          <TextInput
-            style={styles.inputSearch}
-            placeholder="Enter a keyworld u want search"
-            onChangeText={handleSearch}
-            value={searchText}
-          />
-          {/* Sửa lỗi hiện lên */}
-          {searchText.length > 0 && (
-            <View style={styles.search_flastlish}>
-              <FlatList
-                data={searchResults}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-              />
-            </View>
-          )}
+          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+            <Image
+              style={styles.btnSearch}
+              source={require('../assets/img-logo/search_icon.png')}
+              resizeMode="cover"
+            />
+            <Text style={{margin: 12, fontSize: 18, marginLeft: 50}}>
+              Click here to Search
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.headerSlider}>
           <Text style={styles.textSlider1}>Special Offers</Text>
@@ -365,11 +323,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 15,
   },
-  itemContainer: {
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
+
   btnSearch: {
     // margin:15,
     height: 20,
@@ -379,19 +333,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     aspectRatio: 1,
   },
-  inputSearch: {
-    marginLeft: 40,
-    fontSize: 18,
-  },
-  search_flastlish: {
-    position: 'absolute',
-    flex: 1,
-    zIndex: 999,
-    backgroundColor: 'green',
-    width: '100%',
-    top: 50,
-    borderRadius: 10,
-  },
+
   slider: {
     height: 180,
     width: '93%',

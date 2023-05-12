@@ -108,7 +108,8 @@ const DangKiScreen = ({navigation}) => {
         console.log('Account saved:', account);
         Alert.alert('Succesfull <3');
         displayAccounts();
-        navigation.navigate('Tabs');
+        // navigation.navigate('Tabs');
+        navigation.navigate('SignIn');
       }
     } catch (e) {
       console.log('Error saving account:', e);

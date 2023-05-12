@@ -55,6 +55,7 @@ import ResetPasswordScreen from './Forgot&ResetPass/ResetPass';
 import OTPScreen from './Forgot&ResetPass/EnterOTP';
 import ReviewScreen from '../Others/danhgia';
 import EditAddressScreen from '../Wallets/editaddress';
+import SearchItem from '../Loading/searchItem';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -175,6 +176,7 @@ const IndexComponent = ({navigation}) => {
     // <OTPScreen />
     // <ResetPasswordScreen />
     // <TestAPIScreen />
+    // <SearchItem />
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -274,6 +276,7 @@ const IndexComponent = ({navigation}) => {
           component={EditAddressScreen}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="Search" component={SearchItem} />
       </Stack.Navigator>
     </NavigationContainer>
   );

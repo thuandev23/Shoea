@@ -75,7 +75,7 @@ const ProfileScreen = ({navigation}) => {
 
       cropping: true,
     }).then(image => {
-      console.log(image);
+      // console.log(image);
       setProfileImage(image.path);
     });
   };
@@ -89,7 +89,6 @@ const ProfileScreen = ({navigation}) => {
   const [ten, setTen] = useState('');
   const [newName, setNewName] = useState('');
   const [admin, setAdmin] = useState('');
-
   useEffect(() => {
     getAccountInfo();
     // getName();
@@ -105,7 +104,7 @@ const ProfileScreen = ({navigation}) => {
         });
         if (matchingAccount) {
           setTen(matchingAccount.name);
-          setAdmin(matchingAccount.email);
+          setAdmin(matchingAccount.name);
         }
       }
     } catch (e) {
@@ -130,7 +129,7 @@ const ProfileScreen = ({navigation}) => {
         />
         <Text style={styles.title}>Setting</Text>
 
-        {admin === 'admin' ? (
+        {ten === admin ? (
           <TouchableOpacity
             onPress={() => navigation.navigate('Manager Accout')}>
             <Image
@@ -166,7 +165,7 @@ const ProfileScreen = ({navigation}) => {
             source={require('../assets/img-logo/pencil-image.png')}
           />
         </TouchableOpacity>
-        <Text style={styles.textavatar}>{ten || admin}</Text>
+        <Text style={styles.textavatar}>{ten || 'Admin'}</Text>
       </View>
 
       <FlatList
