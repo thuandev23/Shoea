@@ -1,7 +1,15 @@
-import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Dimensions,
+} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const Loading_headerMain = () => {
   return (
     <View>
@@ -37,8 +45,9 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'cover',
   },
+
   text: {
-    marginTop: '120%',
+    marginTop: height * 0.5,
     marginLeft: 30,
   },
   icon: {

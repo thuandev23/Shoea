@@ -35,6 +35,7 @@ const AccountListScreen = () => {
       console.log('Error retrieving accounts:', e);
     }
   };
+  // console.log('List acc fetch' + fetchAccounts());
   const getData = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -58,9 +59,16 @@ const AccountListScreen = () => {
       console.error(error);
     }
   };
-  const handleDeleteAccount = async key => {
+  // console.log('List acc data' + getData());
+
+  const handleDeleteAccount = async id => {
     try {
-      await AsyncStorage.removeItem(key);
+      const accounts = await AsyncStorage.getItem('ACCOUNTS');
+      const parsedAccounts = JSON.parse(accounts);
+      const updatedAccounts = parsedAccounts.filter(
+        account => account.id !== id,
+      );
+      await AsyncStorage.setItem('ACCOUNTS', JSON.stringify(updatedAccounts));
       Alert.alert('Success', 'Account deleted successfully!');
       getData();
     } catch (e) {
@@ -71,7 +79,7 @@ const AccountListScreen = () => {
 
   const handleDeleteAllAccounts = async () => {
     try {
-      await AsyncStorage.clear();
+      await AsyncStorage.removeItem('ACCOUNTS');
       Alert.alert('Success', 'All accounts deleted successfully!');
       getData();
     } catch (e) {
@@ -105,16 +113,16 @@ const AccountListScreen = () => {
 
     if (isFormValid) {
       try {
-        const key = `${name}-${Date.now()}`;
-        await AsyncStorage.setItem(key, JSON.stringify(newAccount));
+        const accounts = await AsyncStorage.getItem('ACCOUNTS');
+        const parsedAccounts = JSON.parse(accounts);
+        const id = Date.now().toString();
+        const newAccountItem = {id, name, email, password};
+        const updatedAccounts = parsedAccounts
+          ? [...parsedAccounts, newAccountItem]
+          : [newAccountItem];
+        await AsyncStorage.setItem('ACCOUNTS', JSON.stringify(updatedAccounts));
         Alert.alert('Success', 'Account added successfully!');
-        const newAccountItem = {
-          key: key,
-          name: name,
-          email: email,
-          password: password,
-        };
-        setAccountList(prevState => [...prevState, newAccountItem]);
+        setAccountList(updatedAccounts);
         setNewAccount({name: '', email: '', password: ''});
       } catch (e) {
         console.log(e);
@@ -161,7 +169,7 @@ const AccountListScreen = () => {
           <Text style={[styles.tableCell, styles.headerCell]}>Action</Text>
         </View>
         {accountList.map((account, index) => (
-          <View key={account.key} style={styles.tableRow}>
+          <View key={account.email} style={styles.tableRow}>
             <Text style={[styles.tableCell, styles.tableName]}>
               {account.name}
             </Text>
@@ -171,7 +179,8 @@ const AccountListScreen = () => {
             <Text style={[styles.tableCell, styles.tablePass]}>
               {account.password}
             </Text>
-            <TouchableOpacity onPress={() => handleDeleteAccount(account.key)}>
+            <TouchableOpacity
+              onPress={() => handleDeleteAccount(account.email)}>
               <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
           </View>

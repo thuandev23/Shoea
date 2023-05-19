@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "194959080030",
+    "project_id": "shoea-firebase",
+    "storage_bucket": "shoea-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194959080030:android:e354cff7a268a4c3d892cf",
+        "android_client_info": {
+          "package_name": "com.shoea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194959080030-ntplm1tp00941dinv3iqks6n3rlrc0jv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwWNqS9t9WEV7aQJGxvzKtE52gkTg2XyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194959080030-ntplm1tp00941dinv3iqks6n3rlrc0jv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

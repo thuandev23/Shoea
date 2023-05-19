@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,23 +13,27 @@ import RNRestart from 'react-native-restart';
 const Editprofile = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-
-  const handleSave = () => {
-    // Update the user's profile information in the backend
-
-    Alert.alert('Profile saved successfully.');
-    navigation.navigate('Profile', {name: newName});
-  };
   const [newName, setNewName] = useState('');
 
-  const saveProfile = async () => {
+  const updateUser = async () => {
     try {
-      await AsyncStorage.setItem('NAME', newName);
+      // Get the user's information from AsyncStorage
+      const userInfo = await AsyncStorage.getItem('NAME');
+      const parsedUserInfo = JSON.parse(userInfo);
+
+      // Update the user's name in the parsedUserInfo object
+      parsedUserInfo.name = newName;
+
+      // Store the updated user information in AsyncStorage
+      await AsyncStorage.setItem('NAME', JSON.stringify(parsedUserInfo));
       setNewName(newName);
+      // Show an alert to the user
+      Alert.alert('Thông báo', 'Cập nhật tên thành công!');
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Name</Text>
@@ -39,7 +43,6 @@ const Editprofile = ({navigation}) => {
         onChangeText={text => setNewName(text)}
         placeholder="Enter your new name"
       />
-
       <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
@@ -59,8 +62,7 @@ const Editprofile = ({navigation}) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          saveProfile();
-          // navigation.navigate('Setting');
+          updateUser();
           Alert.alert(
             'Thông báo',
             'Bạn có muốn khởi động lại ứng dụng để cập nhật tên người dùng không?',

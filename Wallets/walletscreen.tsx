@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -83,41 +84,48 @@ const renderServiceItem = item => {
 const WalletScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.viewHeaderCart}>
-        <Image
-          source={require('../assets/img-logo/logo.jpg')}
-          style={styles.imagelogo}
-        />
-        <Text
-          style={{fontSize: 30, color: 'black', marginLeft: 20, marginTop: 15}}>
-          My Wallet
-        </Text>
-      </View>
-      <ImageBackground
-        source={require('../assets/img-logo/card_visa_bg.png')}
-        style={styles.card}>
-        <View style={styles.cardIcon}>
-          <Image source={require('../assets/img-logo/card_icon.png')} />
+      <ScrollView>
+        <View style={styles.viewHeaderCart}>
+          <Image
+            source={require('../assets/img-logo/logo.jpg')}
+            style={styles.imagelogo}
+          />
+          <Text
+            style={{
+              fontSize: 30,
+              color: 'black',
+              marginLeft: 20,
+              marginTop: 15,
+            }}>
+            My Wallet
+          </Text>
         </View>
-        <View style={styles.cardNumber}>
-          <Text style={styles.cardNumberText}>{`1234 5678 1234 5678`}</Text>
-        </View>
-        <View style={styles.cardFooter}>
-          <View>
-            <Text style={styles.cardHolderName}>Card holder</Text>
-            <Text style={styles.cardName}>Nguyen Van A</Text>
+        <ImageBackground
+          source={require('../assets/img-logo/card_visa_bg.png')}
+          style={styles.card}>
+          <View style={styles.cardIcon}>
+            <Image source={require('../assets/img-logo/card_icon.png')} />
           </View>
-          <Image source={require('../assets/img-logo/visa_text.png')} />
+          <View style={styles.cardNumber}>
+            <Text style={styles.cardNumberText}>{`1234 5678 1234 5678`}</Text>
+          </View>
+          <View style={styles.cardFooter}>
+            <View>
+              <Text style={styles.cardHolderName}>Card holder</Text>
+              <Text style={styles.cardName}>Nguyen Van A</Text>
+            </View>
+            <Image source={require('../assets/img-logo/visa_text.png')} />
+          </View>
+        </ImageBackground>
+        <View>
+          <Text style={styles.title1}>Service</Text>
+          <View style={styles.list1}>{listService.map(renderServiceItem)}</View>
         </View>
-      </ImageBackground>
-      <View>
-        <Text style={styles.title1}>Service</Text>
-        <View style={styles.list1}>{listService.map(renderServiceItem)}</View>
-      </View>
-      <Text style={styles.title}>Recent Transaction</Text>
-      <View style={styles.list}>
-        {listTransations.map(renderTransactionItem)}
-      </View>
+        <Text style={styles.title}>Recent Transaction</Text>
+        <View style={styles.list}>
+          {listTransations.map(renderTransactionItem)}
+        </View>
+      </ScrollView>
     </View>
   );
 };

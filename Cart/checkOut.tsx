@@ -7,11 +7,13 @@ import {
   Image,
   FlatList,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
-
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const CheckOutScreen = ({navigation}) => {
   const cart = useSelector(state => state.cart.cart);
   const totalPrice = cart.reduce(
@@ -22,8 +24,7 @@ const CheckOutScreen = ({navigation}) => {
   const route = useRoute();
   const addressname = route.params?.address.name;
   const addressaddress = route.params?.address.address;
-  // const shipname = route.params?.ship.nameship;
-  // console.log(shipname);
+
   return (
     <View style={styles.container}>
       <ScrollView>

@@ -6,16 +6,21 @@ import {
   TouchableHighlight,
   Alert,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import Loading_headerMain from '../Loading/loadingscreen';
-import {useNavigation} from '@react-navigation/native';
-import DangNhapScreen from './signinscreen';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const LoginScreen = ({navigation}) => {
   const [showLoading, setShowLoading] = useState(true);
-
+  const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
     setTimeout(() => {
       setShowLoading(false);
@@ -23,6 +28,14 @@ const LoginScreen = ({navigation}) => {
     }, 5000);
   }, []);
 
+  // Login Google
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '194959080030-tpf7c0cddht801f5av37pt3c05htkbk9.apps.googleusercontent.com',
+    });
+  });
+  const signIn = async () => {};
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       {showLoading ? (
@@ -49,7 +62,7 @@ const LoginScreen = ({navigation}) => {
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="#F94444cf"
-            onPress={() => Alert.alert('Zô Google')}
+            onPress={() => signIn()}
             style={styles.touchable}>
             <View>
               <Image
@@ -88,7 +101,7 @@ const LoginScreen = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
+    marginTop: height * 0.05,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -101,7 +114,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 50,
     fontWeight: 'bold',
-    marginTop: 65,
+    marginTop: height * 0.01,
     color: 'black',
   },
   touchable: {

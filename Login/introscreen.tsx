@@ -6,10 +6,12 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions,
 } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import LoginScreen from './loginscreen';
-
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 // constants
 const slides = [
   {
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   img_intro: {
-    height: 500,
+    height: height * 0.6,
     width: '100%',
     marginBottom: 20,
     resizeMode: 'cover',

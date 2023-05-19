@@ -8,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +17,9 @@ import {
   incrementQuantity,
   removeFromCart,
 } from './cartReducer';
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 const CartScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart.cart);
@@ -135,26 +139,28 @@ const CartScreen = ({navigation}) => {
       <View style={styles.viewCheckOut}>
         <Text
           style={{
+            position: 'absolute',
             fontSize: 20,
             color: 'black',
-            paddingLeft: 20,
-            paddingTop: 20,
+            paddingLeft: width * 0.03,
+            paddingTop: height * 0.007,
           }}>
           Total Price:
         </Text>
         <Text
           style={{
+            position: 'absolute',
             fontSize: 30,
             color: 'black',
-            paddingLeft: 20,
-            paddingTop: 5,
+            paddingLeft: width * 0.03,
+            paddingTop: height * 0.04,
           }}>
           $ {totalPrice}
         </Text>
         <TouchableOpacity
           style={styles.btnCheckOut}
           onPress={() => navigation.navigate('Check out')}>
-          <Text style={{fontSize: 30, color: 'white'}}>Check Out</Text>
+          <Text style={{fontSize: 25, color: 'white'}}>Check Out</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -262,22 +268,23 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   viewCheckOut: {
-    height: 95,
+    position: 'absolute',
+    height: height * 0.12,
     width: '100%',
-    marginTop: 566,
+    marginTop: height * 0.78,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: '#2341',
   },
   btnCheckOut: {
     position: 'absolute',
-    marginLeft: 200,
+    marginLeft: width * 0.55,
     padding: 5,
     paddingLeft: 25,
     paddingRight: 25,
     borderRadius: 30,
     backgroundColor: 'black',
-    marginTop: 30,
+    marginTop: height * 0.02,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

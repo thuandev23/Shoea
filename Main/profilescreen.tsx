@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -12,7 +11,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
-
+import auth from '@react-native-firebase/auth';
 const menuItems = [
   {
     title: 'Edit Profile',
@@ -89,36 +88,15 @@ const ProfileScreen = ({navigation}) => {
   const [ten, setTen] = useState('');
   const [newName, setNewName] = useState('');
   const [admin, setAdmin] = useState('');
-  useEffect(() => {
-    getAccountInfo();
-    // getName();
-  }, []);
-  const getAccountInfo = async () => {
-    try {
-      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-      if (existingAccounts !== null) {
-        const accountList = JSON.parse(existingAccounts);
-        const currentUserEmail = await AsyncStorage.getItem('EMAIL');
-        const matchingAccount = accountList.find(account => {
-          return account.email === currentUserEmail;
-        });
-        if (matchingAccount) {
-          setTen(matchingAccount.name);
-          setAdmin(matchingAccount.name);
-        }
-      }
-    } catch (e) {
-      console.log('Error getting accounts:', e);
-    }
-  };
 
-  const saveProfile = async () => {
-    try {
-      await AsyncStorage.setItem('NAME', newName);
-      setTen(newName); // Cập nhật lại giá trị của biến "ten" với giá trị mới vừa được lưu
-    } catch (error) {
-      console.log(error);
-    }
+  const user = auth().currentUser;
+  const nameuser = user?.email?.split('@')[0];
+
+  const dangxuat = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+    navigation.navigate('Login');
   };
   return (
     <View style={styles.container}>
@@ -129,7 +107,7 @@ const ProfileScreen = ({navigation}) => {
         />
         <Text style={styles.title}>Setting</Text>
 
-        {ten === admin ? (
+        {ten === 'Admin' ? (
           <TouchableOpacity
             onPress={() => navigation.navigate('Manager Accout')}>
             <Image
@@ -165,7 +143,7 @@ const ProfileScreen = ({navigation}) => {
             source={require('../assets/img-logo/pencil-image.png')}
           />
         </TouchableOpacity>
-        <Text style={styles.textavatar}>{ten || 'Admin'}</Text>
+        <Text style={styles.textavatar}>{nameuser}</Text>
       </View>
 
       <FlatList
@@ -189,7 +167,7 @@ const ProfileScreen = ({navigation}) => {
                 style={styles.buttonlogout}
                 onPress={() => {
                   toggleModal();
-                  navigation.navigate('Login');
+                  dangxuat();
                 }}>
                 <Text style={styles.buttonText}>Log out</Text>
               </TouchableOpacity>

@@ -21,8 +21,10 @@ import {
 } from '../data/flastlistItem/connect';
 import Swiper from 'react-native-swiper';
 import dataSlide from '../data/flastlistItem/datalist';
-import {useRoute} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth, {firebase} from '@react-native-firebase/auth';
+import {collection, query, where, getDocs} from 'firebase/firestore';
+import {db} from '../firebase';
+
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
 
@@ -38,35 +40,27 @@ const Mainscreen = ({navigation}) => {
   const handleSeeClick = () => {
     setIsClicked(true);
   };
+  const [userName, setUserName] = useState('');
 
-  // Get avatar
-  // Get name
-  const route = useRoute();
-  // console.log(route.params?.ten);
-  const [ten, setTen] = useState('');
-  useEffect(() => {
-    getAccounts();
-    // getName();
-  }, []);
-
-  const getAccounts = async () => {
-    try {
-      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-      if (existingAccounts !== null) {
-        const accountList = JSON.parse(existingAccounts);
-        const currentUserEmail = await AsyncStorage.getItem('EMAIL');
-        const matchingAccount = accountList.find(account => {
-          return account.email === currentUserEmail;
-        });
-        if (matchingAccount) {
-          setTen(matchingAccount.name);
-        }
+  const getUserNameFromData = async () => {
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser) {
+      const userId = currentUser.uid;
+      const userRef = firebase.firestore().collection('users').doc(userName);
+      const snapShot = await userRef.get();
+      if (snapShot.exists) {
+        const userData = snapShot.data();
+        const userName = userData.name;
+        setUserName(userName);
+      } else {
+        console.log("User doesn't exist");
       }
-    } catch (e) {
-      console.log('Error getting accounts:', e);
     }
   };
-
+  console.log(userName);
+  useEffect(() => {
+    getUserNameFromData();
+  }, []);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -78,7 +72,7 @@ const Mainscreen = ({navigation}) => {
           />
 
           <Text style={styles.headerText}>Wellcome Back</Text>
-          <Text style={styles.headerName}>{ten || 'Admin'}</Text>
+          <Text style={styles.headerName}>{userName}</Text>
           <View style={styles.headerImage}>
             <TouchableOpacity
               onPress={() =>
@@ -305,9 +299,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginLeft: 85,
     color: 'black',
-    fontSize: 25,
+    fontSize: 22,
     marginTop: 50,
-    fontWeight: '600',
+    fontWeight: '500',
   },
   headerImage: {
     flexDirection: 'row',

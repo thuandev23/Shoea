@@ -9,8 +9,19 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import {DataProvider} from '../data/database/context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
+import {db} from '../firebase';
+import {firebase} from '@react-native-firebase/auth';
+
 const DangKiScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -49,7 +60,7 @@ const DangKiScreen = ({navigation}) => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
     const isPasswordValid = passwordRegex.test(password);
     if (name == '') {
-      setError('enter your name !');
+      setError('Enter your name !');
       return false;
     } else if (!isEmailValid) {
       setError('Invalid email format !');
@@ -67,87 +78,46 @@ const DangKiScreen = ({navigation}) => {
     }
   };
 
-  const isEmailAlreadyRegistered = async email => {
-    try {
-      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-
-      if (existingAccounts !== null) {
-        const accountList = JSON.parse(existingAccounts);
-
-        return accountList.some(account => account.email === email);
-      }
-
-      return false;
-    } catch (e) {
-      console.log('Error checking if email is already registered:', e);
-      return false;
-    }
-  };
-
-  const saveEmailPass = async () => {
-    try {
-      const account = {
-        name: name,
-        email: username,
-        password: password,
-      };
-      const emailAlreadyRegistered = await isEmailAlreadyRegistered(username);
-
-      if (emailAlreadyRegistered) {
-        Alert.alert('Email already registered');
-        return;
-      } else {
-        let accountList = [];
-        const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-        if (existingAccounts !== null) {
-          accountList = JSON.parse(existingAccounts);
-        }
-        accountList.push(account);
-        await AsyncStorage.setItem('ACCOUNTS', JSON.stringify(accountList));
-
-        console.log('Account saved:', account);
-        Alert.alert('Succesfull <3');
-        displayAccounts();
-        // navigation.navigate('Tabs');
-        navigation.navigate('SignIn');
-      }
-    } catch (e) {
-      console.log('Error saving account:', e);
-    }
-  };
-  const displayAccounts = async () => {
-    try {
-      const existingAccounts = await AsyncStorage.getItem('ACCOUNTS');
-
-      if (existingAccounts !== null) {
-        const accountList = JSON.parse(existingAccounts);
-
-        console.log('Account list:', accountList);
-
-        accountList.forEach(account => {
-          console.log(
-            `Account ${account.name}: ${account.email} / ${account.password}`,
-          );
-          // create a UI representation for each account here
-        });
-      } else {
-        console.log('No accounts found');
-      }
-    } catch (e) {
-      console.log('Error retrieving accounts:', e);
-    }
-  };
   const checkLogin = async () => {
-    const email = await AsyncStorage.getItem('EMAIL');
-    const pass = await AsyncStorage.getItem('PASSWORD');
-
     const isValid = checkFormat();
     if (!isValid) {
       return;
     }
-    saveEmailPass();
-    // displayAccounts();
-    // navigation.navigate('Tabs');
+    try {
+      const usersRef = collection(db, 'users');
+      const querySnapshot = await getDocs(usersRef);
+      let xColect = true;
+      // Duyệt qua tất cả các tài khoản trong bộ sưu tập "users"
+      querySnapshot.forEach(doc => {
+        const user = doc.data();
+        if (user.username === username) {
+          console.log('Tài khoản tồn tại');
+          xColect = false; // Đặt biến cờ thành false nếu tài khoản đã tồn tại
+          return;
+        }
+      });
+      if (xColect) {
+        // Thêm tài khoản mới nếu chưa tồn tại
+        await addDoc(usersRef, {
+          name: name,
+          username: username,
+          password: password,
+        });
+        firebase
+          .auth()
+          .currentUser?.sendEmailVerification({
+            handleCodeInApp: true,
+            url: 'https://shoea-firebase.firebaseapp.com',
+          })
+          .then(() => Alert.alert('Verification email sent'))
+          .catch(error => console.log(error.message));
+
+        console.log('Thêm tài khoản thành công!');
+        navigation.navigate('SignIn');
+      }
+    } catch (error) {
+      console.log('Thêm tài khoản thất bại:', error.message);
+    }
   };
   return (
     <KeyboardAvoidingView style={styles.container}>
