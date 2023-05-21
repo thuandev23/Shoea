@@ -12,6 +12,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 const menuItems = [
   {
     title: 'Edit Profile',
@@ -85,13 +86,42 @@ const ProfileScreen = ({navigation}) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  const [ten, setTen] = useState('');
-  const [newName, setNewName] = useState('');
-  const [admin, setAdmin] = useState('');
 
-  const user = auth().currentUser;
-  const nameuser = user?.email?.split('@')[0];
+  const [userName, setUserName] = useState('');
+  // Lấy tên người dùng từ Firestore
+  const getUserNameFromFirestore = async () => {
+    try {
+      const currentUser = auth().currentUser;
+      const userRef = firestore().collection('users').doc(currentUser.uid);
+      const snapshot = await userRef.get();
 
+      if (snapshot.exists) {
+        const userData = snapshot.data();
+        const uName = userData.name; // Thay 'name' bằng trường tên người dùng trong Firestore của bạn
+        return uName;
+      } else {
+        return null; // Người dùng không tồn tại trong Firestore
+      }
+    } catch (error) {
+      console.log('Lỗi khi lấy tên người dùng từ Firestore:', error);
+      return null;
+    }
+  };
+
+  // Sử dụng hàm để lấy tên người dùng
+  const fetchUserName = async () => {
+    const MName = await getUserNameFromFirestore();
+    if (MName) {
+      // console.log('Tên người dùng:', MName);
+      // Thực hiện các xử lý khác với tên người dùng
+      setUserName(MName);
+    } else {
+      console.log('Người dùng không tồn tại trong Firestore');
+    }
+  };
+  useEffect(() => {
+    fetchUserName();
+  });
   const dangxuat = () => {
     auth()
       .signOut()
@@ -107,7 +137,7 @@ const ProfileScreen = ({navigation}) => {
         />
         <Text style={styles.title}>Setting</Text>
 
-        {ten === 'Admin' ? (
+        {userName === 'Admin' ? (
           <TouchableOpacity
             onPress={() => navigation.navigate('Manager Accout')}>
             <Image
@@ -143,7 +173,7 @@ const ProfileScreen = ({navigation}) => {
             source={require('../assets/img-logo/pencil-image.png')}
           />
         </TouchableOpacity>
-        <Text style={styles.textavatar}>{nameuser}</Text>
+        <Text style={styles.textavatar}>{userName}</Text>
       </View>
 
       <FlatList

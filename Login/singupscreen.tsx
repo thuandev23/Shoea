@@ -9,18 +9,7 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
-import {db} from '../firebase';
-import {firebase} from '@react-native-firebase/auth';
+import firestore, {firebase} from '@react-native-firebase/firestore';
 
 const DangKiScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -77,48 +66,62 @@ const DangKiScreen = ({navigation}) => {
       return true;
     }
   };
+  const usersCollection = firestore().collection('users');
 
   const checkLogin = async () => {
-    const isValid = checkFormat();
-    if (!isValid) {
-      return;
-    }
+    // Kiểm tra định dạng và hợp lệ của dữ liệu
+    // const isValid = checkFormat();
+    // if (!isValid) {
+    //   return;
+    // }
     try {
-      const usersRef = collection(db, 'users');
-      const querySnapshot = await getDocs(usersRef);
-      let xColect = true;
-      // Duyệt qua tất cả các tài khoản trong bộ sưu tập "users"
-      querySnapshot.forEach(doc => {
-        const user = doc.data();
-        if (user.username === username) {
-          console.log('Tài khoản tồn tại');
-          xColect = false; // Đặt biến cờ thành false nếu tài khoản đã tồn tại
-          return;
-        }
-      });
-      if (xColect) {
-        // Thêm tài khoản mới nếu chưa tồn tại
-        await addDoc(usersRef, {
-          name: name,
-          username: username,
-          password: password,
-        });
-        firebase
-          .auth()
-          .currentUser?.sendEmailVerification({
-            handleCodeInApp: true,
-            url: 'https://shoea-firebase.firebaseapp.com',
-          })
-          .then(() => Alert.alert('Verification email sent'))
-          .catch(error => console.log(error.message));
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(username, password);
 
-        console.log('Thêm tài khoản thành công!');
-        navigation.navigate('SignIn');
-      }
+      // Gửi email xác nhận
+      await userCredential.user.sendEmailVerification({
+        handleCodeInApp: true,
+        url: 'https://shoea-firebase.firebaseapp.com',
+      });
+
+      // Lưu thông tin tài khoản vào Firestore
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(userCredential.user.uid)
+        .set({
+          name,
+          username,
+          password,
+          // Thêm các trường thông tin khác của người dùng nếu cần thiết
+        });
+
+      // Đăng ký thành công
+      console.log('Đăng ký thành công!');
+      navigation.navigate('SignIn');
     } catch (error) {
-      console.log('Thêm tài khoản thất bại:', error.message);
+      console.error('Đăng ký thất bại:', error);
     }
+
+    console.log('Đã đăng ký');
+
+    firestore()
+      .collection('users')
+      .get()
+      .then(querySnapshot => {
+        console.log('Total users: ', querySnapshot.size);
+
+        querySnapshot.forEach(documentSnapshot => {
+          console.log(
+            'User ID: ',
+            documentSnapshot.id,
+            documentSnapshot.data(),
+          );
+        });
+      });
   };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>

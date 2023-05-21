@@ -12,8 +12,6 @@ import {
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {collection, getDocs} from 'firebase/firestore';
-import {db} from '../firebase';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -26,13 +24,7 @@ const DangNhapScreen = ({navigation}) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const handleLogin = () => {
-    // Xử lý đăng nhập ở đây
-    console.log(
-      'Đăng nhập với tài khoản: ',
-      username,
-      'và mật khẩu: ',
-      password,
-    );
+    navigation.navigate('Tabs');
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -69,80 +61,36 @@ const DangNhapScreen = ({navigation}) => {
   };
 
   const checkLogin = async () => {
-    // Check email and password format
-    // const isValidFormat = checkFormat();
-    // if (!isValidFormat) {
-    //   return;
-    // }
-    try {
-      const usersRef = collection(db, 'users');
-      const querySnapshot = await getDocs(usersRef);
-      let loggedInUser = null;
-
-      // Duyệt qua tất cả các tài khoản trong bộ sưu tập "users"
-      querySnapshot.forEach(doc => {
-        const user = doc.data();
-        if (user.username === username && user.password === password) {
-          loggedInUser = user;
-          return;
-        }
-      });
-      if (loggedInUser) {
-        // Đăng nhập thành công, chuyển hướng vào trang MainScreen
-        // navigation.navigate('MainScreen', { user: loggedInUser });
-        console.log('Đăng nhập thành công');
-        navigation.navigate('Tabs');
-      } else {
-        // Đăng nhập thất bại
-        console.log('Đăng nhập thất bại');
-      }
-    } catch (error) {
-      console.log('Đăng nhập thất bại:', error.message);
+    const isValid = checkFormat();
+    if (!isValid) {
+      return;
     }
+
+    // Đăng nhập người dùng bằng email và mật khẩu
+    auth()
+      .signInWithEmailAndPassword(username, password)
+      .then(async userCredential => {
+        // Đăng nhập thành công, lấy thông tin người dùng
+        const user = userCredential.user;
+        console.log('Đăng nhập thành công:', user.uid);
+        // Kiểm tra xem người dùng có tồn tại trong Firestore hay không
+        const userRef = firestore().collection('users').doc(user.uid);
+        const snapshot = await userRef.get();
+        navigation.navigate('Tabs');
+
+        if (snapshot.exists) {
+          // Người dùng tồn tại trong Firestore
+          console.log('Thông tin người dùng:', snapshot.data());
+        } else {
+          // Người dùng không tồn tại trong Firestore
+          console.log('Lỗi: Người dùng không tìm thấy trong Firestore');
+        }
+      })
+      .catch(error => {
+        // Xảy ra lỗi khi đăng nhập
+        console.log('Lỗi đăng nhập:', error.message); // Trích xuất thông báo lỗi từ đối tượng error
+      });
   };
-
-  // const checkLogin = async () => {
-  //   const isValid = checkFormat();
-  //   if (!isValid) {
-  //     return;
-  //   }
-
-  //   auth()
-  //     .createUserWithEmailAndPassword(username, password)
-  //     .then(async userCredential => {
-  //       console.log('User account created & signed in!');
-
-  //       // Save user's name to Firestore
-  //       const user = auth().currentUser;
-  //       if (user) {
-  //         const {uid} = userCredential.user;
-  //         await firestore().collection('accounts').doc(uid).set({
-  //           name: name,
-  //           email: username,
-  //         });
-  //         console.log('Account details saved to Firestore!');
-  //         navigation.navigate('SignIn');
-  //         // Send email verification
-  //         try {
-  //           await user.sendEmailVerification();
-  //           console.log('Email verification sent to user!');
-  //         } catch (error) {
-  //           console.error('Error sending email verification:', error);
-  //         }
-  //       } else {
-  //         console.error('No user found!');
-  //       }
-  //     })
-  //     .catch(error => {
-  //       if (error.code === 'auth/email-already-in-use') {
-  //         console.log('That email address is already in use!');
-  //       } else if (error.code === 'auth/invalid-email') {
-  //         console.log('That email address is invalid!');
-  //       } else {
-  //         console.error(error);
-  //       }
-  //     });
-  // };
 
   return (
     <KeyboardAvoidingView style={styles.container}>

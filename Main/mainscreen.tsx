@@ -21,10 +21,8 @@ import {
 } from '../data/flastlistItem/connect';
 import Swiper from 'react-native-swiper';
 import dataSlide from '../data/flastlistItem/datalist';
-import auth, {firebase} from '@react-native-firebase/auth';
-import {collection, query, where, getDocs} from 'firebase/firestore';
-import {db} from '../firebase';
-
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
 
@@ -40,27 +38,42 @@ const Mainscreen = ({navigation}) => {
   const handleSeeClick = () => {
     setIsClicked(true);
   };
-  const [userName, setUserName] = useState('');
 
-  const getUserNameFromData = async () => {
-    const currentUser = firebase.auth().currentUser;
-    if (currentUser) {
-      const userId = currentUser.uid;
-      const userRef = firebase.firestore().collection('users').doc(userName);
-      const snapShot = await userRef.get();
-      if (snapShot.exists) {
-        const userData = snapShot.data();
-        const userName = userData.name;
-        setUserName(userName);
+  const [userName, setUserName] = useState('');
+  // Lấy tên người dùng từ Firestore
+  const getUserNameFromFirestore = async () => {
+    try {
+      const currentUser = auth().currentUser;
+      const userRef = firestore().collection('users').doc(currentUser.uid);
+      const snapshot = await userRef.get();
+
+      if (snapshot.exists) {
+        const userData = snapshot.data();
+        const uName = userData.name; // Thay 'name' bằng trường tên người dùng trong Firestore của bạn
+        return uName;
       } else {
-        console.log("User doesn't exist");
+        return null; // Người dùng không tồn tại trong Firestore
       }
+    } catch (error) {
+      console.log('Lỗi khi lấy tên người dùng từ Firestore:', error);
+      return null;
     }
   };
-  console.log(userName);
+
+  // Sử dụng hàm để lấy tên người dùng
+  const fetchUserName = async () => {
+    const MName = await getUserNameFromFirestore();
+    if (MName) {
+      // console.log('Tên người dùng:', MName);
+      // Thực hiện các xử lý khác với tên người dùng
+      setUserName(MName);
+    } else {
+      console.log('Người dùng không tồn tại trong Firestore');
+    }
+  };
   useEffect(() => {
-    getUserNameFromData();
-  }, []);
+    fetchUserName();
+  });
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -127,9 +140,6 @@ const Mainscreen = ({navigation}) => {
           </Swiper>
         </View>
 
-        {/* <Text style={{fontSize: 23, margin: 5, color: 'black'}}>
-          Types of shoes
-        </Text> */}
         <View style={styles.typeShoe}>
           <TouchableOpacity
             style={styles.btnTypes}
@@ -383,13 +393,6 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
   },
-  lines: {
-    // width: 50,
-    // height: 2,
-    // backgroundColor: 'black',
-    // alignSelf: 'center',
-  },
-
   dataListItem: {
     height: 260,
   },
