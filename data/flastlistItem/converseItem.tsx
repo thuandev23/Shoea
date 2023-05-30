@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -18,116 +18,12 @@ import {
   incrementQuantity,
   removeFromCart,
 } from '../../Cart/cartReducer';
+import firestore from '@react-native-firebase/firestore';
+
 const ConverseItem = () => {
   const cart = useSelector(state => state.cart.cart);
   // console.log(cart);
   const dispatch = useDispatch();
-  const productmain = [
-    {
-      id: '24',
-
-      text: 'Denim Fashion',
-      star: '4.3',
-      money: '230',
-      image: 'https://bom.so/mm2kzw',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://drake.vn/converse/converse-chuck-taylor-all-star-denim-fashion-a02880c
-    },
-    {
-      id: '25',
-
-      text: 'Lift Denim Fashion',
-      star: '4.5',
-      money: '475',
-      image: 'https://bom.so/qYwcXh',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://drake.vn/converse/converse-chuck-taylor-all-star-lift-denim-fashion-a03821c
-    },
-    {
-      id: '26',
-
-      text: 'Crafted PatchWork',
-      star: '4.5',
-      money: '537',
-      image: 'https://bom.so/1u2IMk',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://drake.vn/converse/converse-chuck-taylor-all-star-crafted-patchwork-a05195c
-    },
-    {
-      id: '27',
-
-      text: 'CX Explore Hi',
-      star: '4.4',
-      money: '550',
-      image: 'https://bom.so/XWZq94',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://drake.vn/converse/converse-chuck-taylor-all-star-cx-explore-hi-a02411c
-    },
-    {
-      id: '28',
-
-      text: 'WorkWear Textile',
-      star: '4.7',
-      money: '580',
-      image: 'https://bom.so/jl5g0O',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://drake.vn/converse/converse-chuck-taylor-all-star-workwear-textile-a02875c
-    },
-    {
-      id: '29',
-
-      text: '1970s Archive Paint',
-      star: '4.3',
-      money: '440',
-      image: 'https://bom.so/rvMMlz',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://drake.vn/converse/converse-chuck-taylor-all-star-1970s-archive-paint-splatter-a01170c?sort=p.price&order=DESC
-    },
-    {
-      id: '30',
-
-      text: '1970S Recycled Rpet Canvas',
-      star: '4.2',
-      money: '460',
-      image: 'https://bom.so/A2mDdj',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://drake.vn/converse/converse-chuck-taylor-all-star-1970s-recycled-rpet-canvas-172681c
-    },
-    {
-      id: '31',
-
-      text: 'Chuck Taylor Roots',
-      star: '4.8',
-      money: '605',
-      image: 'https://bom.so/L7tXYW',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://drake.vn/converse/converse-chuck-taylor-all-star-cx-explore-roots-170138c?sort=p.price&order=DESC
-    },
-  ];
 
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
@@ -171,9 +67,48 @@ const ConverseItem = () => {
   const decreaseQuantity = item => {
     dispatch(decrementQuantity(item));
   };
+  const [Products, setProducts] = useState([]);
 
+  useEffect(() => {
+    const fetchDataFromFirestore = async () => {
+      try {
+        const snapshot = await firestore()
+          .collection('Category')
+          .doc('converse')
+          .collection('products')
+          .get();
+
+        const productsData = snapshot.docs.map(doc => doc.data());
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu từ Firestore: ', error);
+      }
+    };
+
+    fetchDataFromFirestore();
+    // pushProductsToFirestore('converse', productmain);
+  }, []);
+
+  // Hàm push hàng loạt sản phẩm lên Firestore
+  const pushProductsToFirestore = async (category, products) => {
+    try {
+      for (const product of products) {
+        const productRef = firestore()
+          .collection('Category')
+          .doc(category)
+          .collection('products')
+          .doc(product.id); // Sử dụng tên sản phẩm làm type_ID của document
+
+        await productRef.set(product);
+      }
+
+      console.log('Hàng loạt sản phẩm đã được ghi vào Firestore');
+    } catch (error) {
+      console.error('Lỗi khi ghi hàng loạt sản phẩm vào Firestore:', error);
+    }
+  };
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <Text
         style={{
           fontSize: 30,
@@ -186,7 +121,7 @@ const ConverseItem = () => {
       </Text>
 
       <FlatList
-        data={productmain}
+        data={Products}
         numColumns={2}
         renderItem={({item, index}) => (
           <View key={`${item.id}-${index}`} style={styles.view_flatlist}>

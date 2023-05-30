@@ -9,9 +9,8 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import OTPInputView from 'rn-otp-input';
-const OTPScreen = ({navigation}) => {
-  const resendOPT = () => {};
+
+const OTPScreen = ({navigation, route}) => {
   return (
     <KeyboardAvoidingView behavior="position" style={styles.mainCon}>
       <View style={{position: 'relative', bottom: 30}}>
@@ -32,16 +31,6 @@ const OTPScreen = ({navigation}) => {
             <Text style={styles.forgotDesLbl}>+91 1234567890</Text>
           </View>
           <View style={styles.formCon}>
-            <OTPInputView
-              style={{width: '80%', height: 200}}
-              pinCount={4}
-              // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-              // onCodeChanged = {code => { this.setState({code})}}
-              autoFocusOnLoad
-              onCodeFilled={code => {
-                console.log(`Code is ${code}, you are good to go!`);
-              }}
-            />
             {/* lỗi string truyền */}
             <Pressable onPress={() => Alert.alert('resendOTP')}>
               <Text style={styles.registerLbl}>Resend OTP</Text>

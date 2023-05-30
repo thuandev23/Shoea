@@ -49,13 +49,13 @@ import Shipping from '../Wallets/shipping';
 import OrderDeliver from '../Others/orderDeliver';
 import LoadingOrder from '../Others/loadingorder';
 import LanguageScreen from '../ProfileSetting/language';
-import AuthLoginScreen from '../ProfileSetting/AuthLogin';
 import ForgotPasswordScreen from './Forgot&ResetPass/ForgotPassword';
 import ResetPasswordScreen from './Forgot&ResetPass/ResetPass';
 import OTPScreen from './Forgot&ResetPass/EnterOTP';
 import ReviewScreen from '../Others/danhgia';
 import EditAddressScreen from '../Wallets/editaddress';
 import SearchItem from '../Loading/searchItem';
+import PushNotify from '../Main/nofitication';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -160,23 +160,6 @@ const MainTabs = () => {
 
 const IndexComponent = ({navigation}) => {
   return (
-    // <IntroScreen/>
-    // <LoginScreen/>
-    // <DangNhapScreen/>
-    // <DangKiScreen/>
-    // <AllItemScreen />
-    // <DiscountItem/>
-    // <Loading_headerMain />
-    // <LoadingScreen />
-    // <Mainscreen/>
-    // <Search/>
-    // <Fullname />
-    // <WalletScreen/>
-    // <ForgotPasswordScreen />
-    // <OTPScreen />
-    // <ResetPasswordScreen />
-    // <TestAPIScreen />
-    // <SearchItem />
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -250,7 +233,6 @@ const IndexComponent = ({navigation}) => {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Language" component={LanguageScreen} />
-        <Stack.Screen name="Manager Accout" component={AuthLoginScreen} />
         <Stack.Screen
           name="Forgot"
           component={ForgotPasswordScreen}
@@ -277,6 +259,11 @@ const IndexComponent = ({navigation}) => {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Search" component={SearchItem} />
+        <Stack.Screen
+          name="PushNotify"
+          component={PushNotify}
+          options={{headerTitle: ''}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

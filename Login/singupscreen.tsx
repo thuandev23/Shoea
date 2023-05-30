@@ -70,10 +70,10 @@ const DangKiScreen = ({navigation}) => {
 
   const checkLogin = async () => {
     // Kiểm tra định dạng và hợp lệ của dữ liệu
-    // const isValid = checkFormat();
-    // if (!isValid) {
-    //   return;
-    // }
+    const isValid = checkFormat();
+    if (!isValid) {
+      return;
+    }
     try {
       const userCredential = await firebase
         .auth()

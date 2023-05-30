@@ -25,7 +25,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 const tabs = ['All', 'Nike', 'Adidas', 'Puma', 'Converse'];
 const w = Dimensions.get('screen').width;
-
+const h = Dimensions.get('screen').height;
 const Mainscreen = ({navigation}) => {
   const [selected, setSelected] = useState(0);
 
@@ -71,9 +71,18 @@ const Mainscreen = ({navigation}) => {
       console.log('Người dùng không tồn tại trong Firestore');
     }
   };
+  const [unreadCount, setUnreadCount] = useState<number>(0);
   useEffect(() => {
     fetchUserName();
+    const unsubscribe = firestore()
+      .collection('notifications')
+      .where('read', '==', false)
+      .onSnapshot(querySnapshot => {
+        setUnreadCount(querySnapshot.size);
+      });
+    return unsubscribe;
   });
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -86,17 +95,17 @@ const Mainscreen = ({navigation}) => {
 
           <Text style={styles.headerText}>Wellcome Back</Text>
           <Text style={styles.headerName}>{userName}</Text>
+
+          {/* Thông báo  */}
           <View style={styles.headerImage}>
-            <TouchableOpacity
-              onPress={() =>
-                Alert.alert('Lỗi thư viện react-native-cli với firebase')
-              }>
+            <TouchableOpacity onPress={() => navigation.navigate('PushNotify')}>
               <Image
                 style={{height: 35, width: 35, marginLeft: 40}}
                 source={require('../assets/img-logo/notice.png')}
                 resizeMode="cover"
               />
             </TouchableOpacity>
+            <Text style={styles.notifi}>{unreadCount}</Text>
           </View>
         </View>
 
@@ -304,6 +313,18 @@ const styles = StyleSheet.create({
     padding: 15,
     marginLeft: 80,
     color: '#2349',
+  },
+  notifi: {
+    position: 'absolute',
+    fontSize: 20,
+    color: 'red',
+    width: 26,
+    height: 26,
+    fontWeight: 'bold',
+    borderRadius: 13,
+    backgroundColor: 'white',
+    marginTop: -(h * 0.02),
+    marginLeft: w * 0.15,
   },
   headerName: {
     position: 'absolute',

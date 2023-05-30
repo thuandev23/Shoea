@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import {firebase} from '@react-native-firebase/auth';
+import React, {Component, useState} from 'react';
 import {
   Text,
   View,
@@ -9,13 +10,23 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-
 const ForgotPasswordScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const sendEmail = () => {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert('Nofitication', 'Check your email !');
+        navigation.navigate('SignIn');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <KeyboardAvoidingView behavior="position" style={styles.mainCon}>
-      {/* <View style={{padding: 20}}>
-        <Pressable onPress={() => navigation.goBack()}></Pressable>
-      </View> */}
       <View style={{position: 'relative', bottom: 30}}>
         <View style={styles.loginIcon}>
           <Image
@@ -45,16 +56,18 @@ const ForgotPasswordScreen = ({navigation}) => {
                 <TextInput
                   style={styles.textInput}
                   placeholder={'Email ID'}
+                  value={email}
+                  onChangeText={text => setEmail(text)}
                   placeholderTextColor={'#aaa'}
                 />
               </View>
             </View>
           </View>
 
-          <View style={[styles.loginCon, {marginTop: 40}]}>
+          <View style={[{marginTop: 40}]}>
             <Pressable
               style={styles.LoginBtn}
-              onPress={() => navigation.navigate('Reset')}
+              onPress={sendEmail}
               // onPress={() => Alert.alert('OTP')}
             >
               <Text style={styles.loginBtnLbl}>Submit</Text>

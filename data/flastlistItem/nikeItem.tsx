@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewMoreText from 'react-native-view-more-text';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,124 +19,11 @@ import {
   incrementQuantity,
   removeFromCart,
 } from '../../Cart/cartReducer';
+import firestore from '@react-native-firebase/firestore';
+
 const NikeItem = () => {
   const cart = useSelector(state => state.cart.cart);
-  // console.log(cart);
   const dispatch = useDispatch();
-  const productmain = [
-    {
-      id: '8',
-      text: 'Nike ACG Lowcate ',
-      star: '4.3',
-      money: '425',
-      image: 'https://bom.so/97BrcX',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/t/acg-lowcate-shoes-HjWrQ6/DM8019-201
-    },
-    {
-      id: '9',
-
-      text: 'Nike ACG Moc ',
-      star: '4.1',
-      money: '300',
-      image: 'https://bom.so/KJWlTv',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/t/acg-moc-shoes-kLZZlk/DZ3407-300
-    },
-    {
-      id: '10',
-
-      text: 'Nike Vaporfly 3 ',
-      star: '4.3',
-      money: '537',
-      image: 'https://bom.so/Ik2noZ',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/t/oneonta-next-nature-sandals-KwxRDD/FB1948-200
-    },
-    {
-      id: '11',
-
-      text: 'Nike Oneonta Next Nature',
-      star: '4.1',
-      money: '350',
-      image: 'https://bom.so/j306kA',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/t/acg-lowcate-shoes-HjWrQ6/DM8019-201
-    },
-    {
-      id: '12',
-
-      text: 'Nike Air Max 90 Futura',
-      star: '4.6',
-      money: '480',
-      image: 'https://bom.so/L4SCDi',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/u/nike-air-max-90-futura-by-you-custom-shoes-10001486/9847345872
-    },
-    {
-      id: '13',
-
-      text: 'Air Jordan 1 Elevate High',
-      star: '4.3',
-      money: '305',
-      image: 'https://bom.so/ubtUSJ',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/t/air-jordan-1-elevate-high-shoes-rKPNHR/DN3253-061
-    },
-    {
-      id: '14',
-
-      text: 'Zoom Freak 4',
-      star: '4.3',
-      money: '425',
-      image: 'https://bom.so/6wQFFs',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      // https://www.nike.com/vn/t/zoom-freak-4-basketball-shoes-jFdxSB/FB9503-200
-    },
-    {
-      id: '15',
-
-      text: 'Nike Air Force 1 Mid',
-      star: '4.3',
-      money: '425',
-      image: 'https://bom.so/sxoS93',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-
-      //https://www.nike.com/vn/t/air-force-1-mid-07-shoes-ZzCgrn/DV0806-101
-    },
-  ];
-
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
@@ -144,12 +31,10 @@ const NikeItem = () => {
     setSelectedProduct(item);
     setModalVisible(true);
   };
-
   const closeModal = () => {
     setSelectedProduct(null);
     setModalVisible(false);
   };
-
   const _renderViewMore = onPress => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
@@ -157,7 +42,6 @@ const NikeItem = () => {
       </Text>
     );
   };
-
   const _renderViewLess = onPress => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
@@ -165,11 +49,9 @@ const NikeItem = () => {
       </Text>
     );
   };
-
   const addItemToCart = item => {
     dispatch(addToCart(item));
   };
-
   const removeItemFromCart = item => {
     dispatch(removeFromCart(item));
   };
@@ -179,9 +61,45 @@ const NikeItem = () => {
   const decreaseQuantity = item => {
     dispatch(decrementQuantity(item));
   };
+  const [Products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchDataFromFirestore = async () => {
+      try {
+        const snapshot = await firestore()
+          .collection('Category')
+          .doc('nike')
+          .collection('products')
+          .get();
+
+        const productsData = snapshot.docs.map(doc => doc.data());
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu từ Firestore: ', error);
+      }
+    };
+    fetchDataFromFirestore();
+    // pushProductsToFirestore('nike', productmain);
+  }, []);
+  // Hàm push hàng loạt sản phẩm lên Firestore
+  const pushProductsToFirestore = async (category, products) => {
+    try {
+      for (const product of products) {
+        const productRef = firestore()
+          .collection('Category')
+          .doc(category)
+          .collection('products')
+          .doc(product.id); // Sử dụng tên sản phẩm làm type_ID của document
+
+        await productRef.set(product);
+      }
+      console.log('Hàng loạt sản phẩm đã được ghi vào Firestore');
+    } catch (error) {
+      console.error('Lỗi khi ghi hàng loạt sản phẩm vào Firestore:', error);
+    }
+  };
 
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <Text
         style={{
           fontSize: 30,
@@ -194,7 +112,7 @@ const NikeItem = () => {
       </Text>
 
       <FlatList
-        data={productmain}
+        data={Products}
         numColumns={2}
         renderItem={({item, index}) => (
           <View key={`${item.id}-${index}`} style={styles.view_flatlist}>

@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {firebase} from '@react-native-firebase/auth';
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -9,30 +9,23 @@ import {
   Alert,
 } from 'react-native';
 import RNRestart from 'react-native-restart';
-
+import {auth, db} from '../firebase';
+import firestore from '@react-native-firebase/firestore';
 const Editprofile = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [newPass, setNewPassword] = useState('');
   const [newName, setNewName] = useState('');
 
-  const updateUser = async () => {
-    try {
-      // Get the user's information from AsyncStorage
-      const userInfo = await AsyncStorage.getItem('NAME');
-      const parsedUserInfo = JSON.parse(userInfo);
-
-      // Update the user's name in the parsedUserInfo object
-      parsedUserInfo.name = newName;
-
-      // Store the updated user information in AsyncStorage
-      await AsyncStorage.setItem('NAME', JSON.stringify(parsedUserInfo));
-      setNewName(newName);
-      // Show an alert to the user
-      Alert.alert('Thông báo', 'Cập nhật tên thành công!');
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    // Lấy thông tin của tài khoản đang đăng nhập
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser) {
+      const name = currentUser.email;
+      setEmail(name);
+    } else {
+      console.log('No user is currently logged in.');
     }
-  };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -40,29 +33,23 @@ const Editprofile = ({navigation}) => {
       <TextInput
         style={styles.input}
         value={newName}
-        onChangeText={text => setNewName(text)}
+        onChangeText={setNewName}
         placeholder="Enter your new name"
       />
       <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter your new email"
-      />
+      <TextInput style={styles.input} placeholder={email} editable={false} />
 
-      <Text style={styles.label}>Phone</Text>
+      <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.input}
-        value={phone}
-        onChangeText={setPhone}
-        placeholder="Enter your new phone"
+        value={newPass}
+        onChangeText={setNewPassword}
+        placeholder="Enter your new new password"
       />
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          updateUser();
           Alert.alert(
             'Thông báo',
             'Bạn có muốn khởi động lại ứng dụng để cập nhật tên người dùng không?',

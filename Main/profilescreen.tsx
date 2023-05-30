@@ -59,9 +59,6 @@ const ProfileScreen = ({navigation}) => {
     <MenuItem
       title={item.title}
       onPress={() => {
-        if (item.screen === 'Edit Profile') {
-          setNewName(ten);
-        }
         navigation.navigate(item.screen);
       }}
       image={item.image}
@@ -74,12 +71,54 @@ const ProfileScreen = ({navigation}) => {
       height: 400,
 
       cropping: true,
-    }).then(image => {
+    }).then(async image => {
       // console.log(image);
       setProfileImage(image.path);
+      await updateAvatarToFirestore(image.path);
     });
   };
-  const route = useRoute();
+  const updateAvatarToFirestore = async imageUrl => {
+    try {
+      const currentUser = auth().currentUser;
+      const userRef = firestore().collection('users').doc(currentUser.uid);
+
+      await userRef.update({
+        avatar: imageUrl, // Tên trường chứa URL ảnh avatar trong Firestore của bạn
+      });
+
+      console.log('Avatar đã được cập nhật vào Firestore');
+    } catch (error) {
+      console.log('Lỗi khi cập nhật avatar vào Firestore:', error);
+    }
+  };
+  const getAvatarFromFirestore = async () => {
+    try {
+      const currentUser = auth().currentUser;
+      const userRef = firestore().collection('users').doc(currentUser.uid);
+      const snapshot = await userRef.get();
+
+      if (snapshot.exists) {
+        const userData = snapshot.data();
+        const avatarUrl = userData.avatar; // Thay 'avatar' bằng trường chứa URL ảnh avatar trong Firestore của bạn
+        return avatarUrl;
+      } else {
+        return null; // Người dùng không tồn tại trong Firestore
+      }
+    } catch (error) {
+      console.log('Lỗi khi lấy avatar từ Firestore:', error);
+      return null;
+    }
+  };
+  const fetchAvatarUrl = async () => {
+    const avatarUrl = await getAvatarFromFirestore();
+    if (avatarUrl) {
+      setProfileImage(avatarUrl);
+    }
+  };
+
+  useEffect(() => {
+    fetchAvatarUrl();
+  }, []);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -136,26 +175,6 @@ const ProfileScreen = ({navigation}) => {
           style={styles.imagelogo}
         />
         <Text style={styles.title}>Setting</Text>
-
-        {userName === 'Admin' ? (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Manager Accout')}>
-            <Image
-              source={require('../assets/img-logo/project-management.png')}
-              style={styles.imgManage}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() =>
-              Alert.alert("You aren't Admin, so you Manager Account !")
-            }>
-            <Image
-              source={require('../assets/img-logo/project-management.png')}
-              style={styles.imgManage}
-            />
-          </TouchableOpacity>
-        )}
       </View>
       {/* Lỗi khi resart thì ảnh sẽ mất quay về ảnh mặt định -> chưa fix */}
       <View style={styles.avatarChange}>

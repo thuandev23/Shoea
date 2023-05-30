@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -18,108 +18,12 @@ import {
   removeFromCart,
   decrementQuantity,
 } from '../../Cart/cartReducer';
+import firestore from '@react-native-firebase/firestore';
+
 const PumaItem = () => {
   const cart = useSelector(state => state.cart.cart);
   // console.log(cart);
   const dispatch = useDispatch();
-  const productmain = [
-    {
-      id: '32',
-      text: 'RS-X Reinvention',
-      star: '4.3',
-      money: '230',
-      image: 'https://bom.so/oQYfwG',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://us.puma.com/us/en/pd/rs-x-reinvention-sneakers/369579?search=true&swatch=14
-    },
-    {
-      id: '33',
-      text: 'Cali Womens',
-      star: '4.5',
-      money: '475',
-      image: 'https://bom.so/hW2N44',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://us.puma.com/us/en/pd/cali-womens-sneakers/369155?search=true&swatch=04
-    },
-    {
-      id: '34',
-      text: 'GV Speacial',
-      star: '4.5',
-      money: '537',
-      image: 'https://bom.so/6Ue85U',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://us.puma.com/us/en/pd/gv-special%2B-sneakers/366613?search=true&swatch=07
-    },
-    {
-      id: '35',
-      text: 'Clyde Core Foil Mens',
-      star: '4.4',
-      money: '550',
-      image: 'https://bom.so/Csy7vV',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://us.puma.com/us/en/pd/clyde-core-foil-mens-sneakers/364669?search=true&swatch=04
-    },
-    {
-      id: '36',
-      text: 'Califormia Casual',
-      star: '4.7',
-      money: '580',
-      image: 'https://bom.so/5CkhoR',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://us.puma.com/us/en/pd/california-casual-mens-sneakers/366608?search=true&swatch=05
-    },
-    {
-      id: '37',
-      text: 'Super Liga G Retro',
-      star: '4.3',
-      money: '440',
-      image: 'https://bom.so/PDI29B',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://us.puma.com/us/en/pd/super-liga-og-retro-sneakers/356999?search=true&swatch=19
-    },
-    {
-      id: '38',
-      text: 'Smash v2',
-      star: '4.2',
-      money: '460',
-      image: 'https://bom.so/a0d5uL',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      //https://us.puma.com/us/en/pd/puma-smash-v2-sneakers/364989?search=true&swatch=15
-    },
-    {
-      id: '39',
-      text: 'Reboound LayUp Mid',
-      star: '4.8',
-      money: '605',
-      image: 'https://bom.so/b7QhZu',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      ID: 'DM8019-201',
-      // https://us.puma.com/us/en/pd/puma-rebound-layup-mid-sneakers-big-kids/370486?search=true&swatch=02
-    },
-  ];
 
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
@@ -128,12 +32,10 @@ const PumaItem = () => {
     setSelectedProduct(item);
     setModalVisible(true);
   };
-
   const closeModal = () => {
     setSelectedProduct(null);
     setModalVisible(false);
   };
-
   const _renderViewMore = onPress => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
@@ -141,7 +43,6 @@ const PumaItem = () => {
       </Text>
     );
   };
-
   const _renderViewLess = onPress => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
@@ -149,7 +50,6 @@ const PumaItem = () => {
       </Text>
     );
   };
-
   const addItemToCart = item => {
     const cartItem = cart.find(p => p.id === item.id);
     if (cartItem) {
@@ -158,7 +58,6 @@ const PumaItem = () => {
       dispatch(addToCart(item));
     }
   };
-
   const removeItemFromCart = item => {
     dispatch(removeFromCart(item));
   };
@@ -168,8 +67,48 @@ const PumaItem = () => {
   const decreaseQuantity = item => {
     dispatch(decrementQuantity(item));
   };
+  const [Products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchDataFromFirestore = async () => {
+      try {
+        const snapshot = await firestore()
+          .collection('Category')
+          .doc('puma')
+          .collection('products')
+          .get();
+
+        const productsData = snapshot.docs.map(doc => doc.data());
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu từ Firestore: ', error);
+      }
+    };
+
+    fetchDataFromFirestore();
+    // pushProductsToFirestore('puma', productmain);
+  }, []);
+
+  // Hàm push hàng loạt sản phẩm lên Firestore
+  const pushProductsToFirestore = async (category, products) => {
+    try {
+      for (const product of products) {
+        const productRef = firestore()
+          .collection('Category')
+          .doc(category)
+          .collection('products')
+          .doc(product.id); // Sử dụng tên sản phẩm làm type_ID của document
+
+        await productRef.set(product);
+      }
+
+      console.log('Hàng loạt sản phẩm đã được ghi vào Firestore');
+    } catch (error) {
+      console.error('Lỗi khi ghi hàng loạt sản phẩm vào Firestore:', error);
+    }
+  };
+
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <Text
         style={{
           fontSize: 30,
@@ -182,7 +121,7 @@ const PumaItem = () => {
       </Text>
 
       <FlatList
-        data={productmain}
+        data={Products}
         numColumns={2}
         renderItem={({item, index}) => (
           <View key={`${item.id}-${index}`} style={styles.view_flatlist}>

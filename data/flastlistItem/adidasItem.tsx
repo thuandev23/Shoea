@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -18,110 +18,12 @@ import {
   incrementQuantity,
   removeFromCart,
 } from '../../Cart/cartReducer';
+import firestore from '@react-native-firebase/firestore';
 
 const AdidasItem = () => {
   const cart = useSelector(state => state.cart.cart);
   // console.log(cart);
   const dispatch = useDispatch();
-  const productmain = [
-    {
-      id: '16',
-      text: 'Advantage',
-      star: '4.3',
-      money: '230',
-      image: 'https://bom.so/JRiyWu',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-advantage/GZ5300.html
-    },
-    {
-      id: '17',
-      text: 'Ultraboots 4.0 DNA',
-      star: '4.5',
-      money: '475',
-      image: 'https://bom.so/r2H8gM',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-ultraboost-4.0-dna/FY9120.html
-    },
-    {
-      id: '18',
-      text: 'Adizero Adios Pro 2.0',
-      star: '4.5',
-      money: '537',
-      image: 'https://bom.so/9QhgQv',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      // https://www.adidas.com.vn/vi/gi%C3%A0y-adizero-adios-pro-2.0/FZ2477.html
-    },
-    {
-      id: '19',
-      text: 'Racer TR21',
-      star: '4.4',
-      money: '550',
-      image: 'https://bom.so/NA2cj8',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-racer-tr21/H00654.html
-    },
-    {
-      id: '20',
-      text: 'Supernova',
-      star: '4.7',
-      money: '580',
-      image: 'https://bom.so/elx7zh',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-supernova/S42722.html
-    },
-    {
-      id: '21',
-      text: 'ZG21 Motion Primegreen BOA',
-      star: '4.3',
-      money: '440',
-      image: 'https://bom.so/OiIxeH',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-golf-c%E1%BB%95-l%E1%BB%ADng-zg21-motion-primegreen-boa/G58741.html
-    },
-    {
-      id: '22',
-      text: 'Continental 80',
-      star: '4.2',
-      money: '460',
-      image: 'https://bom.so/bZsihr',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-continental-80/G27706.html
-    },
-    {
-      id: '23',
-      text: 'Adifom SLTN',
-      star: '4.8',
-      money: '605',
-      image: 'https://bom.so/cMMxkn',
-      description:
-        'From streets to parks to trails, build up the miles in these city-to-adventure shoes. Designed and tested in the rugged Pacific Northwest, the mixed-material upper pairs durability with easy styling. A rubber outsole with a heavy-duty, tuned lug pattern grips slick and rocky terrain, so you can go up, down, through and around.',
-      ColourShown: 'Hemp/Dark Russet/Total Orange/Coral Chalk',
-      type_ID: 'DM8019-201',
-      //https://www.adidas.com.vn/vi/gi%C3%A0y-adifom-sltn/HP6481.html
-    },
-  ];
-
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
@@ -164,9 +66,48 @@ const AdidasItem = () => {
   const decreaseQuantity = item => {
     dispatch(decrementQuantity(item));
   };
+  const [Products, setProducts] = useState([]);
 
+  useEffect(() => {
+    const fetchDataFromFirestore = async () => {
+      try {
+        const snapshot = await firestore()
+          .collection('Category')
+          .doc('adidas')
+          .collection('products')
+          .get();
+
+        const productsData = snapshot.docs.map(doc => doc.data());
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu từ Firestore: ', error);
+      }
+    };
+
+    fetchDataFromFirestore();
+    // pushProductsToFirestore('adidas', productmain);
+  }, []);
+
+  // Hàm push hàng loạt sản phẩm lên Firestore
+  const pushProductsToFirestore = async (category, products) => {
+    try {
+      for (const product of products) {
+        const productRef = firestore()
+          .collection('Category')
+          .doc(category)
+          .collection('products')
+          .doc(product.id); // Sử dụng tên sản phẩm làm type_ID của document
+
+        await productRef.set(product);
+      }
+
+      console.log('Hàng loạt sản phẩm đã được ghi vào Firestore');
+    } catch (error) {
+      console.error('Lỗi khi ghi hàng loạt sản phẩm vào Firestore:', error);
+    }
+  };
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <Text
         style={{
           fontSize: 30,
@@ -179,7 +120,7 @@ const AdidasItem = () => {
       </Text>
 
       <FlatList
-        data={productmain}
+        data={Products}
         numColumns={2}
         renderItem={({item, index}) => (
           <View key={`${item.id}-${index}`} style={styles.view_flatlist}>

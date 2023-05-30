@@ -182,7 +182,7 @@ const AllItemScreen = () => {
   // }, []);
 
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <Text
         style={{
           fontSize: 30,
