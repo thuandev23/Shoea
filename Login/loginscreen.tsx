@@ -15,6 +15,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import LottieView from 'lottie-react-native';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -37,15 +38,23 @@ const LoginScreen = ({navigation}) => {
   });
   const signIn = async () => {};
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+      }}>
       {showLoading ? (
         <Loading_headerMain />
       ) : (
         <View style={styles.container}>
-          <Image
-            source={require('../assets/img-logo/undraw_nature_m5ll.png')}
+          <LottieView
+            source={require('../assets/lottie/142631-dinosaur-running.json')}
             style={styles.Image}
+            autoPlay
           />
+
           <Text style={styles.text}>Let's you in</Text>
           <TouchableHighlight
             underlayColor="#3763FCcf"
@@ -101,15 +110,13 @@ const LoginScreen = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    marginTop: height * 0.05,
     justifyContent: 'center',
     alignItems: 'center',
   },
   Image: {
-    height: 200,
-    width: 200,
     resizeMode: 'cover',
-    borderRadius: 50,
+    height: 300,
+    width: 300,
   },
   text: {
     fontSize: 50,

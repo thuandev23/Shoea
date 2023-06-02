@@ -17,6 +17,8 @@ import {
   incrementQuantity,
   removeFromCart,
 } from './cartReducer';
+import LottieView from 'lottie-react-native';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -93,7 +95,7 @@ const CartScreen = ({navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: '#F2FCF1', flex: 1}}>
+    <View style={{backgroundColor: '#fff', flex: 1}}>
       {/* header_cart */}
       <View style={styles.viewHeaderCart}>
         <Image
@@ -127,42 +129,80 @@ const CartScreen = ({navigation}) => {
             alignItems: 'center',
             marginTop: 100,
           }}>
-          <Image
-            source={require('../assets/img-logo/que.png')}
-            style={{height: 150, width: 250, resizeMode: 'cover'}}
+          <LottieView
+            source={require('../assets/lottie/75078-shopping-cart.json')}
+            style={{height: 300, width: 300}}
+            autoPlay
           />
           <Text style={styles.noProductText}>
             There is no product in the cart
           </Text>
         </View>
       )}
-      <View style={styles.viewCheckOut}>
-        <Text
-          style={{
-            position: 'absolute',
-            fontSize: 20,
-            color: 'black',
-            paddingLeft: width * 0.03,
-            paddingTop: height * 0.007,
-          }}>
-          Total Price:
-        </Text>
-        <Text
-          style={{
-            position: 'absolute',
-            fontSize: 30,
-            color: 'black',
-            paddingLeft: width * 0.03,
-            paddingTop: height * 0.04,
-          }}>
-          $ {totalPrice}
-        </Text>
-        <TouchableOpacity
-          style={styles.btnCheckOut}
-          onPress={() => navigation.navigate('Check out')}>
-          <Text style={{fontSize: 25, color: 'white'}}>Check Out</Text>
-        </TouchableOpacity>
-      </View>
+      {/* footer_cart */}
+
+      {cartLength > 0 ? (
+        <View style={styles.viewCheckOut}>
+          <Text
+            style={{
+              position: 'absolute',
+              fontSize: 20,
+              color: 'black',
+              paddingLeft: width * 0.03,
+              paddingTop: height * 0.007,
+            }}>
+            Total Price:
+          </Text>
+          <Text
+            style={{
+              position: 'absolute',
+              fontSize: 30,
+              color: 'black',
+              paddingLeft: width * 0.03,
+              paddingTop: height * 0.04,
+            }}>
+            $ {totalPrice}
+          </Text>
+          <TouchableOpacity
+            style={[styles.btnCheckOut, {backgroundColor: 'green'}]}
+            onPress={() => navigation.navigate('Check out')}>
+            <Text style={{fontSize: 25, color: 'white'}}>Check Out</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.viewCheckOut}>
+          <Text
+            style={{
+              position: 'absolute',
+              fontSize: 20,
+              color: 'black',
+              paddingLeft: width * 0.03,
+              paddingTop: height * 0.007,
+            }}>
+            Total Price:
+          </Text>
+          <Text
+            style={{
+              position: 'absolute',
+              fontSize: 30,
+              color: 'black',
+              paddingLeft: width * 0.03,
+              paddingTop: height * 0.04,
+            }}>
+            $ {totalPrice}
+          </Text>
+          <TouchableOpacity
+            style={[styles.btnCheckOut, {backgroundColor: 'black'}]}
+            onPress={() =>
+              Alert.alert(
+                'Thông báo',
+                'Chưa có sản phẩm để kiểm tra, Vui lòng mua sản phẩm !',
+              )
+            }>
+            <Text style={{fontSize: 25, color: 'white'}}>Check Out</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -175,7 +215,6 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 50,
     marginBottom: 20,
-    // backgroundColor: '#2341',
     borderRadius: 20,
     shadowColor: '#3292D2',
     shadowOffset: {
@@ -283,7 +322,6 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     borderRadius: 30,
-    backgroundColor: 'black',
     marginTop: height * 0.02,
     shadowColor: '#000',
     shadowOffset: {
@@ -295,7 +333,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   noProductText: {
-    fontSize: 25,
+    fontSize: 20,
     marginTop: 50,
   },
 });

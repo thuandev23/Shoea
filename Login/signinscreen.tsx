@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
+import LottieView from 'lottie-react-native';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const DangNhapScreen = ({navigation}) => {
@@ -22,10 +22,8 @@ const DangNhapScreen = ({navigation}) => {
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [showLottie, setShowLottie] = useState(false);
 
-  const handleLogin = () => {
-    navigation.navigate('Tabs');
-  };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
   };
@@ -65,7 +63,6 @@ const DangNhapScreen = ({navigation}) => {
     if (!isValid) {
       return;
     }
-
     // Đăng nhập người dùng bằng email và mật khẩu
     auth()
       .signInWithEmailAndPassword(username, password)
@@ -91,7 +88,13 @@ const DangNhapScreen = ({navigation}) => {
         console.log('Lỗi đăng nhập:', error.message); // Trích xuất thông báo lỗi từ đối tượng error
       });
   };
-
+  const handleButtonClick = () => {
+    setShowLottie(true); // Hiển thị LottieView
+    checkLogin();
+    setTimeout(() => {
+      setShowLottie(false);
+    }, 2000);
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -153,16 +156,21 @@ const DangNhapScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
       {error !== '' && <Text style={styles.error}>{error}</Text>}
+
       <TouchableOpacity
         style={[
           styles.button,
           {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
         ]}
-        onPress={checkLogin}
-        // onPress={() => navigation.navigate('Tabs')}
-      >
+        onPress={handleButtonClick}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+      {showLottie && (
+        <LottieView
+          source={require('../assets/lottie/119257-blue-successful-login.json')}
+          autoPlay
+        />
+      )}
 
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>
@@ -186,7 +194,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
+    backgroundColor: 'white',
   },
   logoContainer: {
     position: 'absolute',

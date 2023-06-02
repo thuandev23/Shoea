@@ -7,10 +7,12 @@ import {
   StyleSheet,
   TextInput,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import RNRestart from 'react-native-restart';
-import {auth, db} from '../firebase';
 import firestore from '@react-native-firebase/firestore';
+import LottieView from 'lottie-react-native';
+
 const Editprofile = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [newPass, setNewPassword] = useState('');
@@ -27,59 +29,124 @@ const Editprofile = ({navigation}) => {
     }
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Name</Text>
-      <TextInput
-        style={styles.input}
-        value={newName}
-        onChangeText={setNewName}
-        placeholder="Enter your new name"
-      />
-      <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} placeholder={email} editable={false} />
+  const handleSave = async () => {
+    const currentUser = firebase.auth().currentUser;
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        value={newPass}
-        onChangeText={setNewPassword}
-        placeholder="Enter your new new password"
-      />
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          Alert.alert(
-            'Thông báo',
-            'Bạn có muốn khởi động lại ứng dụng để cập nhật tên người dùng không?',
-            [
-              {
-                text: 'Không',
-                onPress: () => navigation.navigate('Setting'),
-                style: 'cancel',
-              },
-              {
-                text: 'Có',
-                onPress: () => navigation.navigate('Login'),
-              },
-            ],
-            {cancelable: false},
+    if (currentUser) {
+      try {
+        await currentUser.updateProfile({
+          displayName: newName,
+        });
+        await firestore().collection('users').doc(currentUser.uid).update({
+          name: newName,
+        });
+        console.log('Success', 'Your name has been updated.');
+      } catch (error) {
+        console.log('Error', 'An error occurred while updating your name.');
+      }
+      if (newPass !== '') {
+        try {
+          await currentUser.updatePassword(newPass);
+          console.log('Success', 'Your password has been updated.');
+        } catch (error) {
+          console.log(
+            'Error',
+            'An error occurred while updating your password.',
           );
-        }}>
-        <Text style={styles.buttonText}>Save</Text>
-      </TouchableOpacity>
-    </View>
+        }
+      }
+      try {
+        await firestore().collection('users').doc(currentUser.uid).update({
+          name: newName,
+          password: newPass,
+        });
+        console.log(
+          'Success',
+          'Your information has been updated in Firestore.',
+        );
+      } catch (error) {
+        console.log(
+          'Error',
+          'An error occurred while updating your information in Firestore.',
+        );
+      }
+      Alert.alert(
+        'Restart',
+        'Do you want to restart the application to apply the changes?',
+        [
+          {
+            text: 'No',
+            onPress: () => navigation.navigate('Setting'),
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => RNRestart.Restart(),
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+  };
+  const [showLottie, setShowLottie] = useState(false);
+  const handleButtonClick = () => {
+    setShowLottie(true); // Hiển thị LottieView
+    setTimeout(() => {
+      setShowLottie(false);
+    }, 2000);
+    handleSave();
+  };
+  return (
+    <KeyboardAvoidingView style={styles.containerKeyboard} behavior="position">
+      <View style={styles.container}>
+        <LottieView
+          source={require('../assets/lottie/119588-task-assigning.json')}
+          autoPlay
+          style={{height: 300, width: '100%'}}
+        />
+        <Text style={styles.label}>Name</Text>
+        <TextInput
+          style={styles.input}
+          value={newName}
+          onChangeText={setNewName}
+          placeholder="Enter your new name"
+        />
+        <Text style={styles.label}>Email</Text>
+        <TextInput style={styles.input} placeholder={email} editable={false} />
+
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          style={styles.input}
+          value={newPass}
+          onChangeText={setNewPassword}
+          placeholder="Enter your new new password"
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleButtonClick}>
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
+        {showLottie && (
+          <LottieView
+            source={require('../assets/lottie/129118-done.json')}
+            style={{height: 200, width: 200}}
+            autoPlay
+          />
+        )}
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 export default Editprofile;
 
 const styles = StyleSheet.create({
-  container: {
+  containerKeyboard: {
     flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  container: {
+    position: 'relative',
     padding: 20,
-    backgroundColor: '#ffffffc9',
   },
   label: {
     fontSize: 18,

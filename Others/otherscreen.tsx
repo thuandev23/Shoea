@@ -19,6 +19,7 @@ import {
   removeFromCart,
 } from '../Cart/cartReducer';
 import ViewMoreText from 'react-native-view-more-text';
+import LottieView from 'lottie-react-native';
 
 const Otherscreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -118,13 +119,12 @@ const Otherscreen = ({navigation}) => {
         />
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Image
-            source={{
-              uri: 'https://bizweb.dktcdn.net/100/401/953/themes/785928/assets/empty_cart.png?1614590460628',
-            }}
-            style={{height: 200, width: '100%'}}
+          <LottieView
+            source={require('../assets/lottie/132793-empty-box.json')}
+            style={{height: 400, width: '100%'}}
+            autoPlay
           />
-          <Text style={{fontSize: 20, padding: 30}}>
+          <Text style={{fontSize: 20, padding: 20}}>
             Bạn chưa có mua sản phẩm nào cả
           </Text>
         </View>
@@ -252,7 +252,7 @@ export default Otherscreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2FCF1',
+    backgroundColor: '#fff',
   },
   viewHeaderCart: {
     height: 80,

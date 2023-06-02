@@ -160,6 +160,7 @@ const MainTabs = () => {
 
 const IndexComponent = ({navigation}) => {
   return (
+    // <OrderDeliver />
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{

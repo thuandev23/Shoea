@@ -1,10 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
 import {Slider} from 'react-native-elements';
+import {firebase} from '@react-native-firebase/auth';
+
 const ReviewScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [rating, setRating] = useState(3);
   const [comment, setComment] = useState('');
+  const [reviews, setReviews] = useState([]);
+
+  // Initialize Firebase Firestore
+  useEffect(() => {
+    firebase.firestore().settings({experimentalForceLongPolling: true});
+  }, []);
+
+  // Fetch reviews from Firestore
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection('reviews')
+      .onSnapshot(snapshot => {
+        const reviewsData = snapshot.docs.map(doc => doc.data());
+        setReviews(reviewsData);
+      });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleNameChange = value => {
     setName(value);
@@ -19,9 +40,22 @@ const ReviewScreen = ({navigation}) => {
   };
 
   const handleSubmit = () => {
-    // handle submit logic here
-    navigation.goBack();
-    console.log(name, rating, comment);
+    // Save review to Firestore
+    firebase
+      .firestore()
+      .collection('reviews')
+      .add({
+        name,
+        rating,
+        comment,
+      })
+      .then(() => {
+        console.log('Review saved successfully');
+        navigation.goBack();
+      })
+      .catch(error => {
+        console.error('Error saving review:', error);
+      });
   };
 
   return (
@@ -39,11 +73,21 @@ const ReviewScreen = ({navigation}) => {
       <Text>Comment</Text>
       <TextInput value={comment} onChangeText={handleCommentChange} />
       <Button title="Submit" onPress={handleSubmit} />
+
+      <Text>Product Reviews:</Text>
+      {reviews.map((review, index) => (
+        <View key={index}>
+          <Text>Name: {review.name}</Text>
+          <Text>Rating: {review.rating}</Text>
+          <Text>Comment: {review.comment}</Text>
+          <Text>--------------------------</Text>
+        </View>
+      ))}
     </View>
   );
 };
-
 export default ReviewScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

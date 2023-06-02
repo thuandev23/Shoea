@@ -83,12 +83,46 @@ const Mainscreen = ({navigation}) => {
     return unsubscribe;
   });
 
+  // Avatar
+  const [profileImage, setProfileImage] = useState(null);
+  const getAvatarFromFirestore = async () => {
+    try {
+      const currentUser = auth().currentUser;
+      const userRef = firestore().collection('users').doc(currentUser.uid);
+      const snapshot = await userRef.get();
+
+      if (snapshot.exists) {
+        const userData = snapshot.data();
+        const avatarUrl = userData.avatar; // Thay 'avatar' bằng trường chứa URL ảnh avatar trong Firestore của bạn
+        return avatarUrl;
+      } else {
+        return null; // Người dùng không tồn tại trong Firestore
+      }
+    } catch (error) {
+      console.log('Lỗi khi lấy avatar từ Firestore:', error);
+      return null;
+    }
+  };
+  const fetchAvatarUrl = async () => {
+    const avatarUrl = await getAvatarFromFirestore();
+    if (avatarUrl) {
+      setProfileImage(avatarUrl);
+    }
+  };
+
+  useEffect(() => {
+    fetchAvatarUrl();
+  }, []);
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
-            source={require('../assets/img-logo/logo.jpg')}
+            source={
+              profileImage
+                ? {uri: profileImage}
+                : require('../assets/img-logo/meme1.jpg')
+            }
             resizeMode="cover"
             style={styles.avatar}
           />
@@ -293,9 +327,8 @@ const Mainscreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent:'center',
     alignItems: 'center',
-    backgroundColor: '#F2FCF1',
+    backgroundColor: '#fff',
   },
   header: {
     marginTop: 5,
@@ -309,7 +342,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     position: 'absolute',
-    fontSize: 17,
+    fontSize: 18,
     padding: 15,
     marginLeft: 80,
     color: '#2349',
@@ -331,7 +364,7 @@ const styles = StyleSheet.create({
     marginLeft: 85,
     color: 'black',
     fontSize: 22,
-    marginTop: 50,
+    marginTop: h * 0.05,
     fontWeight: '500',
   },
   headerImage: {
@@ -396,7 +429,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'red',
   },
   viewPopular: {
     // backgroundColor: 'gray',

@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
+
 const width_screen = Dimensions.get('window').width;
 
 const card_item = width_screen - 24 * 2;
@@ -100,6 +102,7 @@ const WalletScreen = ({navigation}) => {
             My Wallet
           </Text>
         </View>
+
         <ImageBackground
           source={require('../assets/img-logo/card_visa_bg.png')}
           style={styles.card}>
@@ -179,15 +182,16 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   container: {
-    backgroundColor: '#F2FCF1',
+    backgroundColor: '#fff',
+    height: '100%',
   },
   items: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
   },
   icon: {
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#2341',
     width: 60,
     height: 60,
     shadowColor: '#000',

@@ -25,6 +25,8 @@ import {
   GooglePlaceDetail,
   GooglePlacesAutocomplete,
 } from 'react-native-google-places-autocomplete';
+import LottieView from 'lottie-react-native';
+
 import {GOOGLE_API_KEY} from './environments';
 enableLatestRenderer();
 const {width, height} = Dimensions.get('window');
@@ -122,11 +124,13 @@ const OrderDeliver = ({navigation}) => {
       setDuration(args.duration);
     }
   };
-
   const traceRoute = () => {
     if (origin && destination) {
       setShowDirections(true);
-      mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
+      mapRef.current?.fitToCoordinates([origin, destination], {
+        edgePadding,
+        animated: true, // Add this line to enable animated camera movement
+      });
     }
   };
 
@@ -150,9 +154,10 @@ const OrderDeliver = ({navigation}) => {
         ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}>
-        {origin && <Marker coordinate={origin} />}
-        {destination && <Marker coordinate={destination} />}
+        initialRegion={INITIAL_POSITION}
+        showsUserLocation={true}>
+        {origin && <Marker key="origin" coordinate={origin} />}
+        {destination && <Marker key="destination" coordinate={destination} />}
         {showDirections && origin && destination && (
           <MapViewDirections
             origin={origin}
@@ -204,16 +209,13 @@ const OrderDeliver = ({navigation}) => {
         </TouchableOpacity>
         <Modal isVisible={isModalVisible}>
           <View style={styles.modal}>
-            <Animated.View
-              style={[
-                styles.imageContainer,
-                {transform: [{scale: animationValue}]},
-              ]}>
-              <Animated.Image
-                style={[styles.image, {opacity: animationValue}]}
-                source={require('../assets/img-logo/success.png')}
+            <View style={styles.imageContainer}>
+              <LottieView
+                style={styles.image}
+                source={require('../assets/lottie/101796-delivery-bike.json')}
+                autoPlay
               />
-            </Animated.View>
+            </View>
             <TouchableOpacity
               style={styles.buttondone}
               onPress={() => {
@@ -236,10 +238,8 @@ export default OrderDeliver;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   map: {
     width: Dimensions.get('window').width,

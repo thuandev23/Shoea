@@ -13,6 +13,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import LottieView from 'lottie-react-native';
+
 const menuItems = [
   {
     title: 'Edit Profile',
@@ -207,9 +209,10 @@ const ProfileScreen = ({navigation}) => {
         </TouchableOpacity>
         <Modal isVisible={isModalVisible}>
           <View style={styles.modal}>
-            <Image
+            <LottieView
               style={styles.image}
-              source={require('../assets/img-logo/logout.png')}
+              source={require('../assets/lottie/68582-log-out.json')}
+              autoPlay
             />
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
@@ -241,7 +244,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#F2FCF1',
+    backgroundColor: '#fff',
   },
   viewHeaderCart: {
     padding: 10,
@@ -331,8 +334,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
     marginBottom: 20,
   },
   buttonlogout: {

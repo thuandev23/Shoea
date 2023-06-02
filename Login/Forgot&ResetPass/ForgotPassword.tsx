@@ -10,6 +10,8 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
+
 const ForgotPasswordScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const sendEmail = () => {
@@ -29,9 +31,10 @@ const ForgotPasswordScreen = ({navigation}) => {
     <KeyboardAvoidingView behavior="position" style={styles.mainCon}>
       <View style={{position: 'relative', bottom: 30}}>
         <View style={styles.loginIcon}>
-          <Image
-            source={require('./Img-Forgot-ResetPass/forgot-bg.png')}
-            style={{width: 420, height: 320, backgroundColor: 'gray'}}
+          <LottieView
+            source={require('./Img-Forgot-ResetPass/75988-forgot-password.json')}
+            style={{height: 350, width: '100%'}}
+            autoPlay
           />
         </View>
         <View style={styles.container}>
