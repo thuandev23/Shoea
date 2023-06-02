@@ -19,6 +19,7 @@ import {
   removeFromCart,
 } from '../../Cart/cartReducer';
 import firestore from '@react-native-firebase/firestore';
+import LottieView from 'lottie-react-native';
 
 const AdidasItem = () => {
   const cart = useSelector(state => state.cart.cart);
@@ -106,8 +107,16 @@ const AdidasItem = () => {
       console.error('Lỗi khi ghi hàng loạt sản phẩm vào Firestore:', error);
     }
   };
+  //
+  const [showLottie, setShowLottie] = useState(false);
+  const handleButtonClick = () => {
+    setShowLottie(true); // Hiển thị LottieView
+    setTimeout(() => {
+      setShowLottie(false);
+    }, 2000);
+  };
   return (
-    <View style={{height: '100%'}}>
+    <View style={{height: '100%', backgroundColor: 'white'}}>
       <Text
         style={{
           fontSize: 30,
@@ -153,7 +162,7 @@ const AdidasItem = () => {
           onRequestClose={closeModal}>
           <TouchableOpacity
             onPress={closeModal}
-            style={{paddingTop: 40, backgroundColor: '#2342'}}>
+            style={{paddingTop: 40, backgroundColor: 'white'}}>
             <Image
               source={require('../database/checkerror.png')}
               style={styles.close}
@@ -162,7 +171,7 @@ const AdidasItem = () => {
 
           <ScrollView>
             <View
-              style={{flex: 1, alignItems: 'center', backgroundColor: '#2342'}}>
+              style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
               <Image
                 source={{uri: selectedProduct.image}}
                 style={styles.img_main}
@@ -347,14 +356,5 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 23,
     width: '60%',
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 9,
   },
 });

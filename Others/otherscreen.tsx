@@ -97,7 +97,7 @@ const Otherscreen = ({navigation}) => {
             <View key={`${item.id}-${index}`} style={styles.item}>
               <Image source={{uri: item.image}} style={styles.itemImage} />
               <Text style={styles.itemText}>{item.text}</Text>
-              <Text style={styles.itemMoney}>{item.money} $</Text>
+              <Text style={styles.itemMoney}>Cash: {item.money} $</Text>
               <Text style={styles.itemColourShown}>
                 Colour: {item.ColourShown}
               </Text>
@@ -125,7 +125,7 @@ const Otherscreen = ({navigation}) => {
             autoPlay
           />
           <Text style={{fontSize: 20, padding: 20}}>
-            Bạn chưa có mua sản phẩm nào cả
+            You have not yet bought any products
           </Text>
         </View>
       )}
@@ -140,7 +140,7 @@ const Otherscreen = ({navigation}) => {
           onRequestClose={closeModal}>
           <TouchableOpacity
             onPress={closeModal}
-            style={{paddingTop: 40, backgroundColor: '#2342'}}>
+            style={{paddingTop: 40, backgroundColor: 'white'}}>
             <Image
               source={require('../assets/img-logo/checkerror.png')}
               style={styles.close}
@@ -149,7 +149,7 @@ const Otherscreen = ({navigation}) => {
 
           <ScrollView>
             <View
-              style={{flex: 1, alignItems: 'center', backgroundColor: '#2342'}}>
+              style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
               <Image
                 source={{uri: selectedProduct.image}}
                 style={styles.img_main}
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   item: {
-    backgroundColor: 'white',
+    backgroundColor: '#D9EEF1',
     margin: 15,
     borderRadius: 25,
   },
@@ -384,14 +384,5 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 23,
     width: '60%',
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 9,
   },
 });

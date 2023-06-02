@@ -6,19 +6,18 @@ const DiscountItem = () => {
   return (
     <View style={styles.dataListItem}>
       <ScrollView>
-
         {dataSlide.map(item => (
           <View key={item.id} style={styles.flastlist}>
             <Image
               source={{uri: item.image}}
               style={{height: '100%', width: '100%', borderRadius: 20}}
-              />
+            />
             <Text style={styles.percent}>{item.percent}%</Text>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.txt}>{item.txt}</Text>
           </View>
         ))}
-        </ScrollView>
+      </ScrollView>
     </View>
   );
 };
@@ -27,6 +26,7 @@ export default DiscountItem;
 const styles = StyleSheet.create({
   dataListItem: {
     flex: 1,
+    backgroundColor: 'white',
   },
   flastlist: {
     height: 230,

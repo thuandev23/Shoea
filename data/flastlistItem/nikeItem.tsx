@@ -99,7 +99,7 @@ const NikeItem = () => {
   };
 
   return (
-    <View style={{height: '100%'}}>
+    <View style={{height: '100%', backgroundColor: 'white'}}>
       <Text
         style={{
           fontSize: 30,
@@ -339,14 +339,5 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 23,
     width: '60%',
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 9,
   },
 });

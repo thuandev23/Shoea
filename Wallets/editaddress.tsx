@@ -12,7 +12,7 @@ const EditAddressScreen = ({navigation}) => {
 
   const handleSaveAddress = () => {
     // Xử lý logic lưu địa chỉ vào cơ sở dữ liệu hoặc state của ứng dụng
-    // navigation.goBack();
+    navigation.goBack();
   };
 
   return (
