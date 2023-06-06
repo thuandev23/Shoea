@@ -1,12 +1,29 @@
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import dataSlide from './datalist';
+import React, {useEffect, useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 
 const DiscountItem = () => {
+  const [Products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchDataFromFirestore = async () => {
+      try {
+        const snapshot = await firestore().collection('discounts').get();
+
+        const productsData = snapshot.docs.map(doc => doc.data());
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu từ Firestore: ', error);
+      }
+    };
+
+    fetchDataFromFirestore();
+    // pushProductsToFirestore('converse', productmain);
+  }, []);
   return (
     <View style={styles.dataListItem}>
       <ScrollView>
-        {dataSlide.map(item => (
+        {Products.map(item => (
           <View key={item.id} style={styles.flastlist}>
             <Image
               source={{uri: item.image}}

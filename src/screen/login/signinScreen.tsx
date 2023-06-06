@@ -13,6 +13,7 @@ import {
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
+import {LoadingScreen} from '../loadding_splash';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -64,29 +65,23 @@ const DangNhapScreen = ({navigation}) => {
     if (!isValid) {
       return;
     }
-    // Đăng nhập người dùng bằng email và mật khẩu
     auth()
       .signInWithEmailAndPassword(username, password)
       .then(async userCredential => {
-        // Đăng nhập thành công, lấy thông tin người dùng
         const user = userCredential.user;
         console.log('Đăng nhập thành công:', user.uid);
-        // Kiểm tra xem người dùng có tồn tại trong Firestore hay không
         const userRef = firestore().collection('users').doc(user.uid);
         const snapshot = await userRef.get();
         navigation.navigate('Tabs');
 
         if (snapshot.exists) {
-          // Người dùng tồn tại trong Firestore
           console.log('Thông tin người dùng:', snapshot.data());
         } else {
-          // Người dùng không tồn tại trong Firestore
           console.log('Lỗi: Người dùng không tìm thấy trong Firestore');
         }
       })
       .catch(error => {
-        // Xảy ra lỗi khi đăng nhập
-        console.log('Lỗi đăng nhập:', error.message); // Trích xuất thông báo lỗi từ đối tượng error
+        console.log('Lỗi đăng nhập:', error.message);
       });
   };
   const handleButtonClick = () => {
@@ -166,12 +161,7 @@ const DangNhapScreen = ({navigation}) => {
         onPress={handleButtonClick}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      {showLottie && (
-        <LottieView
-          source={require('../assets/lottie/119257-blue-successful-login.json')}
-          autoPlay
-        />
-      )}
+      {showLottie && <LoadingScreen />}
 
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>

@@ -1,80 +1,41 @@
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
 
 const Shipping = ({navigation}) => {
-  const [ship, setShip] = useState([
-    {
-      id: 1,
-      nameship: 'Economy',
-      shipping: 'Estimated Arrival',
-      moneysafe: '10',
-      image: '../assets/img-logo/economy.png',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      nameship: 'Regular',
-      shipping: 'Estimated Arrival',
-      moneysafe: '15',
-      image: '../assets/img-logo/regular.png',
-
-      isDefault: false,
-    },
-    {
-      id: 3,
-      nameship: 'Cargo',
-      shipping: 'Estimated Arrival',
-      moneysafe: '20',
-      image: '../assets/img-logo/cargo.png',
-
-      isDefault: false,
-    },
-    {
-      id: 4,
-      nameship: 'Express',
-      shipping: 'Estimated Arrival',
-      moneysafe: '30',
-      image: '../assets/img-logo/express.png',
-
-      isDefault: false,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
   const [selectedShipId, setSelectedShipId] = useState(1);
 
-  const handleSelectAddress = id => {
-    const selectShip = ship.find(shipping => shipping.id === id);
+  useEffect(() => {
+    const fetchDataFromFirestore = async () => {
+      try {
+        const snapshot = await firestore().collection('shippings').get();
 
-    const updatedShip = ship.map(shipping => {
-      if (shipping.id === id) {
-        shipping.isDefault = true;
-        // navigation.goBack('Check out');
-      } else {
-        shipping.isDefault = false;
+        const productsData = snapshot.docs.map(doc => doc.data());
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Error fetching data from Firestore:', error);
       }
-      return shipping;
-    });
-    setShip(updatedShip);
+    };
+
+    fetchDataFromFirestore();
+  }, []);
+
+  const handleSelectAddress = id => {
     setSelectedShipId(id);
+    const selectedProduct = products.find(product => product.id === id);
+    navigation.navigate('Check out', {moneysafe: selectedProduct.moneysafe});
   };
 
   return (
     <View>
-      {ship.map(shipping => (
+      {products.map(shipping => (
         <TouchableWithoutFeedback
           key={shipping.id}
           onPress={() => handleSelectAddress(shipping.id)}>
           <View style={styles.btn_address}>
             <View style={styles.shipping}>
-              {/* <Image source={{uri: shipping.image}} style={styles.imgAddress} /> */}
               <View style={styles.textbox}>
                 <Text style={styles.family}>{shipping.nameship}</Text>
                 <Text style={styles.money}>${shipping.moneysafe}</Text>

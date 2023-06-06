@@ -154,7 +154,7 @@ const ConverseItem = () => {
           onRequestClose={closeModal}>
           <TouchableOpacity
             onPress={closeModal}
-            style={{paddingTop: 40, backgroundColor: '#2342'}}>
+            style={{paddingTop: 40, backgroundColor: '#fff'}}>
             <Image
               source={require('../firebase/checkerror.png')}
               style={styles.close}
@@ -163,7 +163,7 @@ const ConverseItem = () => {
 
           <ScrollView>
             <View
-              style={{flex: 1, alignItems: 'center', backgroundColor: '#2342'}}>
+              style={{flex: 1, alignItems: 'center', backgroundColor: '#fff'}}>
               <Image
                 source={{uri: selectedProduct.image}}
                 style={styles.img_main}
@@ -224,7 +224,7 @@ const ConverseItem = () => {
                     style={styles.btnAdd}
                     onPress={() =>
                       Alert.alert(
-                        // 'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                        'Notify',
                         'The product has been added to cart',
                       )
                     }>
@@ -241,7 +241,7 @@ const ConverseItem = () => {
                   <TouchableOpacity
                     style={styles.btnAdd}
                     onPress={() => addItemToCart(selectedProduct)}
-                    onPressIn={() => Alert.alert('Added product')}>
+                    onPressIn={() => Alert.alert('Notify', 'Added product')}>
                     <Text
                       style={{
                         fontSize: 20,

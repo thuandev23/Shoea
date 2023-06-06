@@ -232,7 +232,7 @@ const AdidasItem = () => {
                     style={styles.btnAdd}
                     onPress={() =>
                       Alert.alert(
-                        // 'Mù hả ? Không thấy chữ đã thêm thành công à, qua giỏ hàng mà xem',
+                        'Notify',
                         'The product has been added to cart',
                       )
                     }>
@@ -249,7 +249,7 @@ const AdidasItem = () => {
                   <TouchableOpacity
                     style={styles.btnAdd}
                     onPress={() => addItemToCart(selectedProduct)}
-                    onPressIn={() => Alert.alert('Added product')}>
+                    onPressIn={() => Alert.alert('Notify', 'Added product')}>
                     <Text
                       style={{
                         fontSize: 20,

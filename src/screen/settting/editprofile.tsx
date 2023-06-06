@@ -81,7 +81,7 @@ const Editprofile = ({navigation}) => {
           },
           {
             text: 'Yes',
-            onPress: () => RNRestart.Restart(),
+            onPress: () => navigation.navigate('Login'),
           },
         ],
         {cancelable: false},
