@@ -27,7 +27,7 @@ const CartScreen = ({navigation}) => {
   const cart = useSelector(state => state.cart.cart);
   const cartLength = cart ? cart.length : 0;
 
-  const handleRemoveFromCart = item => {
+  const handleRemoveFromCart = (item: any) => {
     Alert.alert(
       'Remove Item',
       'Are you sure you want to remove this item from your cart?',
@@ -44,15 +44,16 @@ const CartScreen = ({navigation}) => {
       ],
     );
   };
-  const handleIncreFromCart = item => {
+  const handleIncreFromCart = (item: any) => {
     dispatch(incrementQuantity(item));
   };
 
-  const handleDecreFromCart = item => {
+  const handleDecreFromCart = (item: any) => {
     dispatch(decrementQuantity(item));
   };
   const totalPrice = cart.reduce(
-    (acc, item) => acc + item.money * item.quantity,
+    (acc: number, item: {money: number; quantity: number}) =>
+      acc + item.money * item.quantity,
     0,
   );
 

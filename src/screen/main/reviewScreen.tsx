@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
+import {View, Text, TextInput, StyleSheet, Button, Alert} from 'react-native';
 import {Slider} from 'react-native-elements';
 import {firebase} from '@react-native-firebase/auth';
 
@@ -8,11 +8,6 @@ const ReviewScreen = ({navigation}) => {
   const [rating, setRating] = useState(3);
   const [comment, setComment] = useState('');
   const [reviews, setReviews] = useState([]);
-
-  // Initialize Firebase Firestore
-  useEffect(() => {
-    firebase.firestore().settings({experimentalForceLongPolling: true});
-  }, []);
 
   // Fetch reviews from Firestore
   useEffect(() => {
@@ -27,15 +22,15 @@ const ReviewScreen = ({navigation}) => {
     return () => unsubscribe();
   }, []);
 
-  const handleNameChange = value => {
+  const handleNameChange = (value: React.SetStateAction<string>) => {
     setName(value);
   };
 
-  const handleRatingChange = value => {
+  const handleRatingChange = (value: React.SetStateAction<number>) => {
     setRating(value);
   };
 
-  const handleCommentChange = value => {
+  const handleCommentChange = (value: React.SetStateAction<string>) => {
     setComment(value);
   };
 
@@ -50,8 +45,7 @@ const ReviewScreen = ({navigation}) => {
         comment,
       })
       .then(() => {
-        console.log('Review saved successfully');
-        navigation.goBack();
+        Alert.alert('Notify', 'Review saved successfully');
       })
       .catch(error => {
         console.error('Error saving review:', error);
@@ -68,7 +62,7 @@ const ReviewScreen = ({navigation}) => {
         onValueChange={handleRatingChange}
         minimumValue={1}
         maximumValue={5}
-        step={1}
+        step={0.1}
       />
       <Text>Comment</Text>
       <TextInput value={comment} onChangeText={handleCommentChange} />
@@ -86,6 +80,7 @@ const ReviewScreen = ({navigation}) => {
     </View>
   );
 };
+
 export default ReviewScreen;
 
 const styles = StyleSheet.create({

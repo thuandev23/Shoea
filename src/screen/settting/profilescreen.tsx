@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Dimensions,
   FlatList,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -14,6 +15,8 @@ import Modal from 'react-native-modal';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
+const w = Dimensions.get('screen').width;
+const h = Dimensions.get('screen').height;
 
 const menuItems = [
   {
@@ -74,12 +77,11 @@ const ProfileScreen = ({navigation}) => {
 
       cropping: true,
     }).then(async image => {
-      // console.log(image);
       setProfileImage(image.path);
       await updateAvatarToFirestore(image.path);
     });
   };
-  const updateAvatarToFirestore = async imageUrl => {
+  const updateAvatarToFirestore = async (imageUrl: string) => {
     try {
       const currentUser = auth().currentUser;
       const userRef = firestore().collection('users').doc(currentUser.uid);
@@ -129,7 +131,6 @@ const ProfileScreen = ({navigation}) => {
   };
 
   const [userName, setUserName] = useState('');
-  // Lấy tên người dùng từ Firestore
   const getUserNameFromFirestore = async () => {
     try {
       const currentUser = auth().currentUser;
@@ -138,10 +139,10 @@ const ProfileScreen = ({navigation}) => {
 
       if (snapshot.exists) {
         const userData = snapshot.data();
-        const uName = userData.name; // Thay 'name' bằng trường tên người dùng trong Firestore của bạn
+        const uName = userData.name;
         return uName;
       } else {
-        return null; // Người dùng không tồn tại trong Firestore
+        return null;
       }
     } catch (error) {
       console.log('Lỗi khi lấy tên người dùng từ Firestore:', error);
@@ -149,12 +150,9 @@ const ProfileScreen = ({navigation}) => {
     }
   };
 
-  // Sử dụng hàm để lấy tên người dùng
   const fetchUserName = async () => {
     const MName = await getUserNameFromFirestore();
     if (MName) {
-      // console.log('Tên người dùng:', MName);
-      // Thực hiện các xử lý khác với tên người dùng
       setUserName(MName);
     } else {
       console.log('Người dùng không tồn tại trong Firestore');
@@ -178,7 +176,6 @@ const ProfileScreen = ({navigation}) => {
         />
         <Text style={styles.title}>Setting</Text>
       </View>
-      {/* Lỗi khi resart thì ảnh sẽ mất quay về ảnh mặt định -> chưa fix */}
       <View style={styles.avatarChange}>
         <Image
           style={styles.avatar}
@@ -216,7 +213,7 @@ const ProfileScreen = ({navigation}) => {
             />
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
-                style={styles.buttonlogout}
+                style={[styles.buttonlogout, {backgroundColor: 'red'}]}
                 onPress={() => {
                   toggleModal();
                   dangxuat();
@@ -224,7 +221,7 @@ const ProfileScreen = ({navigation}) => {
                 <Text style={styles.buttonText}>Log out</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.buttonlogout}
+                style={[styles.buttonlogout, {backgroundColor: 'green'}]}
                 onPress={() => {
                   toggleModal();
                 }}>
@@ -320,9 +317,9 @@ const styles = StyleSheet.create({
   },
   imagenext: {
     position: 'absolute',
-    height: 30,
-    width: 30,
-    marginLeft: 270,
+    height: 20,
+    width: 20,
+    marginLeft: w * 0.7,
   },
   btnlogout: {
     width: '100%',
@@ -339,7 +336,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonlogout: {
-    backgroundColor: 'green',
     borderRadius: 20,
     padding: 10,
     marginTop: 10,

@@ -3,10 +3,10 @@ import {StyleSheet, View, Image, Animated} from 'react-native';
 import {Text} from 'react-native-elements';
 import LoadingScreen from './loadding1';
 import LottieView from 'lottie-react-native';
-
-const LoadingOrder = ({navigation}) => {
+import {useNavigation} from '@react-navigation/native';
+const LoadingOrder = () => {
   const [loading, setLoading] = useState(true);
-
+  const navigation = useNavigation();
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

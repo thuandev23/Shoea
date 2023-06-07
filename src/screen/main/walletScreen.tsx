@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import LottieView from 'lottie-react-native';
+import {ImageSourcePropType} from 'react-native/Libraries/Image/Image';
 
 const width_screen = Dimensions.get('window').width;
 
@@ -41,7 +42,34 @@ const listTransations = [
   },
 ];
 
-const renderTransactionItem = item => (
+const renderTransactionItem = (item: {
+  type:
+    | boolean
+    | React.Key
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | null
+    | undefined;
+  icon: ImageSourcePropType;
+  date:
+    | string
+    | number
+    | boolean
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
+  payment:
+    | string
+    | number
+    | boolean
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
+}) => (
   <View key={item.type} style={styles.items}>
     <View style={styles.icon}>
       <Image source={item.icon} />
@@ -73,7 +101,16 @@ const listService = [
     icon: require('../assets/img-logo/ic_topup.png'),
   },
 ];
-const renderServiceItem = item => {
+const renderServiceItem = (item: {
+  name:
+    | boolean
+    | React.Key
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | null
+    | undefined;
+  icon: ImageSourcePropType;
+}) => {
   return (
     <View key={item.name} style={styles.items}>
       <View style={styles.icon}>

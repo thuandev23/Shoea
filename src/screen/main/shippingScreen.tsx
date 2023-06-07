@@ -22,10 +22,10 @@ const Shipping = ({navigation}) => {
     fetchDataFromFirestore();
   }, []);
 
-  const handleSelectAddress = id => {
+  const handleSelectAddress = (id: React.SetStateAction<number>) => {
     setSelectedShipId(id);
     const selectedProduct = products.find(product => product.id === id);
-    navigation.navigate('Check out', {moneysafe: selectedProduct.moneysafe});
+    // navigation.navigate('Check out');
   };
 
   return (

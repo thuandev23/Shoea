@@ -17,10 +17,13 @@ const height = Dimensions.get('window').height;
 
 const CheckItemScreen = ({navigation}) => {
   const cart = useSelector(state => state.cart.cart);
+
   const totalPrice = cart.reduce(
-    (acc, item) => acc + item.money * item.quantity,
+    (acc: number, item: {money: number; quantity: number}) =>
+      acc + item.money * item.quantity,
     0,
   );
+
   const [text, setText] = React.useState('');
   const route = useRoute();
   const addressname = route.params?.address.name;

@@ -16,7 +16,8 @@ const SecuritySettings = () => {
   const toggleRememberMe = () => setRememberMe(prevState => !prevState);
   const toggleFaceId = () => setFaceId(prevState => !prevState);
 
-  const handlePasswordChange = password => setPassword(password);
+  const handlePasswordChange = (password: React.SetStateAction<string>) =>
+    setPassword(password);
 
   const handlePasswordSubmit = () => {
     // Submit the new password to the server

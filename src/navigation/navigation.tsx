@@ -217,7 +217,7 @@ const IndexComponent = ({navigation}) => {
           <Stack.Screen name="Help Center" component={HelpSetting} />
           <Stack.Screen name="Edit Address" component={EditAddressScreen} />
           <Stack.Screen name="Choose Shipping" component={Shipping} />
-          <Stack.Screen name="Deliver" component={OrderedScreen} />
+          <Stack.Screen name="Deliver" component={DeliverScreen} />
           <Stack.Screen
             name="LoadingOrderScreen"
             component={LoadingOrder}
@@ -229,11 +229,7 @@ const IndexComponent = ({navigation}) => {
             component={ForgotPasswordScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen
-            name="Evaluate"
-            component={ReviewScreen}
-            options={{headerShown: false}}
-          />
+          <Stack.Screen name="Evaluate" component={ReviewScreen} />
           <Stack.Screen
             name="Choose Address"
             component={EditAddressScreen}

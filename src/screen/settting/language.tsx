@@ -56,14 +56,14 @@ const LanguageScreen = ({navigation}) => {
       : NativeModules.I18nManager.localeIdentifier, // Android
   );
 
-  const saveSelectedLanguage = async language => {
+  const saveSelectedLanguage = async (language: string) => {
     try {
       await AsyncStorage.setItem('selectedLanguage', language);
     } catch (error) {
       console.log('Error saving selected language: ', error);
     }
   };
-  const changeLanguage = language => {
+  const changeLanguage = (language: string) => {
     saveSelectedLanguage(language);
     setSelectedLanguage(language);
     toggleModal();
@@ -105,14 +105,14 @@ const LanguageScreen = ({navigation}) => {
               {color: selectedLanguage === language.code ? 'white' : 'black'},
             ]}>
             {language.name}
-          <Image
-            source={language.img}
-            style={{
-              position: 'absolute',
-              height: 30,
-              width: 30,
-            }}
-          />
+            <Image
+              source={language.img}
+              style={{
+                position: 'absolute',
+                height: 30,
+                width: 30,
+              }}
+            />
           </Text>
         </TouchableOpacity>
       ))}
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   languageName: {
     fontSize: 16,
     fontWeight: 'bold',
-    height:40,
+    height: 40,
   },
   modal: {
     backgroundColor: 'white',

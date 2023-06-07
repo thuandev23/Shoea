@@ -30,7 +30,7 @@ const h = Dimensions.get('screen').height;
 const Mainscreen = ({navigation}) => {
   const [selected, setSelected] = useState(0);
 
-  const onScroll = ({nativeEvent}) => {
+  const onScroll = (nativeEvent: any) => {
     const index = Math.round(nativeEvent.contentOffset.x / (w - 20));
     setSelected(index);
   };

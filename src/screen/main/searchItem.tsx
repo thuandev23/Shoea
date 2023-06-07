@@ -19,6 +19,7 @@ import {
   removeFromCart,
 } from '../store/cartReducer';
 import ViewMoreText from 'react-native-view-more-text';
+import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 
 const productmain = [
   {
@@ -433,7 +434,7 @@ const SearchItem = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearch = name => {
+  const handleSearch = (name: React.SetStateAction<string>) => {
     setSearchText(name);
     const results = productmain.filter(item =>
       item.text.toLowerCase().includes(name.toLowerCase()),
@@ -446,7 +447,7 @@ const SearchItem = ({navigation}) => {
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
-  const handleItemClick = item => {
+  const handleItemClick = (item: React.SetStateAction<null>) => {
     setSelectedProduct(item);
     setModalVisible(true);
   };
@@ -456,7 +457,9 @@ const SearchItem = ({navigation}) => {
     setModalVisible(false);
   };
 
-  const _renderViewMore = onPress => {
+  const _renderViewMore = (
+    onPress: ((event: GestureResponderEvent) => void) | undefined,
+  ) => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
         View more
@@ -464,7 +467,9 @@ const SearchItem = ({navigation}) => {
     );
   };
 
-  const _renderViewLess = onPress => {
+  const _renderViewLess = (
+    onPress: ((event: GestureResponderEvent) => void) | undefined,
+  ) => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
         View less
@@ -472,7 +477,7 @@ const SearchItem = ({navigation}) => {
     );
   };
 
-  const addItemToCart = item => {
+  const addItemToCart = (item: never) => {
     dispatch(addToCart(item));
   };
 
@@ -564,7 +569,7 @@ const SearchItem = ({navigation}) => {
                 onRequestClose={closeModal}>
                 <TouchableOpacity
                   onPress={closeModal}
-                  style={{paddingTop: 40, backgroundColor: '#2342'}}>
+                  style={{paddingTop: 40, backgroundColor: '#fff'}}>
                   <Image
                     source={require('../assets/img-logo/checkerror.png')}
                     style={styles.close}
@@ -576,7 +581,7 @@ const SearchItem = ({navigation}) => {
                     style={{
                       flex: 1,
                       alignItems: 'center',
-                      backgroundColor: '#2342',
+                      backgroundColor: '#fff',
                     }}>
                     <Image
                       source={{uri: selectedProduct.image}}
@@ -638,7 +643,9 @@ const SearchItem = ({navigation}) => {
                           $ {selectedProduct.money}
                         </Text>
                       </Text>
-                      {cart.some(value => value.id == selectedProduct.id) ? (
+                      {cart.some(
+                        (value: {id: any}) => value.id == selectedProduct.id,
+                      ) ? (
                         <TouchableOpacity
                           style={styles.btnAdd}
                           onPress={() =>
@@ -808,14 +815,5 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 23,
     width: '60%',
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 9,
   },
 });

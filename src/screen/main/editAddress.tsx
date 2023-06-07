@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {
+  GooglePlaceDetail,
+  GooglePlacesAutocomplete,
+} from 'react-native-google-places-autocomplete';
 
 const EditAddressScreen = ({navigation}) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const handlePlaceSelected = place => {
+  const handlePlaceSelected = (place: GooglePlaceDetail | null) => {
     setSelectedLocation(place.geometry.location);
   };
 

@@ -20,6 +20,7 @@ import {
 } from '../store/cartReducer';
 import ViewMoreText from 'react-native-view-more-text';
 import LottieView from 'lottie-react-native';
+import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 
 const OrderedScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -27,12 +28,12 @@ const OrderedScreen = ({navigation}) => {
   const orderedProducts = useSelector(state => state.order.orderedProducts);
   const orderedProductsLenght = orderedProducts ? orderedProducts.length : 0;
 
-  const handleReviewPress = item => {
+  const handleReviewPress = (item: any) => {
     // Thực hiện chức năng đánh giá
     navigation.navigate('Evaluate');
     console.log('Đánh giá');
   };
-  const handleBuyAgainPress = item => {
+  const handleBuyAgainPress = (item: any) => {
     // Thực hiện chức năng mua lại
     console.log('Mua lại');
   };
@@ -40,7 +41,7 @@ const OrderedScreen = ({navigation}) => {
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
-  const handleItemClick = item => {
+  const handleItemClick = (item: React.SetStateAction<null>) => {
     setSelectedProduct(item);
     setModalVisible(true);
   };
@@ -50,7 +51,9 @@ const OrderedScreen = ({navigation}) => {
     setModalVisible(false);
   };
 
-  const _renderViewMore = onPress => {
+  const _renderViewMore = (
+    onPress: ((event: GestureResponderEvent) => void) | undefined,
+  ) => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
         View more
@@ -58,7 +61,9 @@ const OrderedScreen = ({navigation}) => {
     );
   };
 
-  const _renderViewLess = onPress => {
+  const _renderViewLess = (
+    onPress: ((event: GestureResponderEvent) => void) | undefined,
+  ) => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
         View less
@@ -66,7 +71,7 @@ const OrderedScreen = ({navigation}) => {
     );
   };
 
-  const addItemToCart = item => {
+  const addItemToCart = (item: never) => {
     dispatch(addToCart(item));
   };
   return (
@@ -205,7 +210,9 @@ const OrderedScreen = ({navigation}) => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                {cart.some(value => value.id == selectedProduct.id) ? (
+                {cart.some(
+                  (value: {id: any}) => value.id == selectedProduct.id,
+                ) ? (
                   <TouchableOpacity
                     style={styles.btnAdd}
                     onPress={() =>

@@ -42,7 +42,7 @@ const AddressScreen = ({navigation}) => {
     },
   ]);
 
-  const handleSelectAddress = id => {
+  const handleSelectAddress = (id: number) => {
     const selectedAddress = addresses.find(address => address.id === id);
 
     const updatedAddresses = addresses.map(address => {
@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 35,
     height: 35,
-    backgroundColor: '#2344',
     borderRadius: 5,
   },
 
