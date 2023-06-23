@@ -1,10 +1,20 @@
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
+import {useDispatch} from 'react-redux';
+import {setSelectedDiscounts} from '../../screen/store/discountsReducer';
 
 const DiscountItem = () => {
   const [Products, setProducts] = useState([]);
-
+  const [selectedDiscountId, setSelectedDiscountId] = useState(1);
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchDataFromFirestore = async () => {
       try {
@@ -18,21 +28,30 @@ const DiscountItem = () => {
     };
 
     fetchDataFromFirestore();
-    // pushProductsToFirestore('converse', productmain);
   }, []);
+
+  const handleSelectDiscounts = (discountsData: never) => {
+    setSelectedDiscountId(discountsData.id);
+    dispatch(setSelectedDiscounts(discountsData));
+  };
+
   return (
     <View style={styles.dataListItem}>
       <ScrollView>
-        {Products.map(item => (
-          <View key={item.id} style={styles.flastlist}>
-            <Image
-              source={{uri: item.image}}
-              style={{height: '100%', width: '100%', borderRadius: 20}}
-            />
-            <Text style={styles.percent}>{item.percent}%</Text>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.txt}>{item.txt}</Text>
-          </View>
+        {Products.map(discounts => (
+          <TouchableOpacity
+            key={discounts.id}
+            onPress={() => handleSelectDiscounts(discounts)}>
+            <View style={styles.flastlist}>
+              <Image
+                source={{uri: discounts.image}}
+                style={{height: '100%', width: '100%', borderRadius: 20}}
+              />
+              <Text style={styles.percent}>{discounts.percent}%</Text>
+              <Text style={styles.title}>{discounts.title}</Text>
+              <Text style={styles.txt}>{discounts.txt}</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

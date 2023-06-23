@@ -19,6 +19,7 @@ import {
   decrementQuantity,
 } from '../../screen/store/cartReducer';
 import firestore from '@react-native-firebase/firestore';
+import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 
 const PumaItem = () => {
   const cart = useSelector(state => state.cart.cart);
@@ -28,7 +29,7 @@ const PumaItem = () => {
   const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
   const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
 
-  const handleItemClick = item => {
+  const handleItemClick = (item: React.SetStateAction<null>) => {
     setSelectedProduct(item);
     setModalVisible(true);
   };
@@ -36,35 +37,39 @@ const PumaItem = () => {
     setSelectedProduct(null);
     setModalVisible(false);
   };
-  const _renderViewMore = onPress => {
+  const _renderViewMore = (
+    onPress: ((event: GestureResponderEvent) => void) | undefined,
+  ) => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
         View more
       </Text>
     );
   };
-  const _renderViewLess = onPress => {
+  const _renderViewLess = (
+    onPress: ((event: GestureResponderEvent) => void) | undefined,
+  ) => {
     return (
       <Text onPress={onPress} style={{color: 'black'}}>
         View less
       </Text>
     );
   };
-  const addItemToCart = item => {
-    const cartItem = cart.find(p => p.id === item.id);
+  const addItemToCart = (item: never) => {
+    const cartItem = cart.find((p: {id: any}) => p.id === item.id);
     if (cartItem) {
       dispatch(incrementQuantity(item));
     } else {
       dispatch(addToCart(item));
     }
   };
-  const removeItemFromCart = item => {
+  const removeItemFromCart = (item: any) => {
     dispatch(removeFromCart(item));
   };
-  const increaseQuantity = item => {
+  const increaseQuantity = (item: any) => {
     dispatch(incrementQuantity(item));
   };
-  const decreaseQuantity = item => {
+  const decreaseQuantity = (item: any) => {
     dispatch(decrementQuantity(item));
   };
   const [Products, setProducts] = useState([]);
@@ -89,7 +94,10 @@ const PumaItem = () => {
   }, []);
 
   // Hàm push hàng loạt sản phẩm lên Firestore
-  const pushProductsToFirestore = async (category, products) => {
+  const pushProductsToFirestore = async (
+    category: string | undefined,
+    products: any,
+  ) => {
     try {
       for (const product of products) {
         const productRef = firestore()
@@ -108,17 +116,8 @@ const PumaItem = () => {
   };
 
   return (
-    <View style={{height: '100%', backgroundColor: 'white'}}>
-      <Text
-        style={{
-          fontSize: 30,
-          textAlign: 'center',
-          margin: 20,
-          backgroundColor: '#2341',
-          borderRadius: 20,
-        }}>
-        Puma
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.headerText}>Puma</Text>
 
       <FlatList
         data={Products}
@@ -132,13 +131,13 @@ const PumaItem = () => {
                 style={styles.image}
               />
               <Text style={styles.text}>{item.text}</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  marginTop: 185,
-                }}>
+              <View style={styles.viewItemFlastlist}>
                 <Text style={styles.start}>{item.star}</Text>
+
+                <Image
+                  source={require('../../screen/assets/img-logo/star.png')}
+                  style={{height: 26, width: 26}}
+                />
                 <Text style={styles.money}>${item.money}</Text>
               </View>
             </TouchableOpacity>
@@ -152,9 +151,7 @@ const PumaItem = () => {
           visible={modalVisible}
           animationType="slide"
           onRequestClose={closeModal}>
-          <TouchableOpacity
-            onPress={closeModal}
-            style={{paddingTop: 40, backgroundColor: '#fff'}}>
+          <TouchableOpacity onPress={closeModal} style={styles.btnCloseItem}>
             <Image
               source={require('../firebase/checkerror.png')}
               style={styles.close}
@@ -162,48 +159,37 @@ const PumaItem = () => {
           </TouchableOpacity>
 
           <ScrollView>
-            <View
-              style={{flex: 1, alignItems: 'center', backgroundColor: '#fff'}}>
+            <View style={styles.viewInfoItem}>
               <Image
                 source={{uri: selectedProduct.image}}
                 style={styles.img_main}
               />
               <Text style={styles.text_main}>{selectedProduct.text}</Text>
-              <View style={{marginLeft: 20}}>
-                <Text style={{marginRight: 250, fontSize: 18, color: 'black'}}>
-                  Rate: {selectedProduct.star}
-                </Text>
+              <View style={styles.viewTextRate}>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.textRate}>
+                    Rate: {selectedProduct.star}
+                  </Text>
+                  <Image
+                    source={require('../../screen/assets/img-logo/star.png')}
+                    style={styles.imgStar}
+                  />
+                </View>
 
-                <View style={{borderWidth: 0.4, width: 400, height: 1}} />
+                <View style={styles.viewDescription} />
 
                 <ViewMoreText
                   numberOfLines={3}
                   renderViewLess={_renderViewLess}
                   renderViewMore={_renderViewMore}>
-                  <Text
-                    style={{
-                      marginRight: 250,
-                      fontSize: 18,
-                      marginLeft: 100,
-                      color: 'black',
-                    }}>
-                    Description:{' '}
-                  </Text>
-                  <Text
-                    style={{
-                      marginRight: 250,
-                      fontSize: 18,
-                      marginLeft: 100,
-                      color: '#179',
-                    }}>
+                  <Text style={styles.textDescription1}>Description: </Text>
+                  <Text style={styles.textDescription2}>
                     {'\n'}
                     {selectedProduct.description}
                   </Text>
                 </ViewMoreText>
 
-                <Text style={{fontSize: 18, color: 'black'}}>
-                  ColourShown:{' '}
-                </Text>
+                <Text style={styles.textColour}>ColourShown: </Text>
                 <Text style={styles.alltext}>
                   {selectedProduct.ColourShown}
                 </Text>
@@ -219,7 +205,9 @@ const PumaItem = () => {
                     $ {selectedProduct.money}
                   </Text>
                 </Text>
-                {cart.some(value => value.id == selectedProduct.id) ? (
+                {cart.some(
+                  (value: {id: any}) => value.id == selectedProduct.id,
+                ) ? (
                   <TouchableOpacity
                     style={styles.btnAdd}
                     onPress={() =>
@@ -228,28 +216,14 @@ const PumaItem = () => {
                         'The product has been added to cart',
                       )
                     }>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        textAlign: 'center',
-                        color: '#fff',
-                      }}>
-                      Add your Cart
-                    </Text>
+                    <Text style={styles.textBtnAdd}>Add your Cart</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     style={styles.btnAdd}
                     onPress={() => addItemToCart(selectedProduct)}
                     onPressIn={() => Alert.alert('Notify', 'Added product')}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        textAlign: 'center',
-                        color: '#fff',
-                      }}>
-                      Add your Cart
-                    </Text>
+                    <Text style={styles.textBtnAdd}>Add your Cart</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -264,6 +238,17 @@ const PumaItem = () => {
 export default PumaItem;
 
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    backgroundColor: 'white',
+  },
+  headerText: {
+    fontSize: 30,
+    textAlign: 'center',
+    margin: 20,
+    backgroundColor: '#2341',
+    borderRadius: 20,
+  },
   view_flatlist: {
     flex: 1,
     height: 220,
@@ -284,6 +269,16 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: '#fff',
   },
+  viewItemFlastlist: {
+    flexDirection: 'row',
+    position: 'absolute',
+    marginTop: 185,
+  },
+  viewInfoItem: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
   image: {
     height: 130,
     width: '100%',
@@ -293,7 +288,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     marginBottom: 10,
   },
-
+  imgStar: {
+    height: 25,
+    width: 25,
+    position: 'absolute',
+    marginLeft: 75,
+  },
+  viewTextRate: {marginLeft: 20},
+  textRate: {
+    marginRight: 250,
+    fontSize: 18,
+    color: 'black',
+  },
   text: {
     fontSize: 20,
     color: 'black',
@@ -318,6 +324,10 @@ const styles = StyleSheet.create({
     width: 40,
     position: 'absolute',
     marginLeft: 350,
+  },
+  btnCloseItem: {
+    paddingTop: 40,
+    backgroundColor: 'white',
   },
   alltext: {
     fontSize: 18,
@@ -348,5 +358,31 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 23,
     width: '60%',
+  },
+  textBtnAdd: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#fff',
+  },
+  viewDescription: {
+    borderWidth: 0.4,
+    width: 400,
+    height: 1,
+  },
+  textDescription1: {
+    marginRight: 250,
+    fontSize: 18,
+    marginLeft: 100,
+    color: 'black',
+  },
+  textDescription2: {
+    marginRight: 250,
+    fontSize: 18,
+    marginLeft: 100,
+    color: '#179',
+  },
+  textColour: {
+    fontSize: 18,
+    color: 'black',
   },
 });

@@ -2,10 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+import {useDispatch, useSelector} from 'react-redux';
+import {setSelectedShippingId} from '../store/shippingReducer';
 
 const Shipping = ({navigation}) => {
   const [products, setProducts] = useState([]);
   const [selectedShipId, setSelectedShipId] = useState(1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchDataFromFirestore = async () => {
@@ -22,10 +25,9 @@ const Shipping = ({navigation}) => {
     fetchDataFromFirestore();
   }, []);
 
-  const handleSelectAddress = (id: React.SetStateAction<number>) => {
-    setSelectedShipId(id);
-    const selectedProduct = products.find(product => product.id === id);
-    // navigation.navigate('Check out');
+  const handleSelectAddress = (shippingData: never) => {
+    setSelectedShipId(shippingData.id);
+    dispatch(setSelectedShippingId(shippingData));
   };
 
   return (
@@ -33,7 +35,7 @@ const Shipping = ({navigation}) => {
       {products.map(shipping => (
         <TouchableWithoutFeedback
           key={shipping.id}
-          onPress={() => handleSelectAddress(shipping.id)}>
+          onPress={() => handleSelectAddress(shipping)}>
           <View style={styles.btn_address}>
             <View style={styles.shipping}>
               <View style={styles.textbox}>
@@ -46,8 +48,8 @@ const Shipping = ({navigation}) => {
                     status={
                       selectedShipId === shipping.id ? 'checked' : 'unchecked'
                     }
-                    onPress={() => handleSelectAddress(shipping.id)}
-                    color="#6200EE"
+                    onPress={() => handleSelectAddress(shipping)}
+                    color="#00A705"
                   />
                 </View>
               </View>

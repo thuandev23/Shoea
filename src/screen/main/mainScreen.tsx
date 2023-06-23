@@ -168,6 +168,7 @@ const Mainscreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
+        {/* Discounts */}
         <View style={styles.dataListItem}>
           <Swiper autoplay={true} autoplayTimeout={3} horizontal={true}>
             {dataSlide.map(item => (
@@ -284,6 +285,7 @@ const Mainscreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+
         <Text style={{fontSize: 23, margin: 10, color: 'black'}}>
           Most Popular
         </Text>

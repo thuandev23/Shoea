@@ -17,6 +17,12 @@ const height = Dimensions.get('window').height;
 
 const CheckItemScreen = ({navigation}) => {
   const cart = useSelector(state => state.cart.cart);
+  const selectedShippingId = useSelector(
+    state => state.shipping.selectedShippingId,
+  );
+  const selectedDiscount = useSelector(
+    state => state.discounts.selectedDiscount,
+  );
 
   const totalPrice = cart.reduce(
     (acc: number, item: {money: number; quantity: number}) =>
@@ -57,7 +63,6 @@ const CheckItemScreen = ({navigation}) => {
           <FlatList
             data={cart}
             scrollEnabled={false}
-            // numColumns={2}
             renderItem={({item, index}) => (
               <View style={styles.view_flatlist}>
                 <Image
@@ -68,8 +73,6 @@ const CheckItemScreen = ({navigation}) => {
                 <View style={{position: 'absolute'}}>
                   <Text style={styles.nameItem}>{item.text}</Text>
                   <View style={{position: 'absolute', marginTop: 50}}>
-                    {/* <Text style={styles.money}>{item.ID}</Text> */}
-
                     <Text style={styles.money}>${item.money}</Text>
                   </View>
                   <Text style={styles.quantity}>{item.quantity}</Text>
@@ -79,11 +82,13 @@ const CheckItemScreen = ({navigation}) => {
           />
         </View>
 
-        <View style={styles.line} />
-
         <View style={styles.viewChooseShipping}>
-          <Text style={[styles.texth3, styles.texth4]}>Choose Shipping</Text>
-
+          <Text style={[styles.texth3, styles.texth4]}>Shipping: </Text>
+          <Text style={[styles.texth3, styles.nameShip]}>
+            {selectedShippingId && selectedShippingId.nameship
+              ? selectedShippingId.nameship
+              : ''}
+          </Text>
           <View style={styles.btn_ship}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Choose Shipping')}>
@@ -97,10 +102,8 @@ const CheckItemScreen = ({navigation}) => {
                 style={styles.imgChangeship}
               />
             </TouchableOpacity>
-            {/* <Text>{route.params?.ship.nameship}</Text> */}
           </View>
         </View>
-        <View style={styles.line} />
 
         <View style={styles.viewPromoCode}>
           <Text style={[styles.texth3, styles.texth4]}>Promo Code</Text>
@@ -129,8 +132,10 @@ const CheckItemScreen = ({navigation}) => {
                 styles.total,
                 {position: 'absolute', marginLeft: 300, marginTop: 45},
               ]}>
-              {/* {shippingPrice} chưa đưa vào */}
-              10 $
+              {selectedShippingId && selectedShippingId.moneysafe
+                ? selectedShippingId.moneysafe
+                : ''}{' '}
+              $
             </Text>
             <Text style={[styles.total]}>Promo</Text>
             <Text
@@ -138,8 +143,10 @@ const CheckItemScreen = ({navigation}) => {
                 styles.total,
                 {position: 'absolute', marginLeft: 300, marginTop: 90},
               ]}>
-              {/* {promoPrice} chưa đưa vào */}
-              20%
+              {selectedDiscount && selectedDiscount.percent
+                ? selectedDiscount.percent
+                : ''}
+              %
             </Text>
             <View style={styles.line} />
 
@@ -149,7 +156,16 @@ const CheckItemScreen = ({navigation}) => {
                 styles.total,
                 {position: 'absolute', marginLeft: 300, marginTop: 140},
               ]}>
-              {totalPrice - 10 - totalPrice * 0.2} $
+              {totalPrice -
+                (selectedShippingId && selectedShippingId.moneysafe
+                  ? selectedShippingId.moneysafe
+                  : 0) -
+                (totalPrice *
+                  (selectedDiscount && selectedDiscount.percent
+                    ? selectedDiscount.percent
+                    : 0)) /
+                  100}
+              $
             </Text>
           </View>
         </View>
@@ -157,19 +173,8 @@ const CheckItemScreen = ({navigation}) => {
       <View style={styles.viewContinue}>
         <TouchableOpacity
           onPress={() => navigation.navigate('LoadingOrderScreen')}
-          style={{
-            height: 50,
-            width: 300,
-            borderRadius: 30,
-            backgroundColor: 'black',
-          }}>
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: 'center',
-              fontWeight: '600',
-              color: 'white',
-            }}>
+          style={styles.btn_order}>
+          <Text style={styles.text_order}>
             Order{'     '}
             <Image
               source={require('../assets/img-logo/next.png')}
@@ -341,13 +346,6 @@ const styles = StyleSheet.create({
     shadowColor: '#2343',
     borderWidth: 0.5,
     borderColor: 'gray',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 4,
   },
   imgship: {
     height: 40,
@@ -357,6 +355,12 @@ const styles = StyleSheet.create({
     padding: 20,
     marginLeft: 10,
     marginTop: 5,
+  },
+  nameShip: {
+    color: '#367BF5',
+    position: 'absolute',
+    margin: 15,
+    paddingLeft: 100,
   },
   imgChangeship: {
     position: 'absolute',
@@ -376,13 +380,6 @@ const styles = StyleSheet.create({
     shadowColor: '#2343',
     borderWidth: 0.5,
     borderColor: 'gray',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 4,
   },
   addPromoCode: {
     height: 50,
@@ -416,5 +413,17 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     padding: 10,
+  },
+  btn_order: {
+    height: 50,
+    width: 300,
+    borderRadius: 30,
+    backgroundColor: 'black',
+  },
+  text_order: {
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: '600',
+    color: 'white',
   },
 });

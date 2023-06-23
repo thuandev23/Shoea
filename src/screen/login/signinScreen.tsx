@@ -14,6 +14,7 @@ import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
 import {LoadingScreen} from '../loadding_splash';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 

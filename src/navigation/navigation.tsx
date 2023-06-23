@@ -3,6 +3,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {
   NikeItem,
@@ -50,7 +51,6 @@ import {
   DangNhapScreen,
   ForgotPasswordScreen,
 } from '../screen/login/index';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

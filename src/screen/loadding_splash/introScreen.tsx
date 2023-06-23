@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {LoginScreen} from '../login';
-import SplashScreen from './splashScreen';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 // constants
