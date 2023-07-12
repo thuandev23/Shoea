@@ -29,13 +29,15 @@ import LottieView from 'lottie-react-native';
 
 import {GOOGLE_API_KEY} from '../../locales/environments';
 enableLatestRenderer();
+
 const {width, height} = Dimensions.get('window');
+
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const INITIAL_POSITION = {
-  latitude: 10.860026796409187,
-  longitude: 106.64336627466741,
+  latitude: 40.76711,
+  longitude: -73.979704,
   latitudeDelta: LATITUDE_DELTA,
   longitudeDelta: LONGITUDE_DELTA,
 };
@@ -56,14 +58,14 @@ function InputAutocomplete({
       <Text>{label}</Text>
       <GooglePlacesAutocomplete
         styles={{textInput: styles.input}}
-        placeholder={placeholder || 'Where form ?'}
+        placeholder={placeholder || ''}
         fetchDetails
         onPress={(data, details = null) => {
           onPlaceSelected(details);
         }}
         query={{
           key: GOOGLE_API_KEY,
-          language: 'vn',
+          language: 'pt-BR',
         }}
       />
     </>
@@ -127,10 +129,7 @@ const DeliverScreen = ({navigation}) => {
   const traceRoute = () => {
     if (origin && destination) {
       setShowDirections(true);
-      mapRef.current?.fitToCoordinates([origin, destination], {
-        edgePadding,
-        animated: true, // Add this line to enable animated camera movement
-      });
+      mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
     }
   };
 
@@ -146,7 +145,6 @@ const DeliverScreen = ({navigation}) => {
     set(position);
     moveTo(position);
   };
-  // Ordering
 
   return (
     <View style={styles.container}>
@@ -154,10 +152,9 @@ const DeliverScreen = ({navigation}) => {
         ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}
-        showsUserLocation={true}>
-        {origin && <Marker key="origin" coordinate={origin} />}
-        {destination && <Marker key="destination" coordinate={destination} />}
+        initialRegion={INITIAL_POSITION}>
+        {origin && <Marker coordinate={origin} />}
+        {destination && <Marker coordinate={destination} />}
         {showDirections && origin && destination && (
           <MapViewDirections
             origin={origin}
@@ -191,44 +188,6 @@ const DeliverScreen = ({navigation}) => {
             <Text>Duration: {Math.ceil(duration)} min</Text>
           </View>
         ) : null}
-        {/* <GooglePlacesAutocomplete
-          placeholder="Search"
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          fetchDetails
-          query={{
-            key: GOOGLE_API_KEY,
-            language: 'en',
-          }}
-        /> */}
-      </View>
-      <View style={{position: 'absolute'}}>
-        <TouchableOpacity onPress={toggleModal} style={styles.btndone}>
-          <Text style={{fontSize: 25, color: '#fff', paddingTop: 5}}>Done</Text>
-        </TouchableOpacity>
-        <Modal isVisible={isModalVisible}>
-          <View style={styles.modal}>
-            <View style={styles.imageContainer}>
-              <LottieView
-                style={styles.image}
-                source={require('../assets/lottie/101796-delivery-bike.json')}
-                autoPlay
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.buttondone}
-              onPress={() => {
-                // Thêm sản phẩm vào danh sách đã mua
-                dispatch(setOrderedProducts(cart));
-                dispatch(clearCart());
-                toggleModal();
-                navigation.navigate('Tabs');
-              }}>
-              <Text style={styles.buttonTextdone}>Successfully</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
       </View>
     </View>
   );
@@ -238,15 +197,18 @@ export default DeliverScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   map: {
+    flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
   searchContainer: {
-    position: 'absolute',
+    // position: 'absolute',
     width: '90%',
     backgroundColor: 'white',
     shadowColor: 'black',
@@ -256,8 +218,6 @@ const styles = StyleSheet.create({
     elevation: 4,
     padding: 8,
     borderRadius: 8,
-    // top: Constants.statusBarHeight,
-    top: 30,
   },
   input: {
     borderColor: '#888',

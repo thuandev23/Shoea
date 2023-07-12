@@ -1,0 +1,90 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.AppHeader {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 20px 4px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.AppHeader .titleAdmin {
+  color: #528FFA;
+}
+
+.AppFooter {
+  height: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+
+}
+
+.AppFooter .logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.SideMenuAndPageContent {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.SideMenu {
+  height: 100%;
+}
+
+.SideMenuVertical {
+  height: 100%;
+  width: 200px;
+  font-size: 18px;
+  overflow-y: auto;
+}
+
+.PageContent {
+  padding-left: 12px;
+}
+
+.tableOrders {
+  width: 700px;
+}
+
+.customTable {
+  background-color: #c0d7e3;
+  padding: 10px;
+}
+
+.customTable th {
+  font-weight: bold;
+  background-color: #ddd;
+}
+
+.customTable td {
+  padding: 5px;
+}
+
+.itemDashboard {
+  height: 70px;
+  width: 150px;
+}
+
+.customTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(6, 104, 137);
+}
+
+.customText {
+  font-size: 25px;
+}
