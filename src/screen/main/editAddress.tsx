@@ -1,17 +1,9 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
-import {
-  GooglePlaceDetail,
-  GooglePlacesAutocomplete,
-} from 'react-native-google-places-autocomplete';
 
 const EditAddressScreen = ({navigation}) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
-
-  const handlePlaceSelected = (place: GooglePlaceDetail | null) => {
-    setSelectedLocation(place.geometry.location);
-  };
 
   const handleSaveAddress = () => {
     // Xử lý logic lưu địa chỉ vào cơ sở dữ liệu hoặc state của ứng dụng
@@ -30,14 +22,7 @@ const EditAddressScreen = ({navigation}) => {
         }}>
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
-      <GooglePlacesAutocomplete
-        placeholder="Search"
-        onPress={(data, details) => handlePlaceSelected(details)}
-        query={{
-          key: 'YOUR_GOOGLE_MAPS_API_KEY',
-          language: 'en',
-        }}
-      />
+
       <TouchableOpacity style={styles.button} onPress={handleSaveAddress}>
         <Text style={styles.buttonText}>Save Address</Text>
       </TouchableOpacity>

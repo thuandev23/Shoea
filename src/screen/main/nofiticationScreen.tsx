@@ -9,9 +9,12 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import messaging from '@react-native-firebase/messaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
+import {ScreenStackHeaderBackButtonImage} from 'react-native-screens';
 const w = Dimensions.get('screen').width;
 const h = Dimensions.get('screen').height;
 
@@ -88,7 +91,7 @@ const PushNotifyScreen = ({navigation}) => {
       });
 
     return unsubscribe;
-  }, []);
+  }, [unreadCount]);
 
   const markNotificationAsRead = async (notification: any) => {
     if (!notification.read) {

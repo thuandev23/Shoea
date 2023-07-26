@@ -6,12 +6,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Dimensions,
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
 import RNRestart from 'react-native-restart';
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
+const w = Dimensions.get('screen').width;
+const h = Dimensions.get('screen').height;
 
 const Editprofile = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -102,7 +105,7 @@ const Editprofile = ({navigation}) => {
         <LottieView
           source={require('../assets/lottie/119588-task-assigning.json')}
           autoPlay
-          style={{height: 300, width: '100%'}}
+          style={{height: 250, width: '100%'}}
         />
         <Text style={styles.label}>Name</Text>
         <TextInput
@@ -128,7 +131,7 @@ const Editprofile = ({navigation}) => {
         {showLottie && (
           <LottieView
             source={require('../assets/lottie/129118-done.json')}
-            style={{height: 200, width: 200}}
+            style={{height: 100, width: 200}}
             autoPlay
           />
         )}
@@ -146,7 +149,8 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   label: {
     fontSize: 18,
@@ -159,12 +163,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 20,
+    marginBottom: h * 0.001,
   },
   button: {
     backgroundColor: '#007bff',
     width: '80%',
-    height: 50,
+    height: 40,
     borderRadius: 25,
     marginLeft: 40,
     marginVertical: 10,

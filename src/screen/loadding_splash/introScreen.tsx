@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {LoginScreen} from '../login';
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const w = Dimensions.get('window').width;
+const h = Dimensions.get('window').height;
 // constants
 const slides = [
   {
@@ -72,8 +72,8 @@ export default class IntroScreen extends React.Component {
     } else {
       const dotStyle = {
         backgroundColor: 'gray',
-        width: 30,
-        height: 10,
+        width: 0.03 * w,
+        height: 0.01 * h,
         borderRadius: 5,
         // marginHorizontal: 8,
       };
@@ -104,18 +104,16 @@ export default class IntroScreen extends React.Component {
 const styles = StyleSheet.create({
   slide: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   img_intro: {
-    height: height * 0.6,
+    height: h * 0.6,
     width: '100%',
     marginBottom: 20,
     resizeMode: 'cover',
     shadowColor: '#000000',
     shadowOffset: {
-      width: 0,
-      height: 15,
+      width: w * 0,
+      height: h * 0.15,
     },
     shadowOpacity: 0.24,
     shadowRadius: 16.41,
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
 
   text: {
     color: '#ffffff',
-    fontSize: 36,
+    fontSize: w * 0.08,
     padding: 25,
     textAlign: 'center',
     fontWeight: 'bold',
@@ -137,6 +135,6 @@ const styles = StyleSheet.create({
   skipButtonText: {
     color: '#ffffff',
     fontSize: 19,
-    fontWeight: '400',
+    fontWeight: '500',
   },
 });

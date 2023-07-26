@@ -15,10 +15,10 @@ import {
 } from '@react-native-google-signin/google-signin';
 import LottieView from 'lottie-react-native';
 import {SplashScreen} from '../loadding_splash';
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 import {useNavigation} from '@react-navigation/native';
 
+const w = Dimensions.get('window').width;
+const h = Dimensions.get('window').height;
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [showLoading, setShowLoading] = useState(true);
@@ -36,6 +36,7 @@ const LoginScreen = () => {
         '194959080030-tpf7c0cddht801f5av37pt3c05htkbk9.apps.googleusercontent.com',
     });
   });
+
   const signIn = async () => {};
   return (
     <View
@@ -83,10 +84,6 @@ const LoginScreen = () => {
             </View>
           </TouchableHighlight>
 
-          <Text style={{fontSize: 18, marginTop: 45}}>
-            -----------------------------------or----------------------------------
-          </Text>
-
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => navigation.navigate('SignIn')}
@@ -115,17 +112,17 @@ const styles = StyleSheet.create({
   },
   Image: {
     resizeMode: 'cover',
-    height: 300,
-    width: 300,
+    height: h * 0.4,
+    width: w * 0.4,
   },
   text: {
-    fontSize: 50,
+    fontSize: w * 0.1,
     fontWeight: 'bold',
-    marginTop: height * 0.01,
+    marginTop: h * 0.01,
     color: 'black',
   },
   touchable: {
-    marginTop: 20,
+    marginTop: h * 0.02,
     height: 47,
     width: 350,
     borderRadius: 10,

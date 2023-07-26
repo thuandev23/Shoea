@@ -68,7 +68,6 @@ const Mainscreen = ({navigation}) => {
   const fetchUserName = async () => {
     const MName = await getUserNameFromFirestore();
     if (MName) {
-      // console.log('Tên người dùng:', MName);
       // Thực hiện các xử lý khác với tên người dùng
       setUserName(MName);
     } else {
@@ -313,6 +312,7 @@ const Mainscreen = ({navigation}) => {
             snapToAlignment="center"
             decelerationRate={'fast'}
             onScroll={onScroll}
+            style={{width: w}}
             data={[
               {key: '1', screen: <AllItemScreen />},
               {key: '2', screen: <NikeItem />},
@@ -408,15 +408,15 @@ const styles = StyleSheet.create({
   },
   headerSlider: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: h * 0.01,
   },
   textSlider1: {
-    marginRight: 50,
+    marginRight: w * 0.05,
     fontSize: 19,
     color: 'black',
   },
   textSlider2: {
-    marginLeft: 150,
+    marginLeft: w * 0.4,
     fontSize: 19,
     color: 'black',
   },
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
   },
   popular: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
   },
 
   tabsText: {

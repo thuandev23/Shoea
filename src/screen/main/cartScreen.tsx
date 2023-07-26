@@ -19,8 +19,8 @@ import {
 } from '../store/cartReducer';
 import LottieView from 'lottie-react-native';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const w = Dimensions.get('window').width;
+const h = Dimensions.get('window').height;
 
 const CartScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -83,14 +83,6 @@ const CartScreen = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            borderWidth: 0.5,
-            height: 1,
-            width: '105%',
-            marginTop: 15,
-          }}
-        />
       </View>
     );
   };
@@ -107,13 +99,6 @@ const CartScreen = ({navigation}) => {
           style={{fontSize: 30, color: 'black', marginLeft: 20, marginTop: 15}}>
           My Cart
         </Text>
-        {/* Thêm chức năng sắp xếp theo tên tăng giảm, giá tiền tăng giảm */}
-        <TouchableOpacity>
-          <Image
-            source={require('../assets/img-logo/option.png')}
-            style={styles.imageSearch}
-          />
-        </TouchableOpacity>
       </View>
 
       {cartLength > 0 ? (
@@ -128,11 +113,11 @@ const CartScreen = ({navigation}) => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 100,
+            marginTop: h * 0.1,
           }}>
           <LottieView
             source={require('../assets/lottie/75078-shopping-cart.json')}
-            style={{height: 300, width: 300}}
+            style={{height: h * 0.3, width: w * 0.3}}
             autoPlay
           />
           <Text style={styles.noProductText}>
@@ -144,23 +129,14 @@ const CartScreen = ({navigation}) => {
 
       {cartLength > 0 ? (
         <View style={styles.viewCheckOut}>
-          <Text
-            style={{
-              position: 'absolute',
-              fontSize: 20,
-              color: 'black',
-              paddingLeft: width * 0.03,
-              paddingTop: height * 0.007,
-            }}>
-            Total Price:
-          </Text>
+          <Text style={styles.texttotalprice}>Total Price:</Text>
           <Text
             style={{
               position: 'absolute',
               fontSize: 30,
               color: 'black',
-              paddingLeft: width * 0.03,
-              paddingTop: height * 0.04,
+              paddingLeft: w * 0.03,
+              paddingTop: h * 0.04,
             }}>
             $ {totalPrice}
           </Text>
@@ -177,8 +153,8 @@ const CartScreen = ({navigation}) => {
               position: 'absolute',
               fontSize: 20,
               color: 'black',
-              paddingLeft: width * 0.03,
-              paddingTop: height * 0.007,
+              paddingLeft: w * 0.03,
+              paddingTop: h * 0.007,
             }}>
             Total Price:
           </Text>
@@ -187,8 +163,8 @@ const CartScreen = ({navigation}) => {
               position: 'absolute',
               fontSize: 30,
               color: 'black',
-              paddingLeft: width * 0.03,
-              paddingTop: height * 0.04,
+              paddingLeft: w * 0.03,
+              paddingTop: h * 0.04,
             }}>
             $ {totalPrice}
           </Text>
@@ -196,8 +172,8 @@ const CartScreen = ({navigation}) => {
             style={[styles.btnCheckOut, {backgroundColor: 'black'}]}
             onPress={() =>
               Alert.alert(
-                'Thông báo',
-                'Chưa có sản phẩm để kiểm tra, Vui lòng mua sản phẩm !',
+                'Notification',
+                'No product to check, please buy the product!',
               )
             }>
             <Text style={{fontSize: 25, color: 'white'}}>Check Out</Text>
@@ -217,7 +193,7 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginBottom: 20,
     borderRadius: 20,
-    shadowColor: '#3292D2',
+    shadowColor: '#2347',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -279,7 +255,7 @@ const styles = StyleSheet.create({
   imageRecycle: {
     height: 40,
     width: 40,
-    marginLeft: 20,
+    marginLeft: w * 0.02,
     marginTop: 8,
   },
   viewHeaderCart: {
@@ -294,12 +270,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 5,
   },
-  imageSearch: {
-    height: 30,
-    width: 30,
-    marginLeft: 180,
-    marginTop: 25,
-  },
   viewItem: {
     height: '78%',
     width: '100%',
@@ -309,21 +279,20 @@ const styles = StyleSheet.create({
   },
   viewCheckOut: {
     position: 'absolute',
-    height: height * 0.12,
+    height: h * 0.1,
     width: '100%',
-    marginTop: height * 0.78,
+    marginTop: h * 0.75,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundColor: '#2341',
   },
   btnCheckOut: {
     position: 'absolute',
-    marginLeft: width * 0.55,
+    marginLeft: w * 0.55,
     padding: 5,
     paddingLeft: 25,
     paddingRight: 25,
     borderRadius: 30,
-    marginTop: height * 0.02,
+    marginTop: h * 0.02,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -336,5 +305,12 @@ const styles = StyleSheet.create({
   noProductText: {
     fontSize: 20,
     marginTop: 50,
+  },
+  texttotalprice: {
+    position: 'absolute',
+    fontSize: 20,
+    color: 'black',
+    paddingLeft: w * 0.03,
+    paddingTop: h * 0.007,
   },
 });

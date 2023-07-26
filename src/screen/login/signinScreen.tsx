@@ -15,8 +15,8 @@ import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
 import {LoadingScreen} from '../loadding_splash';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const w = Dimensions.get('window').width;
+const h = Dimensions.get('window').height;
 
 const DangNhapScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -82,23 +82,25 @@ const DangNhapScreen = ({navigation}) => {
         }
       })
       .catch(error => {
-        console.log('Lỗi đăng nhập:', error.message);
+        setError(
+          'The password is invalid or the user does not have a password.',
+        );
       });
   };
   const handleButtonClick = () => {
-    setShowLottie(true); // Hiển thị LottieView
+    setShowLottie(true);
     checkLogin();
     setTimeout(() => {
       setShowLottie(false);
     }, 2000);
   };
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView behavior="position" style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
           source={require('../assets/img-logo/logo.jpg')}
           resizeMode="cover"
-          style={{height: 200, width: 200, borderRadius: 100}}
+          style={{height: h * 0.3, width: w * 0.3}}
         />
       </View>
 
@@ -135,7 +137,7 @@ const DangNhapScreen = ({navigation}) => {
           onBlur={() => setIsPasswordFocused(false)}
         />
         <TouchableOpacity
-          style={{position: 'absolute', marginLeft: 340}}
+          style={{position: 'absolute', marginLeft: w * 0.8}}
           onPress={togglePasswordVisibility}>
           {isPasswordVisible ? (
             <Image
@@ -166,12 +168,10 @@ const DangNhapScreen = ({navigation}) => {
 
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>
-          <Text style={{fontSize: 17, textAlign: 'center', color: 'blue'}}>
-            Forgot the password ?
-          </Text>
+          <Text style={styles.textForgot}>Forgot the password ?</Text>
         </TouchableOpacity>
 
-        <Text style={{marginTop: 5, fontSize: 16}}>
+        <Text style={styles.textRegister}>
           Dont't have an account?
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text style={{fontSize: 17, color: 'black'}}> Register</Text>
@@ -190,27 +190,27 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     position: 'absolute',
-    top: height * 0.02,
-    alignItems: 'center',
+    top: h * 0.02,
+    marginLeft: w * 0.3,
   },
   title: {
-    fontSize: 30,
+    fontSize: w * 0.09,
     marginBottom: 5,
     color: 'black',
     fontWeight: 'bold',
-    marginTop: height * 0.3,
+    marginTop: h * 0.3,
   },
   inputContainer1: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    marginTop: height * 0.03,
+    marginTop: h * 0.03,
   },
   inputContainer2: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
-    marginTop: height * 0.48,
+    position: 'relative',
+    marginTop: h * 0.001,
   },
 
   inputIcon: {
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
 
   input: {
     height: 50,
-    width: '80%',
+    width: '85%',
     marginVertical: 12,
     paddingHorizontal: 16,
     borderColor: 'gray',
@@ -234,11 +234,11 @@ const styles = StyleSheet.create({
     borderColor: 'blue',
   },
   button: {
-    // backgroundColor: '#393939',
+    width: w * 0.5,
     paddingVertical: 12,
-    paddingHorizontal: 110,
     borderRadius: 20,
-    marginTop: height * 0.17,
+    marginTop: h * 0.02,
+    marginLeft: w * 0.2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -250,12 +250,24 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: w * 0.05,
+    textAlign: 'center',
   },
   footer: {
     position: 'absolute',
-    marginTop: height * 0.75,
-    alignItems: 'center',
+    marginTop: h * 0.84,
+  },
+  textForgot: {
+    fontSize: w * 0.04,
+    textAlign: 'center',
+    color: 'blue',
+    marginLeft: w * 0.1,
+    paddingTop: h * 0.02,
+  },
+  textRegister: {
+    marginTop: 5,
+    fontSize: 16,
+    marginLeft: w * 0.2,
   },
   touch: {
     padding: 15,
@@ -270,10 +282,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   error: {
-    position: 'absolute',
     color: 'red',
     fontSize: 15,
-    marginTop: height * 0.58,
   },
 });
 export default DangNhapScreen;

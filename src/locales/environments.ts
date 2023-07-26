@@ -1,1 +1,2 @@
-export const GOOGLE_API_KEY = 'AIzaSyC00ZOKl94gsWr4ptYUFLyhHCxTwaP1Z9U';
+export const YOUR_ACCESSTOKEN =
+  'pk.eyJ1Ijoibmd1eWVudmFudGh1YW4yZzMiLCJhIjoiY2xraDducmhpMDV6MTNsbzhqZGE5aGl3OCJ9.MkPZWhsoKPCP8Bmw--78og';

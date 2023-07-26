@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,7 +22,8 @@ import {
 import ViewMoreText from 'react-native-view-more-text';
 import LottieView from 'lottie-react-native';
 import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
-
+const w = Dimensions.get('screen').width;
+const h = Dimensions.get('screen').height;
 const OrderedScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart.cart);
@@ -85,13 +87,6 @@ const OrderedScreen = ({navigation}) => {
           style={{fontSize: 30, color: 'black', marginLeft: 20, marginTop: 15}}>
           My Ordered
         </Text>
-        {/* Thêm chức năng sắp xếp theo tên tăng giảm, giá tiền tăng giảm */}
-        <TouchableOpacity>
-          <Image
-            source={require('../assets/img-logo/option.png')}
-            style={styles.imageSearch}
-          />
-        </TouchableOpacity>
       </View>
       {orderedProductsLenght > 0 ? (
         <FlatList
@@ -126,10 +121,10 @@ const OrderedScreen = ({navigation}) => {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <LottieView
             source={require('../assets/lottie/132793-empty-box.json')}
-            style={{height: 400, width: '100%'}}
+            style={{height: h * 0.4, width: '100%'}}
             autoPlay
           />
-          <Text style={{fontSize: 20, padding: 20}}>
+          <Text style={{fontSize: 20, padding: 10}}>
             You have not yet bought any products
           </Text>
         </View>
@@ -273,12 +268,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 5,
   },
-  imageSearch: {
-    height: 30,
-    width: 30,
-    marginLeft: 130,
-    marginTop: 25,
-  },
+
   listItem: {
     margin: 10,
   },

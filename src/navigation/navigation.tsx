@@ -181,12 +181,12 @@ const IndexComponent = ({navigation}) => {
           <Stack.Screen
             name="SignIn"
             component={DangNhapScreen}
-            options={{headerTitle: ''}}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="SignUp"
             component={DangKiScreen}
-            options={{headerTitle: ''}}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Tabs"
@@ -244,6 +244,7 @@ const IndexComponent = ({navigation}) => {
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
+    // <DeliverScreen />
   );
 };
 

@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
@@ -21,13 +22,15 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
 import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+const w = Dimensions.get('screen').width;
+const h = Dimensions.get('screen').height;
 
 const AdidasItem = () => {
   const cart = useSelector(state => state.cart.cart);
   // console.log(cart);
   const dispatch = useDispatch();
-  const [selectedProduct, setSelectedProduct] = useState(null); // state để lưu thông tin sản phẩm được click
-  const [modalVisible, setModalVisible] = useState(false); // state để điều khiển hiển thị modal
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [Products, setProducts] = useState([]);
   const [showLottie, setShowLottie] = useState(false);
   const handleItemClick = (item: React.SetStateAction<null>) => {
@@ -125,7 +128,7 @@ const AdidasItem = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Adidas</Text>
+      {/* <Text style={styles.headerText}>Adidas</Text> */}
       <FlatList
         data={Products}
         numColumns={2}
@@ -244,20 +247,20 @@ export default AdidasItem;
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: h,
     backgroundColor: 'white',
   },
   headerText: {
     fontSize: 30,
     textAlign: 'center',
-    margin: 20,
+    margin: 5,
     backgroundColor: '#2341',
     borderRadius: 20,
   },
   view_flatlist: {
     flex: 1,
     height: 220,
-    width: 190,
+    width: 180,
     marginLeft: 10,
     marginTop: 5,
     marginRight: 10,
@@ -328,7 +331,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     position: 'absolute',
-    marginLeft: 350,
+    marginLeft: w * 0.8,
   },
   btnCloseItem: {
     paddingTop: 40,

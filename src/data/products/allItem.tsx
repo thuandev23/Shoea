@@ -176,7 +176,7 @@ const AllItemScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>All Product</Text>
+      {/* <Text style={styles.headerText}>All Product</Text> */}
 
       <FlatList
         data={productmain}
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   view_flatlist: {
     flex: 1,
     height: 220,
-    width: 190,
+    width: 175,
     marginLeft: 10,
     marginTop: 5,
     marginRight: 10,
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     position: 'absolute',
-    marginLeft: 350,
+    marginLeft: w * 0.8,
   },
   btnCloseItem: {
     paddingTop: 40,

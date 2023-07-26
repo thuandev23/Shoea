@@ -9,6 +9,8 @@ import {getAnalytics} from 'firebase/analytics';
 const firebaseConfig = {
   apiKey: 'AIzaSyBlBfNJq1YdGIES0G2q-57ExWwKVXcB0oY',
   authDomain: 'shoea-firebase.firebaseapp.com',
+  databaseURL:
+    'https://shoea-firebase-default-rtdb.asia-southeast1.firebasedatabase.app',
   projectId: 'shoea-firebase',
   storageBucket: 'shoea-firebase.appspot.com',
   messagingSenderId: '194959080030',

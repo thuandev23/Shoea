@@ -97,10 +97,6 @@ const CheckItemScreen = ({navigation}) => {
                 style={styles.imgship}
               />
               <Text style={styles.chooseShip}>Choose Shipping Type</Text>
-              <Image
-                source={require('../assets/img-logo/right-arrow.png')}
-                style={styles.imgChangeship}
-              />
             </TouchableOpacity>
           </View>
         </View>
@@ -280,7 +276,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   view_flatlist: {
-    // flex: 1,
     height: 100,
     width: 380,
     marginLeft: 20,
@@ -288,7 +283,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 5,
     borderRadius: 20,
-    // borderWidth: 1,
     borderTopLeftRadius: 30,
     borderBottomLeftRadius: 30,
     shadowColor: '#000',
@@ -361,15 +355,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     margin: 15,
     paddingLeft: 100,
-  },
-  imgChangeship: {
-    position: 'absolute',
-    height: 30,
-    width: 30,
-    resizeMode: 'cover',
-    padding: 20,
-    marginLeft: 310,
-    marginTop: 5,
   },
   btn_promcode: {
     flexDirection: 'row',

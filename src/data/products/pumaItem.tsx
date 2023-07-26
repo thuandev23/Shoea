@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ViewMoreText from 'react-native-view-more-text';
@@ -20,6 +21,9 @@ import {
 } from '../../screen/store/cartReducer';
 import firestore from '@react-native-firebase/firestore';
 import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+
+const w = Dimensions.get('screen').width;
+const h = Dimensions.get('screen').height;
 
 const PumaItem = () => {
   const cart = useSelector(state => state.cart.cart);
@@ -117,7 +121,7 @@ const PumaItem = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Puma</Text>
+      {/* <Text style={styles.headerText}>Puma</Text> */}
 
       <FlatList
         data={Products}
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
   view_flatlist: {
     flex: 1,
     height: 220,
-    width: 190,
+    width: 180,
     marginLeft: 10,
     marginTop: 5,
     marginRight: 10,
@@ -323,7 +327,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     position: 'absolute',
-    marginLeft: 350,
+    marginLeft: w * 0.8,
   },
   btnCloseItem: {
     paddingTop: 40,

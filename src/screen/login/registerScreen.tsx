@@ -8,8 +8,11 @@ import {
   Image,
   KeyboardAvoidingView,
   Alert,
+  Dimensions,
 } from 'react-native';
 import firestore, {firebase} from '@react-native-firebase/firestore';
+const w = Dimensions.get('window').width;
+const h = Dimensions.get('window').height;
 
 const DangKiScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -123,17 +126,17 @@ const DangKiScreen = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView behavior="position" style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
           source={require('../assets/img-logo/logo.jpg')}
           resizeMode="cover"
-          style={{height: 200, width: 200, borderRadius: 100}}
+          style={{height: h * 0.3, width: w * 0.3}}
         />
       </View>
 
       <Text style={styles.title}>Create to Your Account</Text>
-      <View style={styles.inputContainer3}>
+      <View style={styles.inputContainer}>
         <Image
           source={require('../assets/img-logo/user.png')}
           resizeMode="cover"
@@ -148,7 +151,7 @@ const DangKiScreen = ({navigation}) => {
           onBlur={() => setIsNameFocused(false)}
         />
       </View>
-      <View style={styles.inputContainer1}>
+      <View style={styles.inputContainer}>
         <Image
           source={require('../assets/img-logo/email.png')}
           resizeMode="cover"
@@ -163,7 +166,7 @@ const DangKiScreen = ({navigation}) => {
           onBlur={() => setIsUsernameFocused(false)}
         />
       </View>
-      <View style={styles.inputContainer2}>
+      <View style={styles.inputContainer}>
         <Image
           source={require('../assets/img-logo/password.png')}
           resizeMode="cover"
@@ -179,7 +182,7 @@ const DangKiScreen = ({navigation}) => {
           onBlur={() => setIsPasswordFocused(false)}
         />
       </View>
-      <View style={styles.inputContainer4}>
+      <View style={styles.inputContainer}>
         <Image
           source={require('../assets/img-logo/password.png')}
           resizeMode="cover"
@@ -195,7 +198,7 @@ const DangKiScreen = ({navigation}) => {
           onBlur={() => setIsCFPasswordFocused(false)}
         />
         <TouchableOpacity
-          style={{position: 'absolute', marginLeft: 340}}
+          style={{position: 'absolute', marginLeft: w * 0.8}}
           onPress={togglePasswordVisibility}>
           {isPasswordVisible ? (
             <Image
@@ -223,13 +226,14 @@ const DangKiScreen = ({navigation}) => {
         onPressIn={checkLogin}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
-
-      <Text style={{marginTop: 10, fontSize: 16}}>
-        Already have an account?
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-          <Text style={{fontSize: 16, color: 'black'}}> Sign in</Text>
-        </TouchableOpacity>
-      </Text>
+      <View style={styles.footer}>
+        <Text style={styles.textGotLogin}>
+          Already have an account?
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+            <Text style={{fontSize: 16, color: 'black'}}> Sign in</Text>
+          </TouchableOpacity>
+        </Text>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -241,35 +245,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     // justifyContent: 'center',
   },
+
   logoContainer: {
     position: 'absolute',
-    top: 20,
-    alignItems: 'center',
+    marginLeft: w * 0.3,
   },
 
-  inputContainer1: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    marginTop: 40,
-  },
-  inputContainer2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    marginTop: '90%',
-  },
-  inputContainer3: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    marginTop: '60%',
-  },
-  inputContainer4: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    marginTop: '105%',
   },
   inputIcon: {
     height: 25,
@@ -277,16 +262,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    fontSize: 30,
-    marginBottom: 32,
+    fontSize: w * 0.07,
     color: 'black',
     fontWeight: 'bold',
-    marginTop: 215,
+    marginTop: h * 0.25,
+    textAlign: 'center',
   },
   input: {
     height: 50,
-    width: '80%',
-    marginVertical: 12,
+    width: '85%',
+    marginVertical: 5,
     paddingHorizontal: 16,
     borderColor: 'gray',
     borderWidth: 1,
@@ -298,11 +283,11 @@ const styles = StyleSheet.create({
     borderColor: 'blue',
   },
   button: {
-    // backgroundColor: '#393939',
+    width: w * 0.5,
     paddingVertical: 12,
-    paddingHorizontal: 110,
     borderRadius: 20,
-    marginTop: 175,
+    marginTop: h * 0.01,
+    marginLeft: w * 0.2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -315,12 +300,19 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+    textAlign: 'center',
+  },
+  footer: {
+    position: 'absolute',
+    marginTop: h * 0.9,
+  },
+  textGotLogin: {
+    fontSize: 16,
+    marginLeft: w * 0.2,
   },
   error: {
-    position: 'absolute',
     color: 'red',
     fontSize: 15,
-    marginTop: '127%',
   },
 });
 
