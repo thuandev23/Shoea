@@ -25,17 +25,6 @@ const DangKiScreen = ({navigation}) => {
   const [isCFPasswordFocused, setIsCFPasswordFocused] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
-  const handleLogin = () => {
-    // Xử lý đăng nhập ở đây
-    console.log(
-      'Tên:',
-      name,
-      'Đăng kí với tài khoản: ',
-      username,
-      'và mật khẩu: ',
-      password,
-    );
-  };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
   };
@@ -69,7 +58,6 @@ const DangKiScreen = ({navigation}) => {
       return true;
     }
   };
-  const usersCollection = firestore().collection('users');
 
   const checkLogin = async () => {
     // Kiểm tra định dạng và hợp lệ của dữ liệu
@@ -126,106 +114,110 @@ const DangKiScreen = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="position" style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../assets/img-logo/logo.jpg')}
-          resizeMode="cover"
-          style={{height: h * 0.3, width: w * 0.3}}
-        />
-      </View>
-
-      <Text style={styles.title}>Create to Your Account</Text>
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../assets/img-logo/user.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isNameFocused && styles.focusedInput]}
-          placeholder="User Name"
-          onChangeText={setName}
-          value={name}
-          onFocus={() => setIsNameFocused(true)}
-          onBlur={() => setIsNameFocused(false)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../assets/img-logo/email.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isUsernameFocused && styles.focusedInput]}
-          placeholder="Email"
-          onChangeText={setUsername}
-          value={username}
-          onFocus={() => setIsUsernameFocused(true)}
-          onBlur={() => setIsUsernameFocused(false)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../assets/img-logo/password.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isPasswordFocused && styles.focusedInput]}
-          placeholder="Password"
-          secureTextEntry={!isPasswordVisible}
-          onChangeText={setPassword}
-          value={password}
-          onFocus={() => setIsPasswordFocused(true)}
-          onBlur={() => setIsPasswordFocused(false)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../assets/img-logo/password.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isCFPasswordFocused && styles.focusedInput]}
-          placeholder="Confirm Password"
-          secureTextEntry={!isPasswordVisible}
-          onChangeText={setCFPassword}
-          value={CFpassword}
-          onFocus={() => setIsCFPasswordFocused(true)}
-          onBlur={() => setIsCFPasswordFocused(false)}
-        />
-        <TouchableOpacity
-          style={{position: 'absolute', marginLeft: w * 0.8}}
-          onPress={togglePasswordVisibility}>
-          {isPasswordVisible ? (
+    <>
+      <View style={styles.container}>
+        <KeyboardAvoidingView behavior="position">
+          <View style={styles.logoContainer}>
             <Image
-              style={{height: 25, width: 25}}
-              source={require('../assets/img-logo/view.png')}
+              source={require('../assets/img-logo/logo.jpg')}
               resizeMode="cover"
+              style={{height: h * 0.3, width: w * 0.3}}
             />
-          ) : (
-            <Image
-              style={{height: 25, width: 25}}
-              source={require('../assets/img-logo/hide.png')}
-              resizeMode="cover"
-            />
-          )}
-        </TouchableOpacity>
-      </View>
-      {error !== '' && <Text style={styles.error}>{error}</Text>}
+          </View>
 
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
-        ]}
-        // onPress={handleLogin}
-        onPressIn={checkLogin}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+          <Text style={styles.title}>Create to Your Account</Text>
+          <View style={styles.inputContainer}>
+            <Image
+              source={require('../assets/img-logo/user.png')}
+              resizeMode="cover"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={[styles.input, isNameFocused && styles.focusedInput]}
+              placeholder="User Name"
+              onChangeText={setName}
+              value={name}
+              onFocus={() => setIsNameFocused(true)}
+              onBlur={() => setIsNameFocused(false)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              source={require('../assets/img-logo/email.png')}
+              resizeMode="cover"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={[styles.input, isUsernameFocused && styles.focusedInput]}
+              placeholder="Email"
+              onChangeText={setUsername}
+              value={username}
+              onFocus={() => setIsUsernameFocused(true)}
+              onBlur={() => setIsUsernameFocused(false)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              source={require('../assets/img-logo/password.png')}
+              resizeMode="cover"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={[styles.input, isPasswordFocused && styles.focusedInput]}
+              placeholder="Password"
+              secureTextEntry={!isPasswordVisible}
+              onChangeText={setPassword}
+              value={password}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              source={require('../assets/img-logo/password.png')}
+              resizeMode="cover"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={[styles.input, isCFPasswordFocused && styles.focusedInput]}
+              placeholder="Confirm Password"
+              secureTextEntry={!isPasswordVisible}
+              onChangeText={setCFPassword}
+              value={CFpassword}
+              onFocus={() => setIsCFPasswordFocused(true)}
+              onBlur={() => setIsCFPasswordFocused(false)}
+            />
+            <TouchableOpacity
+              style={{position: 'absolute', marginLeft: w * 0.8}}
+              onPress={togglePasswordVisibility}>
+              {isPasswordVisible ? (
+                <Image
+                  style={{height: 25, width: 25}}
+                  source={require('../assets/img-logo/view.png')}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Image
+                  style={{height: 25, width: 25}}
+                  source={require('../assets/img-logo/hide.png')}
+                  resizeMode="cover"
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+          {error !== '' && <Text style={styles.error}>{error}</Text>}
+
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
+            ]}
+            // onPress={handleLogin}
+            onPressIn={checkLogin}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </View>
       <View style={styles.footer}>
         <Text style={styles.textGotLogin}>
           Already have an account?
@@ -234,7 +226,7 @@ const DangKiScreen = ({navigation}) => {
           </TouchableOpacity>
         </Text>
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 

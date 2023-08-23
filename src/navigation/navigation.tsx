@@ -123,7 +123,7 @@ const MainTabs = ({navigation}) => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Wallet"
         component={WalletScreen}
         options={{
@@ -134,7 +134,7 @@ const MainTabs = ({navigation}) => {
             />
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Setting"

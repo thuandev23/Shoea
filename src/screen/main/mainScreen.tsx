@@ -10,6 +10,7 @@ import {
   Pressable,
   FlatList,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -116,8 +117,16 @@ const Mainscreen = ({navigation}) => {
   useEffect(() => {
     fetchAvatarUrl();
   }, []);
+
+  const onRefresh = () => {
+    fetchAvatarUrl();
+    fetchUserName();
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={true} />
+      }>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image

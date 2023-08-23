@@ -8,6 +8,9 @@ import {
   Animated,
   Easing,
   Dimensions,
+  Alert,
+  ScrollView,
+  Pressable,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,67 +27,71 @@ const h = Dimensions.get('screen').height;
 MapLibreGL.setAccessToken(YOUR_ACCESSTOKEN);
 
 const DeliverScreen = ({navigation}) => {
-  const dispatch = useDispatch();
-  const cart = useSelector(state => state.cart.cart);
-  const [isModalVisible, setModalVisible] = useState(false);
+  {
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart.cart);
+    const [isModalVisible, setModalVisible] = useState(false);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-  const [animationValue, setAnimationValue] = useState(new Animated.Value(0));
-  const animateImage = () => {
-    Animated.timing(animationValue, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start();
-  };
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
+    const [animationValue, setAnimationValue] = useState(new Animated.Value(0));
+    const animateImage = () => {
+      Animated.timing(animationValue, {
+        toValue: 1,
+        duration: 5000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start();
+    };
 
-  useEffect(() => {
-    animateImage();
-  }, []);
+    useEffect(() => {
+      animateImage();
+    }, []);
 
-  // map
+    // map
 
-  return (
-    <View style={styles.container}>
-      <MapLibreGL.MapView
-        style={styles.container}
-        logoEnabled={false}
-        styleURL="https://demotiles.maplibre.org/style.json">
-        <MapLibreGL.UserLocation androidRenderMode="gps" />
-      </MapLibreGL.MapView>
+    return (
+      <View style={styles.container}>
+        <MapLibreGL.MapView
+          style={styles.container}
+          logoEnabled={false}
+          styleURL="https://demotiles.maplibre.org/style.json">
+          <MapLibreGL.UserLocation androidRenderMode="gps" />
+        </MapLibreGL.MapView>
 
-      <View style={styles.btn}>
-        <TouchableOpacity onPress={toggleModal} style={styles.btndone}>
-          <Text style={{fontSize: 25, color: '#fff', paddingTop: 5}}>Done</Text>
-        </TouchableOpacity>
-        <Modal isVisible={isModalVisible}>
-          <View style={styles.modal}>
-            <View style={styles.imageContainer}>
-              <LottieView
-                style={styles.image}
-                source={require('../assets/lottie/101796-delivery-bike.json')}
-                autoPlay
-              />
+        <View style={styles.btn}>
+          <TouchableOpacity onPress={toggleModal} style={styles.btndone}>
+            <Text style={{fontSize: 25, color: '#fff', paddingTop: 5}}>
+              Done
+            </Text>
+          </TouchableOpacity>
+          <Modal isVisible={isModalVisible}>
+            <View style={styles.modal}>
+              <View style={styles.imageContainer}>
+                <LottieView
+                  style={styles.image}
+                  source={require('../assets/lottie/101796-delivery-bike.json')}
+                  autoPlay
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.buttondone}
+                onPress={() => {
+                  // // Thêm sản phẩm vào danh sách đã mua
+                  // dispatch(setOrderedProducts(cart));
+                  // dispatch(clearCart());
+                  toggleModal();
+                  // navigation.navigate('Tabs');
+                }}>
+                <Text style={styles.buttonTextdone}>Successfully</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.buttondone}
-              onPress={() => {
-                // // Thêm sản phẩm vào danh sách đã mua
-                dispatch(setOrderedProducts(cart));
-                dispatch(clearCart());
-                toggleModal();
-                navigation.navigate('Tabs');
-              }}>
-              <Text style={styles.buttonTextdone}>Successfully</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+          </Modal>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 export default DeliverScreen;

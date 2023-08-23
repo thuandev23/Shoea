@@ -1,5 +1,6 @@
 import {
   Alert,
+  Dimensions,
   FlatList,
   Image,
   Modal,
@@ -20,7 +21,8 @@ import {
 } from '../../screen/store/cartReducer';
 import firestore from '@react-native-firebase/firestore';
 import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
-
+const w = Dimensions.get('screen').width;
+const h = Dimensions.get('screen').height;
 const ConverseItem = () => {
   const cart = useSelector(state => state.cart.cart);
   // console.log(cart);

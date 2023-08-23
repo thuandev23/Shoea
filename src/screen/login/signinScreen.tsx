@@ -95,77 +95,80 @@ const DangNhapScreen = ({navigation}) => {
     }, 2000);
   };
   return (
-    <KeyboardAvoidingView behavior="position" style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../assets/img-logo/logo.jpg')}
-          resizeMode="cover"
-          style={{height: h * 0.3, width: w * 0.3}}
-        />
-      </View>
-
-      <Text style={styles.title}>Login to Your Account</Text>
-
-      <View style={styles.inputContainer1}>
-        <Image
-          source={require('../assets/img-logo/email.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isUsernameFocused && styles.focusedInput]}
-          placeholder="Email"
-          onChangeText={setUsername}
-          value={username}
-          onFocus={() => setIsUsernameFocused(true)}
-          onBlur={() => setIsUsernameFocused(false)}
-        />
-      </View>
-      <View style={styles.inputContainer2}>
-        <Image
-          source={require('../assets/img-logo/password.png')}
-          resizeMode="cover"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, isPasswordFocused && styles.focusedInput]}
-          placeholder="Password"
-          secureTextEntry={!isPasswordVisible}
-          onChangeText={setPassword}
-          value={password}
-          onFocus={() => setIsPasswordFocused(true)}
-          onBlur={() => setIsPasswordFocused(false)}
-        />
-        <TouchableOpacity
-          style={{position: 'absolute', marginLeft: w * 0.8}}
-          onPress={togglePasswordVisibility}>
-          {isPasswordVisible ? (
+    <>
+      <View style={styles.container}>
+        <KeyboardAvoidingView behavior="position">
+          <View style={styles.logoContainer}>
             <Image
-              style={{height: 25, width: 25}}
-              source={require('../assets/img-logo/view.png')}
+              source={require('../assets/img-logo/logo.jpg')}
               resizeMode="cover"
+              style={{height: h * 0.3, width: w * 0.3}}
             />
-          ) : (
+          </View>
+
+          <Text style={styles.title}>Login to Your Account</Text>
+
+          <View style={styles.inputContainer1}>
             <Image
-              style={{height: 25, width: 25}}
-              source={require('../assets/img-logo/hide.png')}
+              source={require('../assets/img-logo/email.png')}
               resizeMode="cover"
+              style={styles.inputIcon}
             />
-          )}
-        </TouchableOpacity>
+            <TextInput
+              style={[styles.input, isUsernameFocused && styles.focusedInput]}
+              placeholder="Email"
+              onChangeText={setUsername}
+              value={username}
+              onFocus={() => setIsUsernameFocused(true)}
+              onBlur={() => setIsUsernameFocused(false)}
+            />
+          </View>
+          <View style={styles.inputContainer2}>
+            <Image
+              source={require('../assets/img-logo/password.png')}
+              resizeMode="cover"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={[styles.input, isPasswordFocused && styles.focusedInput]}
+              placeholder="Password"
+              secureTextEntry={!isPasswordVisible}
+              onChangeText={setPassword}
+              value={password}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
+            />
+            <TouchableOpacity
+              style={{position: 'absolute', marginLeft: w * 0.8}}
+              onPress={togglePasswordVisibility}>
+              {isPasswordVisible ? (
+                <Image
+                  style={{height: 25, width: 25}}
+                  source={require('../assets/img-logo/view.png')}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Image
+                  style={{height: 25, width: 25}}
+                  source={require('../assets/img-logo/hide.png')}
+                  resizeMode="cover"
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+          {error !== '' && <Text style={styles.error}>{error}</Text>}
+
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
+            ]}
+            onPress={handleButtonClick}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          {showLottie && <LoadingScreen />}
+        </KeyboardAvoidingView>
       </View>
-      {error !== '' && <Text style={styles.error}>{error}</Text>}
-
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {backgroundColor: isEnablelogin() ? 'green' : '#393939'},
-        ]}
-        onPress={handleButtonClick}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      {showLottie && <LoadingScreen />}
-
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>
           <Text style={styles.textForgot}>Forgot the password ?</Text>
@@ -178,7 +181,7 @@ const DangNhapScreen = ({navigation}) => {
           </TouchableOpacity>
         </Text>
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 
