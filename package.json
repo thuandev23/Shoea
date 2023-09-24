@@ -34,6 +34,7 @@
     "react-native": "0.71.6",
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-elements": "^3.4.3",
+    "react-native-fbsdk-next": "^12.1.0",
     "react-native-gif": "^1.0.3",
     "react-native-image-crop-picker": "^0.39.0",
     "react-native-linear-gradient": "^2.6.2",
